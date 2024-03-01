@@ -232,6 +232,32 @@ begin
   Result := True;
 end;
 
+procedure CleanupConfigs;
+var
+  LinesToRemove: TArrayOfString;
+  FileName: string;
+begin
+  // remove colorfilters
+  FileName := GetWiresharkConfigPath + 'colorfilters';
+  LinesToRemove := ['@Homeplug@homeplug-av@[26214,26214,26214][65535,65535,65535]',
+                    '@V2G Warning@v2gtp and _ws.expert@[52685,65535,51657][54484,0,0]',
+                    '@V2G Default@v2gtp@[52685,65535,51657][0,0,0]',
+                    '@V2G TLS Secret@v2gtlssecret@[0,29555,2056][65535,65535,65535]'];
+  RemoveFromFile(FileName, LinesToRemove);
+
+  // remove buttons
+  FileName := GetWiresharkConfigPath + 'dfilter_buttons';
+  LinesToRemove := [
+                    // v1.0.0 buttons
+                    '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ",""',
+                    '"TRUE","[V2G]","v2gtp or v2gtlssecret",""',
+
+                    // current buttons
+                    '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","Filter V2G messages, SLAC messages and additional TCP packets"',
+                    '"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"'];
+  RemoveFromFile(FileName, LinesToRemove);
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 var
   FileName: string;
@@ -241,17 +267,18 @@ begin
   // add wireshark filter buttons after installation
   if (CurStep = ssPostInstall) then               
   begin
+    CleanupConfigs; // cleanup old configs on update
     if WizardIsComponentSelected('buttons') then
     begin
       FileName := GetWiresharkConfigPath + 'dfilter_buttons'
-      StringsToCheck := ['"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ",""',
-                         '"TRUE","[V2G]","v2gtp or v2gtlssecret",""']
+      StringsToCheck := ['"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","Filter V2G messages, SLAC messages and additional TCP packets"',
+                         '"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"']
       StringsToAdd := CheckLines(FileName, StringsToCheck)
       if Length(StringsToAdd) > 0 then
         if not SaveStringsToFile(FileName, StringsToAdd, True) then
           MsgBox('Failed to add buttons to Wireshark', mbError, MB_OK);
     end;
-        
+
     if WizardIsComponentSelected('colorfilters') then
     begin
       // add wireshark colorfilters after installation
@@ -281,21 +308,6 @@ begin
 end;
 
 procedure DeinitializeUninstall;
-var
-  LinesToRemove: TArrayOfString;
-  FileName: string;
 begin
-  // remove colorfilters
-  FileName := GetWiresharkConfigPath + 'colorfilters';
-  LinesToRemove := ['@Homeplug@homeplug-av@[26214,26214,26214][65535,65535,65535]',
-                    '@V2G Warning@v2gtp and _ws.expert@[52685,65535,51657][54484,0,0]',
-                    '@V2G Default@v2gtp@[52685,65535,51657][0,0,0]',
-                    '@V2G TLS Secret@v2gtlssecret@[0,29555,2056][65535,65535,65535]'];
-  RemoveFromFile(FileName, LinesToRemove);
-
-  // remove buttons
-  FileName := GetWiresharkConfigPath + 'dfilter_buttons';
-  LinesToRemove := ['"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ",""',
-                    '"TRUE","[V2G]","v2gtp or v2gtlssecret",""']
-  RemoveFromFile(FileName, LinesToRemove);
+  CleanupConfigs;
 end;
