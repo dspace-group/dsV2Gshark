@@ -4,7 +4,9 @@
 [![dSPACE](https://img.shields.io/badge/-OpenSource%20powered%20by%20dSPACE-blue)](https://www.dspace.com/)
 
 ## Overview
-This Wireshark plugin allows to analyze and decode packets between electric vehicles (EV) and charging stations (EVSE), also known as V2G messages.
+This Wireshark plugin allows to analyze and decode packets between electric vehicles (EV) and charging stations (EVSE), also known as V2G messages.  
+
+![ISO 15118-2 Overview](Images/WS_ISO15118_2_Overview.png)
 
 ## Features
 - Supports decoding of:
@@ -53,3 +55,18 @@ The disclosure message is a UDP packet within the source port range 49152-65535 
     This option can be found under Wireshark Preferences - Protocols - TLS
 - This plugin was built and tested with Wireshark 4.2.3
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
+
+
+## Screenshots
+### Message Inspection
+![ISO 15118-2 CurrentDemand](Images/WS_ISO15118_2_CurrentDemand.png)
+### Certificate Details
+![ISO 15118-2 Certificates](Images/WS_ISO15118_2_Certificate.png)
+### Message Validation
+![ISO 15118-20 Message Validation](Images/WS_ISO15118_20_MsgValidation.png)
+### Live TLS Decryption
+![ISO 15118-2 Live TLS](Images/WS_ISO15118_2_LiveTLS.png)
+### Filter Buttons
+![Filter Buttons](Images/WS_FilterButtons.png)
+### Plugin Preferences
+![Plugin Preferences](Images/WS_Preferences.png)
