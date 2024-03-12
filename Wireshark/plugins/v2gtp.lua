@@ -35,6 +35,8 @@ local SDP_REQ  = 36864
 local SDP_RES  = 36865
 local SDP_REQ_W  = 36866
 local SDP_RES_W  = 36867
+local SDP_REQ_EMSP  = 36868
+local SDP_RES_EMSP  = 36869
 
 local payload_types = {
     [V2G]                   = "ISO 15118-2/DIN/SAP",  -- 0x8001
@@ -51,6 +53,8 @@ local payload_types = {
     [SDP_RES]               = "SDP response message",     -- 0x9001
     [SDP_REQ_W]             = "SDP request message Wireless (Not supported yet)",
     [SDP_RES_W]             = "SDP response message Wireless (Not supported yet)",
+    [SDP_REQ_EMSP]          = "SDP EMSP request message",
+    [SDP_RES_EMSP]          = "SDP EMSP response message",
 }
 
 
@@ -99,6 +103,13 @@ local function v2gtp_pdu_dissect(buf,pinfo,root)
 
     -- Length
     subtree:add(f_len, buf(4,4))
+
+    -- EMSP
+    if p_type_num == SDP_REQ_EMSP or p_type_num == SDP_RES_EMSP then
+        pinfo.private["SDP_EMSP"] = true
+    else
+        pinfo.private["SDP_EMSP"] = false
+    end
 
     -- EXI / SDP payload --
     --
