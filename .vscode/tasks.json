@@ -1,0 +1,86 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build All",
+            "detail": "",
+            "type": "shell",
+            "command": "./Build_Installer.bat",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "Installer",
+                "kind": "build",
+            },
+        },
+        {
+            "label": "Update Version (interactive)",
+            "detail": "",
+            "type": "shell",
+            "command": "./update_version.bat",
+            "problemMatcher": [],
+            "options": {
+                "cwd": ".",
+                "kind": "build",
+            },
+        },
+        {
+            "label": "Open Installer Dir",
+            "detail": "",
+            "type": "shell",
+            "command": "explorer .",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "Installer/output",
+            },
+        },
+        {
+            "label": "WSL: Build Linux",
+            "detail": "",
+            "type": "shell",
+            "command": "wsl sh ./build_all_linux.sh",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "V2G_Libraries",
+                "kind": "build",
+            },
+        },
+        {
+            "label": "Clean All",
+            "dependsOn": ["Clean Decoder", "Clean CertInfos"],
+            "group": {
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Clean Decoder",
+            "detail": "",
+            "type": "shell",
+            "command": "make",
+            "args": ["clean"],
+            "options": {
+                "cwd": "V2G_Libraries/V2GDecoder",
+            },
+        },
+        {
+            "label": "Clean CertInfos",
+            "detail": "",
+            "type": "shell",
+            "command": "make",
+            "args": ["clean"],
+            "options": {
+                "cwd": "V2G_Libraries/CertificateInfos",
+            },
+        },
+        {
+            "label": "WSL: Install build-deps",
+            "detail": "",
+            "type": "shell",
+            "command": "wsl sudo apt-get install make gcc g++",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "V2G_Libraries",
+                "kind": "build",
+            },
+        },
+    ]
+}

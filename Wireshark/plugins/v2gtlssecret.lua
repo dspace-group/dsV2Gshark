@@ -20,7 +20,11 @@ local f_cr  = ProtoField.string("v2gtlssecret.clientrandom","Client Random",base
 local ef_io_error = ProtoExpert.new("tls_secret", "Failed to open keylog-file!", expert.group.DECRYPTION, expert.severity.WARN)
 local ef_bad_version = ProtoExpert.new("tls_secret", "To use the TLS disclosure message to decrypt the application data Wireshark/Tshark version " .. tostring(min_wireshark_version) .. " or higher is required.", expert.group.DECRYPTION, expert.severity.WARN)
 
-local tls_secret_path = os.getenv("TEMP") .. "\\wireshark_v2g_tls_keylogfile.txt"
+local tmpDir = os.getenv("TEMP")
+if tmpDir == nil then
+    tmpDir = "/tmp/"
+end
+local tls_secret_path = tmpDir .. "/wireshark_v2g_tls_keylogfile.txt"
 
 local TLS_CR = 0
 

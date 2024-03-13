@@ -124,7 +124,7 @@ Software in unserem Hause in angemessenem Rahmen zu beantworten.
 Components
 ==========
 
-V2g-ws-dissectors (commit 99003ed59d06ae583d39898916b278371971e526e)
+V2g-ws-dissectors
   Copyright: 
     Copyright (c) 2021 Amit Geynis - Argus Cyber Security LTD.
   Repository: https://github.com/geynis/v2g-ws-dissectors
@@ -132,7 +132,7 @@ V2g-ws-dissectors (commit 99003ed59d06ae583d39898916b278371971e526e)
 
 The license text of the 'MIT license' can be found in APPENDIX A.
 
-cbExiGen (commit b71c6b75de4c99475befa703b26c1edf6c7c0e29)
+cbExiGen
   Copyright: 
     Copyright (c) 2022 - 2024 chargebyte GmbH
     Copyright (c) 2022 - 2024 Contributors to EVerest
@@ -141,15 +141,15 @@ cbExiGen (commit b71c6b75de4c99475befa703b26c1edf6c7c0e29)
 
 The license text of the 'Apache License Version 2.0' can be found in APPENDIX A.
 
-Wireshark 4.2.2
+Wireshark 4.2.3
   Copyright:
     Copyright 1998-2024 Gerald Combs <gerald@wireshark.org> and contributors
-  Repository: https://github.com/wireshark/wireshark
+  Repository: https://gitlab.com/wireshark/wireshark
   License: GNU GENERAL PUBLIC LICENSE v2.0
 
 The license text of the 'GNU GENERAL PUBLIC LICENSE v2.0' can be found in APPENDIX A.
 
-GnuTLS 3.6.3
+GnuTLS 3.8.3
   URL: https://www.gnutls.org/
   License: GnuTLS License
 
@@ -186,7 +186,7 @@ The license text of the 'GNU LESSER GENERAL PUBLIC LICENSE v2.1' can be found in
 Components
 ==========
 
-Libxml2 2.9.14
+Libxml2 2.11.5
   Copyright: 
     Copyright (C) 1998-2012 Daniel Veillard.  All Rights Reserved.
   Repository: https://github.com/GNOME/libxml2

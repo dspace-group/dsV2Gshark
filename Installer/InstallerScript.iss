@@ -1,5 +1,5 @@
 // DO NOT CHANGE VERSION HERE! Run update_version.bat
-#define AppVer "1.0.0"
+#define AppVer "1.1.0"
 #define AppId "dsV2Gshark"
 
 [Setup]
@@ -42,8 +42,8 @@ Name: "plugin/decoder/iso2"; Description: "ISO 15118-2 support"; Types: full cus
 Name: "plugin/decoder/iso20"; Description: "ISO 15118-20 support (experimental)"; Types: full custom; Flags: fixed
 Name: "plugin/autoschema"; Description: "Automatic schema detection"; Types: full custom; Flags: fixed    
 Name: "plugin/autodecrypt"; Description: "Live TLS decryption with disclosed master secret from UDP packet"; Types: full custom;
-Name: "buttons"; Description: "Add filter buttons to Wireshark"; Types: full
-Name: "colorfilters"; Description: "Highlight V2G messages in Wireshark"; Types: full
+Name: "buttons"; Description: "Add filter buttons to Wireshark (current user only)"; Types: full
+Name: "colorfilters"; Description: "Highlight V2G messages in Wireshark (current user only)"; Types: full
 
 [Files]
 Source: "..\Wireshark\plugins\v2gmsg.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
@@ -51,9 +51,9 @@ Source: "..\Wireshark\plugins\v2gtp.lua"; DestDir: "{app}\plugins"; Flags: ignor
 Source: "..\Wireshark\plugins\v2gsdp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gtlssecret.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/autodecrypt
 Source: "..\Wireshark\*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/decoder
-Source: "..\LICENSE"; DestDir: "{app}"; DestName: "dsV2Gshark_LICENSE.txt"; Flags: ignoreversion recursesubdirs;
+Source: "..\LICENSE"; DestDir: "{app}"; DestName: "dsV2Gshark_LICENSE.txt"; Flags: ignoreversion;
 Source: "..\OSSAcknowledgements.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_OSSAcknowledgements.txt"; Flags: ignoreversion recursesubdirs;
-Source: "dsV2Gshark_README.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_README.txt"; Flags: skipifsourcedoesntexist;
+Source: "dsV2Gshark_README.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_README.txt"; Flags: ignoreversion;
 
 [InstallDelete]
 Type: filesandordirs; Name: "{app}\luaV2Gdecoder.dll"

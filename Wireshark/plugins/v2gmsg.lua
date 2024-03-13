@@ -10,7 +10,7 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-DS_V2GSHARK_VERSION = "1.0.0" -- DO NOT CHANGE
+DS_V2GSHARK_VERSION = "1.1.0" -- DO NOT CHANGE
 
 p_v2gmsg = Proto("v2gmsg","V2G Message")
 local p_v2gmsg_info = {
@@ -41,6 +41,7 @@ local validation_buffer = {} -- maps packetID -> nil if valid, error string if i
 
 -- Buffer to determine the schema
 local last_schema_list_SAP_req = {} -- maps schema_ID (given by SAP-Req) to ProtocolNamespace
+local decoded_error_code = {} -- maps (decoded) packet number to decode error code (0 = success)
 local decoded_with_schema_namespace = {} -- maps (decoded) packet number to ProtocolNamespace that was used
 local decoded_with_auto_schema_detection = {} -- maps (decoded) packet number to Boolean
 selected_schema_at_packet_nr = {} -- maps packet number of SAP res to ProtocolNamespace. This var is also accessed in the v2gsdp dissector
@@ -78,6 +79,8 @@ function p_v2gmsg.init()
     last_schema_list_SAP_req = {}
     selected_schema_at_packet_nr = {}
     decoded_with_auto_schema_detection = {}
+    decoded_with_schema_namespace = {}
+    decoded_error_code = {}
 
     -- register v2g ports
     DissectorTable.get("tls.port"):add(p_v2gmsg.prefs["portrange_v2g"], p_v2gtp)
@@ -89,17 +92,20 @@ local function decode_v2g_message(schema, exi_string, packet_number)
     local xml_schema
 
     decoded_with_auto_schema_detection[packet_number] = false
-    xml_out, xml_schema = v2g_decoder.decodeV2GExi(schema, exi_string)
-    if xml_schema == nil then -- on error use autoprotocol mode
-        local xml_outAuto
-        xml_outAuto, xml_schema = v2g_decoder.decodeV2GAuto(exi_string)
-        if xml_outAuto ~= nil then
+    xml_out, xml_schema, errn = v2g_decoder.decodeV2GExi(schema, exi_string)
+    if errn ~= 0 then -- on error use autoprotocol mode
+        local xml_out_auto, xml_schema_auto
+        xml_out_auto, xml_schema_auto, errn_auto = v2g_decoder.decodeV2GAuto(exi_string)
+        if xml_out_auto ~= nil then
             decoded_with_auto_schema_detection[packet_number] = true
-            xml_out = xml_outAuto
+            xml_out = xml_out_auto
+            xml_schema = xml_schema_auto
+            errn = errn_auto
         end
     end
-
+    
     decoded_with_schema_namespace[packet_number] = xml_schema
+    decoded_error_code[packet_number] = errn
     return xml_out
 end
 
@@ -379,8 +385,17 @@ function p_v2gmsg.dissector(buf, pinfo, root)
             end
         end
 
+        -- add XML data
+        ByteArray.tvb(ByteArray.new(xml_data, true), "XML Data");
+        metadata_tree:add(f_xml, xml_data)
+
         local decoded_schema = decoded_with_schema_namespace[pinfo.number]
         if decoded_schema ~= nil then
+            -- check decode error
+            if decoded_error_code[pinfo.number] ~= 0 then
+                add_expert_info("Decoding failed (" .. decoded_error_code[pinfo.number] .. ")! The decoded message is partially or completely invalid!", subtree, pinfo, ef_error_generic)
+            end
+
             -- add validation error message if available
             if validation_buffer[pinfo.number] ~= nil then
                 validation_tree = metadata_tree:add(f_validation, "Failed! " .. validation_buffer[pinfo.number]:sub(1,-2))
@@ -388,10 +403,6 @@ function p_v2gmsg.dissector(buf, pinfo, root)
             else
                 metadata_tree:add(f_validation, "Successful")
             end
-
-            -- add XML data
-            ByteArray.tvb(ByteArray.new(xml_data, true), "XML Data");
-            metadata_tree:add(f_xml, xml_data)
 
             -- add schema_ID to protocol name
             local schema_ID = schema_namespace_to_schema_ID[decoded_schema]
@@ -410,6 +421,10 @@ function p_v2gmsg.dissector(buf, pinfo, root)
             -- parse the xml data and add it to the tree
             add_xml_table_to_tree(parse_XML(xml_data), subtree, f_entry, pinfo)
         else
+            iso20_warn_tree.hidden = false -- always show the warning on decode errors
+            pinfo.cols.protocol = "V2GMSG (Decode Error)"
+            metadata_tree:add(f_schema, "Decode Error")
+            metadata_tree:add(f_validation, "Skipped (Decode Error)")
             add_expert_info("Decoding failed! The decoded message is partially or completely invalid!", subtree, pinfo, ef_error_generic)
             add_xml_table_to_tree(parse_XML(xml_data), subtree, f_entry, pinfo)
         end

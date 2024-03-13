@@ -1,0 +1,70 @@
+name: dsV2Gshark Build
+
+on:
+ workflow_dispatch:
+
+jobs:
+  build-windows:
+
+    runs-on: windows-2022
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: choco install wireshark
+
+    - name: Build All
+      run: Build_Installer.bat
+      shell: cmd 
+      working-directory: ./Installer
+
+    - name: Upload Win64 Installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: dsV2Gshark_Installer_Win_x64
+        path: |
+          ./Installer/Output/*
+
+    - name: Prepare Artifact Directory
+      run: |
+          mkdir artifact_dir
+          cp ./V2G_Libraries/CertificateInfos/bin/* ./artifact_dir/
+          cp ./V2G_Libraries/V2GDecoder/bin/* ./artifact_dir/
+          mkdir artifact_dir/plugins
+          cp ./Wireshark/plugins/* ./artifact_dir/plugins/
+          echo "dSPACE V2Gshark Wireshark Plugin" > ./artifact_dir/README
+          echo "Please copy these files to your Wireshark installation." >> ./artifact_dir/README
+
+    - name: Upload Win64 Files
+      uses: actions/upload-artifact@v4
+      with:
+        name: dsV2Gshark_Files_Win_x64 
+        path: artifact_dir/*
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Libraries
+      run: |
+        chmod +x ./build_all_linux.sh
+        ./build_all_linux.sh
+      working-directory: ./V2G_Libraries/
+
+    - name: Prepare Artifact Directory
+      run: |
+          mkdir artifact_dir
+          cp ./V2G_Libraries/CertificateInfos/bin/* ./artifact_dir/
+          cp ./V2G_Libraries/V2GDecoder/bin/* ./artifact_dir/
+          mkdir artifact_dir/plugins
+          cp ./Wireshark/plugins/* ./artifact_dir/plugins/
+          echo "dSPACE V2Gshark Wireshark Plugin" > ./artifact_dir/README
+          echo "Please copy these files to your Wireshark installation." >> ./artifact_dir/README
+
+    - name: Upload Linux Files
+      uses: actions/upload-artifact@v4
+      with:
+        name: dsV2Gshark_Files_Linux_x86_64
+        path: artifact_dir/*
