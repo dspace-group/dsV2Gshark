@@ -26,10 +26,13 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 
 ## Requirements
 - Wireshark (64 bit) 3.5.0 or higher
+- Operating Sytems:
+    - Windows 7 or higher
+    - Linux x64 (see [Limitations](#limitations))
+    - Mac OS currently not supported
 
 ## Installation notes
 - The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest)
-- As an alternative to the installer, the plugin files can be copied manually. See [Limitations](#limitations).
 - When updating Wireshark, please reinstall the plugin to avoid any warnings
 - Not compatible with other V2G dissector plugins. Please uninstall these plugins before installing dsV2Gshark.
 - Not compatible with 32 bit versions of Wireshark.
@@ -46,7 +49,9 @@ The disclosure message is a UDP packet within the source port range 49152-65535 
 - ISO 15118-20 is not fully supported yet
     - some BPT messages are not fully decoded
 - Live TLS decryption is only supported for TLS 1.2
-- Filter buttons and color filters are only available if you use the installer
+- Linux
+    - no installer
+    - filter buttons and color filters must be added manually
 
 ## Support
 - If you encounter any problems, feel free to open an issue or contact us at support@dSPACE.de
