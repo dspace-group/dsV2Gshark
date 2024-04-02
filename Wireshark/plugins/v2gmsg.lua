@@ -163,13 +163,14 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
         new_element:set_text(xml_table.name)
     end
 
-    -- physical value type (15118-2)
+    -- physical value type (15118-2/DIN)
+    local calc_value = nil
     if #xml_table.children == 3 and
         xml_table.children[1].name == "Multiplier" and
         xml_table.children[2].name == "Unit" and
         xml_table.children[3].name == "Value" then
         -- 15118-2 physical value type
-        local calc_value = tonumber(xml_table.children[3].value) * 10 ^ tonumber(xml_table.children[1].value)
+        calc_value = tonumber(xml_table.children[3].value) * 10 ^ tonumber(xml_table.children[1].value)
 
         local unit = xml_table.children[2].value
         if calc_value > 1000 and (unit == "W" or unit == "Wh") then
@@ -196,12 +197,12 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
             new_element:append_text(appendix)
         end
     end
-    -- rational number type (15118-20)
+
+    -- rational number type (15118-20 + DIN without unnit)
     if #xml_table.children == 2 and
-        xml_table.children[1].name == "Exponent" and
+        (xml_table.children[1].name == "Exponent" or xml_table.children[1].name == "Multiplier") and
         xml_table.children[2].name == "Value" then
-        -- 15118-2 physical value type
-        local calc_value = tonumber(xml_table.children[2].value) * 10 ^ tonumber(xml_table.children[1].value)
+        calc_value = tonumber(xml_table.children[2].value) * 10 ^ tonumber(xml_table.children[1].value)
         new_element:append_text(": " .. tostring(calc_value):gsub(",","."))
     end
 
