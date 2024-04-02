@@ -33,6 +33,9 @@ Name: "dsV2Gshark_strings"; MessagesFile: "strings.isl"
 Name: "full"; Description: "Full installation"
 Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
+[CustomMessages]
+Linebreak=%n
+
 [Components]
 Name: "plugin"; Description: "Plugin files"; Types: full custom; Flags: fixed
 Name: "plugin/dissectors"; Description: "V2G dissectors"; Types: full custom; Flags: fixed
@@ -44,6 +47,7 @@ Name: "plugin/autoschema"; Description: "Automatic schema detection"; Types: ful
 Name: "plugin/autodecrypt"; Description: "Live TLS decryption with disclosed master secret from UDP packet"; Types: full custom;
 Name: "buttons"; Description: "Add filter buttons to Wireshark (current user only)"; Types: full
 Name: "colorfilters"; Description: "Highlight V2G messages in Wireshark (current user only)"; Types: full
+Name: "iograph"; Description: "Prepare Wireshark I/O Graphs for V2G messages{cm:Linebreak}(current user only, may override I/O Graph preferences)"; Types: full
 
 [Files]
 Source: "..\Wireshark\plugins\v2gmsg.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
@@ -256,6 +260,10 @@ begin
                     '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","Filter V2G messages, SLAC messages and additional TCP packets"',
                     '"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"'];
   RemoveFromFile(FileName, LinesToRemove);
+
+  FileName := GetWiresharkConfigPath + 'io_graphs'
+  LinesToRemove := ['v2gtp', 'v2gmsg', 'CP State']
+  RemoveFromFile(FileName, LinesToRemove);
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
@@ -303,6 +311,42 @@ begin
       if Length(StringsToAdd) > 0 then
         if not PrependStringsToFile(FileName, StringsToAdd) then
           MsgBox('Failed to add colorfilters to Wireshark!', mbError, MB_OK);
+    end;
+
+    if WizardIsComponentSelected('iograph') then
+    begin
+      // add graph io presets after installation
+      FileName := GetWiresharkConfigPath + 'io_graphs'
+      StringsToAdd := [ '"Enabled","#V2G-Packets/Interval","v2gtp","#D3D3D3","Square","Packets","v2gtp","None","1"',
+                        '"Enabled","Target Voltage EV","","#AA0000","Cross","AVG(Y Field)","v2gmsg.xml.iograph.EVTargetVoltage","None","1"',
+                        '"Enabled","Present Voltage EVSE","","#AA0000","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEPresentVoltage","None","1"',
+                        '"Enabled","[ISO20] Present Voltage EV","","#AA6262","Circle","AVG(Y Field)","v2gmsg.xml.iograph.EVPresentVoltage","None","1"',
+                        '"Enabled","Target Current EV","","#0000FF","Cross","AVG(Y Field)","v2gmsg.xml.iograph.EVTargetCurrent","None","1"',
+                        '"Enabled","Present Current EVSE","","#0000FF","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEPresentCurrent","None","1"',
+                        '"Enabled","[ISO20] Present SOC","","#AAFF00","Line","AVG(Y Field)","v2gmsg.xml.iograph.PresentSOC","None","1"',
+                        '"Enabled","[DIN/ISO2] Present SOC","","#AAFF00","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVRESSSOC","None","1"',
+                        '"Disabled","[DIN/ISO2] Max Voltage EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumVoltageLimit","None","1"',
+                        '"Disabled","[DIN/ISO2] Max Voltage EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumVoltageLimit","None","1"',
+                        '"Disabled","[DIN/ISO2] Max Current EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumCurrentLimit","None","1"',
+                        '"Disabled","[DIN/ISO2] Max Current EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumCurrentLimit","None","1"',
+                        '"Disabled","[ISO20] Max Voltage EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumVoltage","None","1"',
+                        '"Disabled","[ISO20] Min Voltage EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMinimumVoltage","None","1"',
+                        '"Disabled","[ISO20] Max Current EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumChargeCurrent","None","1"',
+                        '"Disabled","[ISO20] Max Voltage EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumVoltage","None","1"',
+                        '"Disabled","[ISO20] Max Current EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumChargeCurrent","None","1"',
+                        '"Disabled","CP State","","#2E3436","Dot Step Line","AVG(Y Field)","homeplug_av.st_iotecha.cpstate.state","None","20"'];
+      if FileExists(FileName) then
+      begin
+        if not PrependStringsToFile(FileName, StringsToAdd) then
+          MsgBox('Failed to add I/O Graph presets to Wireshark!', mbError, MB_OK);
+      end
+      else
+      begin
+        if not SaveStringsToFile(FileName, StringsToAdd, True) then
+        begin
+          MsgBox('Failed to add I/O Graph presets to Wireshark!', mbError, MB_OK);
+        end;
+      end;
     end;
   end;
 end;

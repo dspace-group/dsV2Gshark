@@ -53,7 +53,19 @@ local f_exi = ProtoField.string("v2gmsg.exi", "EXI", base.ASCII)
 local f_xml = ProtoField.string("v2gmsg.xml", "Decoded XML", base.ASCII)
 local f_msg = ProtoField.string("v2gmsg.msgname", "Message", base.ASCII)
 local f_validation = ProtoField.string("v2gmsg.validation", "Message Validation", base.ASCII)
+
 p_v2gmsg.fields = {f_schema, f_exi, f_msg, f_entry, f_xml, f_validation}
+
+local values_to_plot = {
+    "EVTargetVoltage","EVTargetCurrent","EVSEPresentVoltage","EVSEPresentCurrent", -- common
+    "EVRESSSOC","EVRESSSOC","EVMaximumVoltageLimit","EVMaximumCurrentLimit","EVSEMaximumVoltageLimit","EVSEMaximumCurrentLimit", -- DIN/ISO2
+    "EVPresentVoltage","PresentSOC","EVMaximumVoltage","EVMinimumVoltage","EVMaximumChargeCurrent","EVSEMaximumVoltage","EVSEMaximumChargeCurrent" -- ISO20
+}
+local f_plot_fields = {} -- maps value name to iograph-field
+for k,value in pairs(values_to_plot) do
+    f_plot_fields[value] = ProtoField.double("v2gmsg.xml.iograph." .. value, "I/O Graph Value")
+    table.insert(p_v2gmsg.fields, f_plot_fields[value])
+end
 
 local MAX_FIELD_STR_LEN = 150
 
@@ -204,6 +216,18 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
         xml_table.children[2].name == "Value" then
         calc_value = tonumber(xml_table.children[2].value) * 10 ^ tonumber(xml_table.children[1].value)
         new_element:append_text(": " .. tostring(calc_value):gsub(",","."))
+    end
+ 
+    -- add I/O Graph fields
+    for name, field in pairs(f_plot_fields) do
+        if name == xml_table.name then
+            if calc_value ~= nil then
+                tree_out:add(field, calc_value).hidden = true
+            else
+                tree_out:add(field, xml_table.value).hidden = true
+            end
+            break
+        end
     end
 
     if xml_table.attributes ~= "" then

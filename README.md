@@ -8,6 +8,8 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 ![ISO 15118-2 Overview](Images/WS_ISO15118_2_Overview.png)
 
 ## Features
+
+### Overview
 - Supports decoding of:
     - V2GTP layer (Vehicle to Grid Transport Protocol)
     - SAP messages (Supported App Protocol)
@@ -18,11 +20,22 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 - Additional analysis features:
     - Validation of V2G messages according to XSD specification
     - Certificate information details for Plug & Charge (PnC)
-    - Live TLS decryption (see [below](#live-tls-decryption))
+    - Live TLS decryption
 - Automatic schema detection
     - Detect schema automatically in case of missing SDP or SAP
 - Color filter for V2G packets
 - Filter buttons for V2G packets
+- Wireshark I/O Graph support for V2G packets
+
+
+### Live TLS Decryption
+The plugin processes a TLS master secret disclosure packet after handshake to decode the following V2G session.  
+The disclosure message is a UDP packet within the source port range 49152-65535 (see Wireshark protocol settings) containing the ASCII string "CLIENT_RANDOM <32-byte client random> <48-byte master secret>" as payload data. This disclosure message has to be sent from one of the communication partners in a testing environment.
+
+### Wireshark I/O Graph
+This optional feature updates the Wireshark I/O Graph preferences to display a V2G session. The graph can be accessed via 'Statistics' -> 'I/O Graphs' (shortcut: Alt + S + I).  
+The graph displays the data in 1 second intervals. This can be changed using the drop down menu at the bottom.  
+To simplify the visualisation, some V2G related signals (e.g., MaxVoltage) are disabled by default. They can be enabled using the check boxes in the selection view.
 
 ## Requirements
 - Wireshark (64 bit) 3.5.0 or higher
@@ -40,10 +53,6 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 - Installation size is about 10 MB
 - Supports normal and portable version of Wireshark
 - Filter buttons and color filters will be installed for the current user only. In multi-user environments, the plugin must be installed for each user to enable these two optional features.
-
-## Live TLS Decryption
-The plugin processes a TLS master secret disclosure packet after handshake to decode the following V2G session.  
-The disclosure message is a UDP packet within the source port range 49152-65535 (see Wireshark protocol settings) containing the ASCII string "CLIENT_RANDOM <32-byte client random> <48-byte master secret>" as payload data. This disclosure message has to be sent from one of the communication partners in a testing environment.
 
 ## Limitations
 - ISO 15118-20 is not fully supported yet
@@ -77,3 +86,5 @@ The disclosure message is a UDP packet within the source port range 49152-65535 
 ![Filter Buttons](Images/WS_FilterButtons.png)
 ### Plugin Preferences
 ![Plugin Preferences](Images/WS_Preferences.png)
+### Wireshark I/O Graph
+![I/O Graph](Images/IO_Graph.png)
