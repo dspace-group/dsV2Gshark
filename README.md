@@ -27,7 +27,6 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 - Filter buttons for V2G packets
 - Wireshark I/O Graph support for V2G packets
 
-
 ### Live TLS Decryption
 The plugin processes a TLS master secret disclosure packet after handshake to decode the following V2G session.  
 The disclosure message is a UDP packet within the source port range 49152-65535 (see Wireshark protocol settings) containing the ASCII string "CLIENT_RANDOM <32-byte client random> <48-byte master secret>" as payload data. This disclosure message has to be sent from one of the communication partners in a testing environment.
@@ -35,7 +34,8 @@ The disclosure message is a UDP packet within the source port range 49152-65535 
 ### Wireshark I/O Graph
 This optional feature updates the Wireshark I/O Graph preferences to display a V2G session. The graph can be accessed via 'Statistics' -> 'I/O Graphs' (shortcut: Alt + S + I).  
 The graph displays the data in 1 second intervals. This can be changed using the drop down menu at the bottom.  
-To simplify the visualisation, some V2G related signals (e.g., MaxVoltage) are disabled by default. They can be enabled using the check boxes in the selection view.
+To simplify the visualisation, some V2G related signals (e.g., MaxVoltage) are disabled by default. They can be enabled using the check boxes in the selection view.  
+Click on a packet in the graph to inspect it in the Wireshark main window. Press the SPACE key to activate a helper line on the graph if you need more precision.
 
 ## Requirements
 - Wireshark (64 bit) 3.5.0 or higher
