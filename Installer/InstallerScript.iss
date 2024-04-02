@@ -1,5 +1,5 @@
 // DO NOT CHANGE VERSION HERE! Run update_version.bat
-#define AppVer "1.1.0"
+#define AppVer "1.2.0"
 #define AppId "dsV2Gshark"
 
 [Setup]
