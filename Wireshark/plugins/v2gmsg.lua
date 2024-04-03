@@ -10,7 +10,7 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-DS_V2GSHARK_VERSION = "1.1.0" -- DO NOT CHANGE
+DS_V2GSHARK_VERSION = "1.2.0" -- DO NOT CHANGE
 
 p_v2gmsg = Proto("v2gmsg","V2G Message")
 local p_v2gmsg_info = {
@@ -53,7 +53,19 @@ local f_exi = ProtoField.string("v2gmsg.exi", "EXI", base.ASCII)
 local f_xml = ProtoField.string("v2gmsg.xml", "Decoded XML", base.ASCII)
 local f_msg = ProtoField.string("v2gmsg.msgname", "Message", base.ASCII)
 local f_validation = ProtoField.string("v2gmsg.validation", "Message Validation", base.ASCII)
+
 p_v2gmsg.fields = {f_schema, f_exi, f_msg, f_entry, f_xml, f_validation}
+
+local values_to_plot = {
+    "EVTargetVoltage","EVTargetCurrent","EVSEPresentVoltage","EVSEPresentCurrent", -- common
+    "EVRESSSOC","EVRESSSOC","EVMaximumVoltageLimit","EVMaximumCurrentLimit","EVSEMaximumVoltageLimit","EVSEMaximumCurrentLimit", -- DIN/ISO2
+    "EVPresentVoltage","PresentSOC","EVMaximumVoltage","EVMinimumVoltage","EVMaximumChargeCurrent","EVSEMaximumVoltage","EVSEMaximumChargeCurrent" -- ISO20
+}
+local f_plot_fields = {} -- maps value name to iograph-field
+for k,value in pairs(values_to_plot) do
+    f_plot_fields[value] = ProtoField.double("v2gmsg.xml.iograph." .. value, "I/O Graph Value")
+    table.insert(p_v2gmsg.fields, f_plot_fields[value])
+end
 
 local MAX_FIELD_STR_LEN = 150
 
@@ -163,13 +175,14 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
         new_element:set_text(xml_table.name)
     end
 
-    -- physical value type (15118-2)
+    -- physical value type (15118-2/DIN)
+    local calc_value = nil
     if #xml_table.children == 3 and
         xml_table.children[1].name == "Multiplier" and
         xml_table.children[2].name == "Unit" and
         xml_table.children[3].name == "Value" then
         -- 15118-2 physical value type
-        local calc_value = tonumber(xml_table.children[3].value) * 10 ^ tonumber(xml_table.children[1].value)
+        calc_value = tonumber(xml_table.children[3].value) * 10 ^ tonumber(xml_table.children[1].value)
 
         local unit = xml_table.children[2].value
         if calc_value > 1000 and (unit == "W" or unit == "Wh") then
@@ -196,13 +209,25 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
             new_element:append_text(appendix)
         end
     end
-    -- rational number type (15118-20)
+
+    -- rational number type (15118-20 + DIN without unnit)
     if #xml_table.children == 2 and
-        xml_table.children[1].name == "Exponent" and
+        (xml_table.children[1].name == "Exponent" or xml_table.children[1].name == "Multiplier") and
         xml_table.children[2].name == "Value" then
-        -- 15118-2 physical value type
-        local calc_value = tonumber(xml_table.children[2].value) * 10 ^ tonumber(xml_table.children[1].value)
+        calc_value = tonumber(xml_table.children[2].value) * 10 ^ tonumber(xml_table.children[1].value)
         new_element:append_text(": " .. tostring(calc_value):gsub(",","."))
+    end
+ 
+    -- add I/O Graph fields
+    for name, field in pairs(f_plot_fields) do
+        if name == xml_table.name then
+            if calc_value ~= nil then
+                tree_out:add(field, calc_value).hidden = true
+            else
+                tree_out:add(field, xml_table.value).hidden = true
+            end
+            break
+        end
     end
 
     if xml_table.attributes ~= "" then
