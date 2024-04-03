@@ -334,7 +334,7 @@ begin
                         '"Disabled","[ISO20] Max Current EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumChargeCurrent","None","1"',
                         '"Disabled","[ISO20] Max Voltage EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumVoltage","None","1"',
                         '"Disabled","[ISO20] Max Current EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumChargeCurrent","None","1"',
-                        '"Disabled","CP State","","#2E3436","Dot Step Line","AVG(Y Field)","homeplug_av.st_iotecha.cpstate.state","None","20"'];
+                        '"Disabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug_av.st_iotecha.cpstate.state","None","20"'];
       if FileExists(FileName) then
       begin
         if not PrependStringsToFile(FileName, StringsToAdd) then
