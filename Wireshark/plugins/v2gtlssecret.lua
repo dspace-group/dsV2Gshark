@@ -27,12 +27,15 @@ end
 local tls_secret_path = tmpDir .. "/wireshark_v2g_tls_keylogfile.txt"
 
 local TLS_CR = 0
+local TLS13_CR = 1
 
 local payload_types = {
-	[TLS_CR]                   = "TLS master secret disclosure message (client random)",
+    [TLS_CR]                   = "TLS master secret disclosure message (client random)",
+    [TLS13_CR]                 = "TLS 1.3 master secret disclosure message (client random)",
 }
 
 local client_random_string_hex = "434c49454e545f52414e444f4d" -- String "CLIENT_RANDOM" as hex
+local client_handshake_13_hex = "434c49454e545f48414e445348414b455f545241464649435f534543524554" -- String "CLIENT_HANDSHAKE_TRAFFIC_SECRET" as hex
 local frame_numbers = {} -- save the numbers of the frames including TLS secrets
 
 p_v2gtlssecret.fields = {f_cr}
@@ -68,9 +71,13 @@ end
 -- PDU dissection function
 function p_v2gtlssecret.dissector(buf,pinfo,root)
     -- payload starts with 'CLIENT_RANDOM' (TLS 1.2)
+    -- or with 'CLIENT_HANDSHAKE_TRAFFIC_SECRET' (TLS 1.3)
     local p_type_num
     if buf:len() == 175 and tostring(buf(0,13)) == client_random_string_hex then
         p_type_num = TLS_CR
+    elseif buf:len() == 759 and tostring(buf(0,31)) == client_handshake_13_hex then
+        p_type_num = TLS13_CR
+        -- message has to contain: CLIENT_HANDSHAKE_TRAFFIC_SECRET, SERVER_HANDSHAKE_TRAFFIC_SECRET, CLIENT_TRAFFIC_SECRET, SERVER_TRAFFIC_SECRET
     else
         return 0
     end
