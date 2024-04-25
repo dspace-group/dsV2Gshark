@@ -29,7 +29,8 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 
 ### Live TLS Decryption
 The plugin processes a TLS master secret disclosure packet after handshake to decode the following V2G session.  
-The disclosure message is a UDP packet within the source port range 49152-65535 (see Wireshark protocol settings) containing the ASCII string "CLIENT_RANDOM <32-byte client random> <48-byte master secret>" as payload data. This disclosure message has to be sent from one of the communication partners in a testing environment.
+The disclosure message is a UDP packet within the source port range 49152-65535 (see Wireshark protocol settings) containing the ASCII string `CLIENT_RANDOM <32-byte client random> <48-byte master secret>` as payload data. This disclosure message has to be sent from one of the communication partners in a testing environment.  
+For TLS 1.3 decryption you have to provide different secrets: `CLIENT_HANDSHAKE_TRAFFIC_SECRET`, `SERVER_HANDSHAKE_TRAFFIC_SECRET`, `EXPORTER_SECRET`, `CLIENT_TRAFFIC_SECRET_<number>`, `SERVER_TRAFFIC_SECRET_<number>`. You can send one UDP packet for each secret or combine the secrets in one UDP packet (separated by line breaks).
 
 ### Wireshark I/O Graph
 This optional feature updates the Wireshark I/O Graph preferences to display a V2G session. The graph can be accessed via 'Statistics' -> 'I/O Graphs' (shortcut: Alt + S + I).  
@@ -57,7 +58,6 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ## Limitations
 - ISO 15118-20 is not fully supported yet
     - some BPT messages are not fully decoded
-- Live TLS decryption is only supported for TLS 1.2
 - Linux
     - no installer
     - filter buttons and color filters must be added manually
