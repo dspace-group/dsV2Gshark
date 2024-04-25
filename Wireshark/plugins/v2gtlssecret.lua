@@ -55,7 +55,7 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
     -- one UDP packet may contain several lines, check each line
     for line in str:gmatch'[^\r\n]+' do
         -- check if this is really a secret
-        match = line:match'^([%u_]+)%d* %x+ %x+$'
+        local match = line:match'^([%u_]+)%d* %x+ %x+$'
         if match == nil then
             goto continue
         elseif match == "CLIENT_RANDOM" then
@@ -116,14 +116,10 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
         if file ~= nil then
             for line in file:lines() do
                 local tls_secret_of_file = tostring(line)
-                local idx_to_delete = {}
-                for idx, tls_secret in ipairs(tls_secret_list) do
-                    if tls_secret == tls_secret_of_file then
-                        table.insert(idx_to_delete, idx)
+                for idx = #tls_secret_list, 1, -1 do
+                    if tls_secret_list[idx] == tls_secret_of_file then
+                        table.remove(tls_secret_list, idx)
                     end
-                end
-                for _, idx in ipairs(idx_to_delete) do
-                    table.remove(tls_secret_list, idx)
                 end
                 if #tls_secret_list == 0 then
                     break
