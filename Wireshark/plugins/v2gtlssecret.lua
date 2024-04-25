@@ -78,6 +78,10 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
         ::continue::
     end
 
+    if #tls_secret_list == 0 then
+        return 0
+    end
+
     -- set info column
     pinfo.cols.info = "TLS disclosure message for " .. table.concat(info_strings, ", ")
 
