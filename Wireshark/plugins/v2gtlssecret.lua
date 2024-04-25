@@ -26,13 +26,6 @@ if tmpDir == nil then
 end
 local tls_secret_path = tmpDir .. "/wireshark_v2g_tls_keylogfile.txt"
 
-local TLS_CR = 0
-
-local payload_types = {
-	[TLS_CR]                   = "TLS master secret disclosure message (client random)",
-}
-
-local client_random_string_hex = "434c49454e545f52414e444f4d" -- String "CLIENT_RANDOM" as hex
 local frame_numbers = {} -- save the numbers of the frames including TLS secrets
 
 p_v2gtlssecret.fields = {f_cr}
@@ -53,33 +46,40 @@ local function check_version(required_version)
     end
 end
 
--- init hex-to-char table
-local hex_to_char = {}
-for idx = 0, 255 do
-    hex_to_char[("%02X"):format(idx)] = string.char(idx)
-    hex_to_char[("%02x"):format(idx)] = string.char(idx)
-end
-
-local function byte_array_to_string(ByteArray)
-    local str = ByteArray:bytes():tohex()
-    return str:gsub("(..)", hex_to_char)
-end
-
 -- PDU dissection function
 function p_v2gtlssecret.dissector(buf,pinfo,root)
-    -- payload starts with 'CLIENT_RANDOM' (TLS 1.2)
-    local p_type_num
-    if buf:len() == 175 and tostring(buf(0,13)) == client_random_string_hex then
-        p_type_num = TLS_CR
-    else
-        return 0
+    local str = buf:raw()
+    local tls_secret_list = {}
+    local info_strings = {}
+    
+    -- one UDP packet may contain several lines, check each line
+    for line in str:gmatch'[^\r\n]+' do
+        -- check if this is really a secret
+        match = line:match'^([%u_]+)%d* %x+ %x+$'
+        if match == nil then
+            goto continue
+        elseif match == "CLIENT_RANDOM" then
+            table.insert(info_strings, "master secret")
+        elseif match == "CLIENT_HANDSHAKE_TRAFFIC_SECRET" then
+            table.insert(info_strings, "client handshake traffic secret")
+        elseif match == "SERVER_HANDSHAKE_TRAFFIC_SECRET" then
+            table.insert(info_strings, "server handshake traffic secret")
+        elseif match == "EXPORTER_SECRET" then
+            table.insert(info_strings, "exporter secret")
+        elseif match == "CLIENT_TRAFFIC_SECRET_" then
+            table.insert(info_strings, "client traffic secret")
+        elseif match == "SERVER_TRAFFIC_SECRET_" then
+            table.insert(info_strings, "server traffic secret")
+        end
+        -- one last plausibility check
+        if line:len() > 100 and line:len() < 300 then
+            table.insert(tls_secret_list, line)
+        end
+        ::continue::
     end
 
     -- set info column
-    pinfo.cols.info = payload_types[p_type_num]
-
-    -- get string from byte array
-    local tls_secret = byte_array_to_string(buf(0))
+    pinfo.cols.info = "TLS disclosure message for " .. table.concat(info_strings, ", ")
 
     -- add data to subtree
     local subtree = root:add(p_v2gtlssecret,buf(0))
@@ -107,14 +107,21 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
 
     -- write TLS secret to file
     if already_visited == false then
-        -- check if the TLS secret is already in the file
+        -- check if the TLS secrets are already in the file
         local file, _, _ = io.open(get_preference("tls.keylog_file"), "r")
-        local secret_exists_in_file = false
         if file ~= nil then
             for line in file:lines() do
                 local tls_secret_of_file = tostring(line)
-                if tls_secret == tls_secret_of_file then
-                    secret_exists_in_file = true
+                local idx_to_delete = {}
+                for idx, tls_secret in ipairs(tls_secret_list) do
+                    if tls_secret == tls_secret_of_file then
+                        table.insert(idx_to_delete, idx)
+                    end
+                end
+                for _, idx in ipairs(idx_to_delete) do
+                    table.remove(tls_secret_list, idx)
+                end
+                if #tls_secret_list == 0 then
                     break
                 end
             end
@@ -122,14 +129,16 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
         end
 
         -- write TLS secret only once
-        if secret_exists_in_file == false then
+        if #tls_secret_list > 0 then
             local err_str
             file, err_str, _ = io.open(get_preference("tls.keylog_file"), "a")
             if file == nil then
                 subtree:add_proto_expert_info(ef_io_error, err_str)
                 pinfo.cols.info = "[ERROR] " .. tostring(pinfo.cols.info)
             else
-                file:write(tls_secret .. "\n")
+                for _, tls_secret in ipairs(tls_secret_list) do
+                    file:write(tls_secret .. "\n")
+                end
                 table.insert(frame_numbers, pinfo.number) -- add frame number to table
                 file:close(file)
 
@@ -140,7 +149,7 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
                     reload_lua_plugins()
                 end
             end
-        end -- end if 'secret_exists_in_file'
+        end
     end -- end if 'already_visited'
 end -- end function 'p_v2gtlssecret.dissector'
 
