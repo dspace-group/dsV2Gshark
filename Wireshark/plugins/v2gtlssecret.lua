@@ -79,8 +79,8 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
             table.insert(tls_secret_list, line)
             subtree:add(f_cr,buf(byte_offset, line:len()))
         end
-        byte_offset = byte_offset + line:len() + 1
         ::continue::
+        byte_offset = byte_offset + line:len() + 1
     end
 
     if #tls_secret_list == 0 then
