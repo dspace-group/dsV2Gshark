@@ -15,7 +15,7 @@ set_plugin_info(p_v2gtlssecret_info)
 
 local min_wireshark_version = "3.5.0"
 
-local f_cr  = ProtoField.string("v2gtlssecret.clientrandom","Client Random",base.ASCII)
+local f_cr  = ProtoField.string("v2gtlssecret.clientrandom","NSS Key Log",base.ASCII)
 
 local ef_io_error = ProtoExpert.new("tls_secret", "Failed to open keylog-file!", expert.group.DECRYPTION, expert.severity.WARN)
 local ef_bad_version = ProtoExpert.new("tls_secret", "To use the TLS disclosure message to decrypt the application data Wireshark/Tshark version " .. tostring(min_wireshark_version) .. " or higher is required.", expert.group.DECRYPTION, expert.severity.WARN)
@@ -51,8 +51,11 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
     local str = buf:raw()
     local tls_secret_list = {}
     local info_strings = {}
+
+    local subtree = root:add(p_v2gtlssecret,buf(0))
     
     -- one UDP packet may contain several lines, check each line
+    local byte_offset = 0
     for line in str:gmatch'[^\r\n]+' do
         -- check if this is really a secret
         local match = line:match'^([%u_]+)%d* %x+ %x+$'
@@ -74,7 +77,9 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
         -- one last plausibility check
         if line:len() > 100 and line:len() < 300 then
             table.insert(tls_secret_list, line)
+            subtree:add(f_cr,buf(byte_offset, line:len()))
         end
+        byte_offset = byte_offset + line:len() + 1
         ::continue::
     end
 
@@ -84,10 +89,6 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
 
     -- set info column
     pinfo.cols.info = "TLS disclosure message for " .. table.concat(info_strings, ", ")
-
-    -- add data to subtree
-    local subtree = root:add(p_v2gtlssecret,buf(0))
-    subtree:add(f_cr,buf(0)):set_text(tostring(tls_secret))
 
     if check_version(min_wireshark_version) == false then
         subtree:add_proto_expert_info(ef_bad_version)
