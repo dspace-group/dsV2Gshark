@@ -57,7 +57,7 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
         -- check if this is really a secret
         local match = line:match'^([%u_]+)%d* %x+ %x+$'
         if match == nil then
-            goto continue
+            return 0
         elseif match == "CLIENT_RANDOM" then
             table.insert(info_strings, "master secret")
         elseif match == "CLIENT_HANDSHAKE_TRAFFIC_SECRET" then
@@ -75,7 +75,6 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
         if line:len() > 100 and line:len() < 300 then
             table.insert(tls_secret_list, line)
         end
-        ::continue::
     end
 
     if #tls_secret_list == 0 then
