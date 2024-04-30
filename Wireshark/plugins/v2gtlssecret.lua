@@ -46,6 +46,22 @@ local function check_version(required_version)
     end
 end
 
+local function split_string(str)
+    local parts = {}
+    for part in str:gmatch'[^ \r\n]+' do
+        table.insert(parts, part)
+    end
+    return parts
+end
+
+local function add_expert_info(message, tree, pinfo, expertinfo)
+	local oldInfo = tostring(pinfo.cols.info)
+    if string.len(oldInfo) < 9 or oldInfo:sub(0, 9) ~= "[WARNING]" then
+		tree:add_proto_expert_info(expertinfo, message)
+        pinfo.cols.info = "[WARNING] " .. oldInfo
+    end
+end
+
 -- PDU dissection function
 function p_v2gtlssecret.dissector(buf,pinfo,root)
     local str = buf:raw()
@@ -116,18 +132,32 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
         -- check if the TLS secrets are already in the file
         local file, _, _ = io.open(get_preference("tls.keylog_file"), "r")
         if file ~= nil then
-            for line in file:lines() do
-                local tls_secret_of_file = tostring(line)
-                for idx = #tls_secret_list, 1, -1 do
-                    if tls_secret_list[idx] == tls_secret_of_file then
-                        table.remove(tls_secret_list, idx)
+            local file_content = file:read("*a")
+            file:close(file)
+    
+            for idx = #tls_secret_list, 1, -1 do
+                local to_be_removed = false
+                local splitted_from_packet = split_string(tls_secret_list[idx])
+                for line in file_content:gmatch'[^\r\n]+' do    
+                    local splitted_from_file = split_string(tostring(line))
+                    if #splitted_from_packet == 3 and #splitted_from_file == 3 then
+                        if splitted_from_file[1] == splitted_from_packet[1] and splitted_from_file[2] == splitted_from_packet[2] then
+                            if splitted_from_file[3] == splitted_from_packet[3] then
+                                to_be_removed = true
+                            else
+                                add_expert_info("CLIENT RANDOM is not unique!", subtree, pinfo, ef_io_error)
+                            end
+                        end
                     end
+                end
+                if to_be_removed then
+                    table.remove(tls_secret_list, idx)
                 end
                 if #tls_secret_list == 0 then
                     break
                 end
+
             end
-            file:close(file)
         end
 
         -- write TLS secret only once
@@ -135,8 +165,7 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
             local err_str
             file, err_str, _ = io.open(get_preference("tls.keylog_file"), "a")
             if file == nil then
-                subtree:add_proto_expert_info(ef_io_error, err_str)
-                pinfo.cols.info = "[ERROR] " .. tostring(pinfo.cols.info)
+                add_expert_info(err_str, subtree, pinfo, ef_io_error)
             else
                 for _, tls_secret in ipairs(tls_secret_list) do
                     file:write(tls_secret .. "\n")
@@ -159,4 +188,5 @@ end -- end function 'p_v2gtlssecret.dissector'
 function p_v2gtlssecret.init()
     -- register tls secret ports
     DissectorTable.get("udp.port"):add(p_v2gmsg.prefs["portrange_tlssecret"], p_v2gtlssecret)
+    frame_numbers = {}
 end
