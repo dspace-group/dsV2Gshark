@@ -51,11 +51,8 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
     local str = buf:raw()
     local tls_secret_list = {}
     local info_strings = {}
-
-    local subtree = root:add(p_v2gtlssecret,buf(0))
     
     -- one UDP packet may contain several lines, check each line
-    local byte_offset = 0
     for line in str:gmatch'[^\r\n]+' do
         -- check if this is really a secret
         local match = line:match'^([%u_]+)%d* %x+ %x+$'
@@ -77,14 +74,19 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
         -- one last plausibility check
         if line:len() > 100 and line:len() < 300 then
             table.insert(tls_secret_list, line)
-            subtree:add(f_cr,buf(byte_offset, line:len()))
         end
         ::continue::
-        byte_offset = byte_offset + line:len() + 1
     end
 
     if #tls_secret_list == 0 then
         return 0
+    end
+
+    local byte_offset = 0
+    local subtree = root:add(p_v2gtlssecret,buf(byte_offset))
+    for _, v in ipairs(tls_secret_list) do
+        subtree:add(f_cr,buf(byte_offset, v:len()))
+        byte_offset = byte_offset + v:len() + 1 -- (+1) for line break
     end
 
     -- set info column
