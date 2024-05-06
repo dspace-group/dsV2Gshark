@@ -10,7 +10,7 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-DS_V2GSHARK_VERSION = "1.2.0" -- DO NOT CHANGE
+DS_V2GSHARK_VERSION = "1.3.0" -- DO NOT CHANGE
 
 p_v2gmsg = Proto("v2gmsg", "V2G Message")
 local p_v2gmsg_info = {
