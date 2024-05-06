@@ -145,7 +145,7 @@ function p_v2gtlssecret.dissector(buf,pinfo,root)
                             if splitted_from_file[3] == splitted_from_packet[3] then
                                 to_be_removed = true
                             else
-                                add_expert_info("CLIENT RANDOM is not unique!", subtree, pinfo, ef_io_error)
+                                add_expert_info("CLIENT RANDOM part of secret is not unique! (\"" .. splitted_from_packet[2] .. "\")" , subtree, pinfo, ef_io_error)
                             end
                         end
                     end
