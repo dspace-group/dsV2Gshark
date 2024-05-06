@@ -141,7 +141,7 @@ cbExiGen
 
 The license text of the 'Apache License Version 2.0' can be found in APPENDIX A.
 
-Wireshark 4.2.3
+Wireshark 4.2.4
   Copyright:
     Copyright 1998-2024 Gerald Combs <gerald@wireshark.org> and contributors
   Repository: https://gitlab.com/wireshark/wireshark
