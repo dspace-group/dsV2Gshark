@@ -12,7 +12,7 @@
 --
 DS_V2GSHARK_VERSION = "1.2.0" -- DO NOT CHANGE
 
-p_v2gmsg = Proto("v2gmsg","V2G Message")
+p_v2gmsg = Proto("v2gmsg", "V2G Message")
 local p_v2gmsg_info = {
     version = DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH",
@@ -21,16 +21,28 @@ local p_v2gmsg_info = {
 set_plugin_info(p_v2gmsg_info)
 
 -- Load C-Decoder
-local v2g_decoder = require('v2gLuaDecoder')
+local v2g_decoder = require("v2gLuaDecoder")
 v2g_decoder.initValidator()
-local cert_info_extractor = require('v2gX509CertInfos')
+local cert_info_extractor = require("v2gX509CertInfos")
 
 -- Settings
 p_v2gmsg.prefs["infotext"] = Pref.statictext("dSPACE V2Gshark Wireshark Plugin")
 p_v2gmsg.prefs["additionalinfo"] = Pref.statictext("powered by chargebyte cbExiGen")
 p_v2gmsg.prefs["additionalinfo2"] = Pref.statictext("")
-p_v2gmsg.prefs["portrange_tlssecret"] = Pref.range("TLS secret UDP port(s)", "49152-65535", "UDP source ports of TLS secret disclosure packets.\n\nDefault: '49152-65535'", 65535)
-p_v2gmsg.prefs["portrange_v2g"] = Pref.range("V2G message TCP port(s)", "49152-65535", "TCP source ports of V2G request and response messages.\n\nDefault: '49152-65535'", 65535)
+p_v2gmsg.prefs["portrange_tlssecret"] =
+    Pref.range(
+    "TLS secret UDP port(s)",
+    "49152-65535",
+    "UDP source ports of TLS secret disclosure packets.\n\nDefault: '49152-65535'",
+    65535
+)
+p_v2gmsg.prefs["portrange_v2g"] =
+    Pref.range(
+    "V2G message TCP port(s)",
+    "49152-65535",
+    "TCP source ports of V2G request and response messages.\n\nDefault: '49152-65535'",
+    65535
+)
 p_v2gmsg.prefs["additionalinfo3"] = Pref.statictext("")
 p_v2gmsg.prefs["versioninfo"] = Pref.statictext("Version " .. DS_V2GSHARK_VERSION)
 
@@ -48,7 +60,7 @@ selected_schema_at_packet_nr = {} -- maps packet number of SAP res to ProtocolNa
 
 -- Wireshark: ProtoFields init
 local f_entry = ProtoField.string("v2gmsg.entry", " ")
-local f_schema = ProtoField.string("v2gmsg.schema", "Schema",base.ASCII)
+local f_schema = ProtoField.string("v2gmsg.schema", "Schema", base.ASCII)
 local f_exi = ProtoField.string("v2gmsg.exi", "EXI", base.ASCII)
 local f_xml = ProtoField.string("v2gmsg.xml", "Decoded XML", base.ASCII)
 local f_msg = ProtoField.string("v2gmsg.msgname", "Message", base.ASCII)
@@ -57,12 +69,29 @@ local f_validation = ProtoField.string("v2gmsg.validation", "Message Validation"
 p_v2gmsg.fields = {f_schema, f_exi, f_msg, f_entry, f_xml, f_validation}
 
 local values_to_plot = {
-    "EVTargetVoltage","EVTargetCurrent","EVSEPresentVoltage","EVSEPresentCurrent", -- common
-    "EVRESSSOC","EVRESSSOC","EVMaximumVoltageLimit","EVMaximumCurrentLimit","EVSEMaximumVoltageLimit","EVSEMaximumCurrentLimit", -- DIN/ISO2
-    "EVPresentVoltage","PresentSOC","EVMaximumVoltage","EVMinimumVoltage","EVMaximumChargeCurrent","EVSEMaximumVoltage","EVSEMaximumChargeCurrent" -- ISO20
+    -- common
+    "EVTargetVoltage",
+    "EVTargetCurrent",
+    "EVSEPresentVoltage",
+    "EVSEPresentCurrent",
+    -- DIN/ISO2:
+    "EVRESSSOC",
+    "EVRESSSOC",
+    "EVMaximumVoltageLimit",
+    "EVMaximumCurrentLimit",
+    "EVSEMaximumVoltageLimit",
+    "EVSEMaximumCurrentLimit",
+    -- ISO20
+    "EVPresentVoltage",
+    "PresentSOC",
+    "EVMaximumVoltage",
+    "EVMinimumVoltage",
+    "EVMaximumChargeCurrent",
+    "EVSEMaximumVoltage",
+    "EVSEMaximumChargeCurrent"
 }
 local f_plot_fields = {} -- maps value name to iograph-field
-for k,value in pairs(values_to_plot) do
+for k, value in pairs(values_to_plot) do
     f_plot_fields[value] = ProtoField.double("v2gmsg.xml.iograph." .. value, "I/O Graph Value")
     table.insert(p_v2gmsg.fields, f_plot_fields[value])
 end
@@ -70,19 +99,25 @@ end
 local MAX_FIELD_STR_LEN = 150
 
 local ef_warning_generic = ProtoExpert.new("v2gmsg.warning", "V2G Warning", expert.group.PROTOCOL, expert.severity.WARN)
-local ef_warning_validation = ProtoExpert.new("v2gmsg.warning.validation", "V2G-Message validation failed", expert.group.PROTOCOL, expert.severity.WARN)
+local ef_warning_validation =
+    ProtoExpert.new(
+    "v2gmsg.warning.validation",
+    "V2G-Message validation failed",
+    expert.group.PROTOCOL,
+    expert.severity.WARN
+)
 local ef_error_generic = ProtoExpert.new("v2gmsg.error", "V2G Error", expert.group.UNDECODED, expert.severity.ERROR)
 p_v2gmsg.experts = {ef_warning_generic, ef_warning_validation, ef_error_generic}
 
 local schema_namespace_to_schema_ID = {}
-schema_namespace_to_schema_ID["urn:iso:15118:2:2010:AppProtocol"]         = "SAP"
-schema_namespace_to_schema_ID["urn:din:70121:2012:MsgDef"]                = "DIN"
-schema_namespace_to_schema_ID["urn:iso:15118:2:2013:MsgDef"]              = "ISO-2"
+schema_namespace_to_schema_ID["urn:iso:15118:2:2010:AppProtocol"] = "SAP"
+schema_namespace_to_schema_ID["urn:din:70121:2012:MsgDef"] = "DIN"
+schema_namespace_to_schema_ID["urn:iso:15118:2:2013:MsgDef"] = "ISO-2"
 schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:CommonMessages"] = "ISO-20 CM"
-schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:DC"]             = "ISO-20 DC"
-schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:AC"]             = "ISO-20 AC"
-schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:ACDP"]           = "ISO-20 ACDP"
-schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:WPT"]            = "ISO-20 WPT"
+schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:DC"] = "ISO-20 DC"
+schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:AC"] = "ISO-20 AC"
+schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:ACDP"] = "ISO-20 ACDP"
+schema_namespace_to_schema_ID["urn:iso:std:iso:15118:-20:WPT"] = "ISO-20 WPT"
 
 -- reset everything on init (e.g., if new pcap is opened on same instance)
 function p_v2gmsg.init()
@@ -115,7 +150,7 @@ local function decode_v2g_message(schema, exi_string, packet_number)
             errn = errn_auto
         end
     end
-    
+
     decoded_with_schema_namespace[packet_number] = xml_schema
     decoded_error_code[packet_number] = errn
     return xml_out
@@ -132,7 +167,6 @@ end
 local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo)
     local new_element
     if xml_table.value ~= "" then
-
         -- special handling for certificates
         if xml_table.name == "Certificate" or xml_table.name == "OEMProvisioningCert" then
             local cert_element = tree_out:add(dissector_field, xml_table.value)
@@ -142,11 +176,30 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
                 cert_element:set_text(xml_table.name .. ": " .. xml_table.value)
             end
 
-            local valid, subj, issuer, version, serial, not_before, not_after, sig_algo, sig_value, pk_algo, spk_curve, spk_pub, v3_constraint, v3_constraint_CA, v3_key_usage, v3_key_usage_crit, v3_sk_ID, v3_sk_ID_crit = cert_info_extractor.getX509Infos(xml_table.value)
+            local valid,
+                subj,
+                issuer,
+                version,
+                serial,
+                not_before,
+                not_after,
+                sig_algo,
+                sig_value,
+                pk_algo,
+                spk_curve,
+                spk_pub,
+                v3_constraint,
+                v3_constraint_CA,
+                v3_key_usage,
+                v3_key_usage_crit,
+                v3_sk_ID,
+                v3_sk_ID_crit = cert_info_extractor.getX509Infos(xml_table.value)
             if valid then
                 cert_element:add(dissector_field, subj):set_text("Subject: " .. subj)
                 cert_element:add(dissector_field, issuer):set_text("Issuer: " .. issuer)
-                cert_element:add(dissector_field, version):set_text("Version: v" .. (version + 1) .. " (" .. version .. ")") -- certificate version is always +1 according to the standard
+                cert_element:add(dissector_field, version):set_text(
+                    "Version: v" .. (version + 1) .. " (" .. version .. ")"
+                ) -- certificate version is always +1 according to the standard
                 cert_element:add(dissector_field, serial):set_text("Serial Number: 0x" .. serial)
                 cert_element:add(dissector_field, not_before):set_text("Not Valid Before: " .. not_before)
                 cert_element:add(dissector_field, not_after):set_text("Not Valid After: " .. not_after)
@@ -158,7 +211,9 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
                 local x509_v3_element = cert_element:add(dissector_field, "X509v3")
                 x509_v3_element:set_text("X509v3")
                 x509_v3_element:add(dissector_field, v3_constraint):set_text("Basic Constraint: " .. v3_constraint)
-                x509_v3_element:add(dissector_field, v3_constraint_CA):set_text("Basic Constraint CA: " .. v3_constraint_CA)
+                x509_v3_element:add(dissector_field, v3_constraint_CA):set_text(
+                    "Basic Constraint CA: " .. v3_constraint_CA
+                )
                 x509_v3_element:add(dissector_field, v3_key_usage_crit):set_text("Key Usage: " .. v3_key_usage_crit)
                 x509_v3_element:add(dissector_field, v3_key_usage):set_text("Key Usage: " .. v3_key_usage)
                 x509_v3_element:add(dissector_field, v3_sk_ID_crit):set_text("Subject Key ID: " .. v3_sk_ID_crit)
@@ -177,10 +232,10 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
 
     -- physical value type (15118-2/DIN)
     local calc_value = nil
-    if #xml_table.children == 3 and
-        xml_table.children[1].name == "Multiplier" and
-        xml_table.children[2].name == "Unit" and
-        xml_table.children[3].name == "Value" then
+    if
+        #xml_table.children == 3 and xml_table.children[1].name == "Multiplier" and xml_table.children[2].name == "Unit" and
+            xml_table.children[3].name == "Value"
+     then
         -- 15118-2 physical value type
         calc_value = tonumber(xml_table.children[3].value) * 10 ^ tonumber(xml_table.children[1].value)
 
@@ -191,18 +246,30 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
         end
 
         if unit == "s" then
-            local h = math.floor(calc_value/3600)
-            local m = math.floor((calc_value - h * 3600)/ 60)
+            local h = math.floor(calc_value / 3600)
+            local m = math.floor((calc_value - h * 3600) / 60)
             local s = calc_value % 60
             local appendix
-            if pcall(function() appendix = string.format(": %02d:%02d:%02d [hh:mm:ss]", h, m, s) end) == false then
+            if
+                pcall(
+                    function()
+                        appendix = string.format(": %02d:%02d:%02d [hh:mm:ss]", h, m, s)
+                    end
+                ) == false
+             then
                 appendix = ": ?"
                 add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
             end
             new_element:append_text(appendix)
         else
             local appendix
-            if pcall(function() appendix = string.format(": %s%s", tostring(calc_value):gsub(",","."), unit) end) == false then
+            if
+                pcall(
+                    function()
+                        appendix = string.format(": %s%s", tostring(calc_value):gsub(",", "."), unit)
+                    end
+                ) == false
+             then
                 appendix = ": ?"
                 add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
             end
@@ -211,13 +278,15 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
     end
 
     -- rational number type (15118-20 + DIN without unnit)
-    if #xml_table.children == 2 and
-        (xml_table.children[1].name == "Exponent" or xml_table.children[1].name == "Multiplier") and
-        xml_table.children[2].name == "Value" then
+    if
+        #xml_table.children == 2 and
+            (xml_table.children[1].name == "Exponent" or xml_table.children[1].name == "Multiplier") and
+            xml_table.children[2].name == "Value"
+     then
         calc_value = tonumber(xml_table.children[2].value) * 10 ^ tonumber(xml_table.children[1].value)
-        new_element:append_text(": " .. tostring(calc_value):gsub(",","."))
+        new_element:append_text(": " .. tostring(calc_value):gsub(",", "."))
     end
- 
+
     -- add I/O Graph fields
     for name, field in pairs(f_plot_fields) do
         if name == xml_table.name then
@@ -247,7 +316,7 @@ local function parse_XML(xml_string)
     local xml_table = {name = "root", attributes = "", parent = nil, children = {}, value = ""}
     local current_element = xml_table
 
-    for op, tag, attr, unary, val in string.gmatch(xml_string:gsub("\n",""), "<(%/?)([%w_:-]+)(.-)(%/?)>([^<]*)") do
+    for op, tag, attr, unary, val in string.gmatch(xml_string:gsub("\n", ""), "<(%/?)([%w_:-]+)(.-)(%/?)>([^<]*)") do
         if op == "/" then
             -- close the current element
             current_element = current_element.parent
@@ -272,19 +341,19 @@ local function parse_XML(xml_string)
 end
 
 local function process_SAP(data, packet_number)
-    for sap_type in data:gmatch'<[^:]+:supportedAppProtocol([^ >]+)' do
+    for sap_type in data:gmatch "<[^:]+:supportedAppProtocol([^ >]+)" do
         -- the SAP-req contains a list of protocols from which one is selected in the SAP-Res by the concrete ID
         if sap_type == "Req" then
-            for protocol_entry in data:gmatch'<AppProtocol>(.-)</AppProtocol>' do
-                local proto_namespace = protocol_entry:match'<ProtocolNamespace>(.-)</ProtocolNamespace>'
-                local proto_ID = protocol_entry:match'<SchemaID>(.-)</SchemaID>'
+            for protocol_entry in data:gmatch "<AppProtocol>(.-)</AppProtocol>" do
+                local proto_namespace = protocol_entry:match "<ProtocolNamespace>(.-)</ProtocolNamespace>"
+                local proto_ID = protocol_entry:match "<SchemaID>(.-)</SchemaID>"
                 if proto_namespace ~= nil and proto_ID ~= nil then
                     last_schema_list_SAP_req[proto_ID] = proto_namespace
                 -- else: the request is invalid
                 end
             end
         elseif sap_type == "Res" and selected_schema_at_packet_nr[packet_number] == nil then
-            local selected_ID = data:match'<SchemaID>(.-)</SchemaID>'
+            local selected_ID = data:match "<SchemaID>(.-)</SchemaID>"
             if selected_ID ~= nil then
                 selected_schema_at_packet_nr[packet_number] = last_schema_list_SAP_req[selected_ID]
                 last_schema_list_SAP_req = {}
@@ -295,7 +364,7 @@ local function process_SAP(data, packet_number)
 end
 
 local function get_message_name(data)
-    local message_name = data:match'><(.-)[ >]' -- SAP / -20
+    local message_name = data:match "><(.-)[ >]" -- SAP / -20
 
     if message_name ~= nil then
         local prefix_at = message_name:find(":") -- cut prefix
@@ -303,7 +372,7 @@ local function get_message_name(data)
             message_name = message_name:sub(prefix_at + 1)
         end
         if message_name == "V2G_Message" then
-            message_name = data:match'Body><(.-)[/ >]' -- ISO-2/DIN
+            message_name = data:match "Body><(.-)[/ >]" -- ISO-2/DIN
             prefix_at = message_name:find(":") -- cut prefix
             if prefix_at ~= nil then
                 message_name = message_name:sub(prefix_at + 1)
@@ -351,7 +420,12 @@ function p_v2gmsg.dissector(buf, pinfo, root)
         if xml_data == nil then
             -- decoding failed
             pinfo.cols.info = "V2GMSG - Decoding failed"
-            add_expert_info("Decoding failed! Is the schema and payload-type correct?", subtree, pinfo, ef_error_generic)
+            add_expert_info(
+                "Decoding failed! Is the schema and payload-type correct?",
+                subtree,
+                pinfo,
+                ef_error_generic
+            )
             return
         end
 
@@ -379,7 +453,12 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                     end
                 end
                 if validation_buffer[pinfo.number] ~= nil then
-                    add_expert_info("This message is invalid: " .. validation_buffer[pinfo.number]:sub(1,-2), subtree, pinfo, ef_warning_validation)
+                    add_expert_info(
+                        "This message is invalid: " .. validation_buffer[pinfo.number]:sub(1, -2),
+                        subtree,
+                        pinfo,
+                        ef_warning_validation
+                    )
                 end
             end
         end
@@ -392,7 +471,12 @@ function p_v2gmsg.dissector(buf, pinfo, root)
         if xml_data == nil then
             -- decoding failed
             pinfo.cols.info = "V2GMSG - Decoding failed"
-            add_expert_info("Decoding failed! Is the schema and payload-type correct?", subtree, pinfo, ef_error_generic)
+            add_expert_info(
+                "Decoding failed! Is the schema and payload-type correct?",
+                subtree,
+                pinfo,
+                ef_error_generic
+            )
             return
         end
 
@@ -411,20 +495,32 @@ function p_v2gmsg.dissector(buf, pinfo, root)
         end
 
         -- add XML data
-        ByteArray.tvb(ByteArray.new(xml_data, true), "XML Data");
+        ByteArray.tvb(ByteArray.new(xml_data, true), "XML Data")
         metadata_tree:add(f_xml, xml_data)
 
         local decoded_schema = decoded_with_schema_namespace[pinfo.number]
         if decoded_schema ~= nil then
             -- check decode error
             if decoded_error_code[pinfo.number] ~= 0 then
-                add_expert_info("Decoding failed (" .. decoded_error_code[pinfo.number] .. ")! The decoded message is partially or completely invalid!", subtree, pinfo, ef_error_generic)
+                add_expert_info(
+                    "Decoding failed (" ..
+                        decoded_error_code[pinfo.number] .. ")! The decoded message is partially or completely invalid!",
+                    subtree,
+                    pinfo,
+                    ef_error_generic
+                )
             end
 
             -- add validation error message if available
             if validation_buffer[pinfo.number] ~= nil then
-                validation_tree = metadata_tree:add(f_validation, "Failed! " .. validation_buffer[pinfo.number]:sub(1,-2))
-                add_expert_info("This message is invalid: " .. validation_buffer[pinfo.number]:sub(1,-2), validation_tree, pinfo, ef_warning_validation)
+                validation_tree =
+                    metadata_tree:add(f_validation, "Failed! " .. validation_buffer[pinfo.number]:sub(1, -2))
+                add_expert_info(
+                    "This message is invalid: " .. validation_buffer[pinfo.number]:sub(1, -2),
+                    validation_tree,
+                    pinfo,
+                    ef_warning_validation
+                )
             else
                 metadata_tree:add(f_validation, "Successful")
             end
@@ -450,7 +546,12 @@ function p_v2gmsg.dissector(buf, pinfo, root)
             pinfo.cols.protocol = "V2GMSG (Decode Error)"
             metadata_tree:add(f_schema, "Decode Error")
             metadata_tree:add(f_validation, "Skipped (Decode Error)")
-            add_expert_info("Decoding failed! The decoded message is partially or completely invalid!", subtree, pinfo, ef_error_generic)
+            add_expert_info(
+                "Decoding failed! The decoded message is partially or completely invalid!",
+                subtree,
+                pinfo,
+                ef_error_generic
+            )
             add_xml_table_to_tree(parse_XML(xml_data), subtree, f_entry, pinfo)
         end
     end
