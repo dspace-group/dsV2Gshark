@@ -10,7 +10,7 @@ OBJECTS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SOURCE))
 DEPS = $(patsubst %.h,$(OBJ_DIR)/%.d,$(HEADER))
 INCLUDES = $(wildcard */.)
 LFLAGS = $(foreach d, $(INCLUDES), -I"$(d)") -MP -MD
-FLAGS = -c -Wall -O3
+FLAGS = -c -Wall -O3 -fPIC
 
 build: $(OBJECTS)
 
