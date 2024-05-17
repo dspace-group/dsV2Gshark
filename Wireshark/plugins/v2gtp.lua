@@ -174,7 +174,9 @@ end
 -- initialization routine
 function p_v2gtp.init()
     -- register v2g ports
-    DissectorTable.get("udp.port"):add(p_v2gtp.prefs["portrange_v2g"], p_v2gtp)
+    DissectorTable.get("udp.port"):add(15118, p_v2gtp)
+    DissectorTable.get("tcp.port"):add(15118, p_v2gtp)
+    DissectorTable.get("tls.port"):add(15118, p_v2gtp)
     DissectorTable.get("tls.port"):add(p_v2gtp.prefs["portrange_v2g"], p_v2gtp)
     DissectorTable.get("tcp.port"):add(p_v2gtp.prefs["portrange_v2g"], p_v2gtp)
 end
