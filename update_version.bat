@@ -29,15 +29,15 @@ for /F delims^=^ eol^= %%A in ('%SystemRoot%\System32\findstr.exe /N "^" "%FileN
 ) >>"%TempFile%"
 move /y %TempFile% %FileName%
 
-:: update v2gmsg.lua
-set "FileName=.\Wireshark\plugins\v2gmsg.lua"
+:: update v2gshared.lua
+set "FileName=.\Wireshark\plugins\v2gshared.lua"
 del "%TempFile%" 2>nul
 for /F delims^=^ eol^= %%A in ('%SystemRoot%\System32\findstr.exe /N "^" "%FileName%"') do (
     set "Line=%%A"
     setlocal EnableDelayedExpansion
-    if not "!Line:DS_V2GSHARK_VERSION=!" == "!Line!" (
+    if not "!Line:v2gshared.DS_V2GSHARK_VERSION=!" == "!Line!" (
         if not "!Line:DO NOT CHANGE=!" == "!Line!" (
-            echo DS_V2GSHARK_VERSION = "%newVersion%" -- DO NOT CHANGE
+            echo v2gshared.DS_V2GSHARK_VERSION = "%newVersion%" -- DO NOT CHANGE
         ) else echo(!Line:*:=!
     ) else echo(!Line:*:=!
     endlocal

@@ -39,7 +39,7 @@ jobs:
     - name: Upload Win64 Files
       uses: actions/upload-artifact@v4
       with:
-        name: dsV2Gshark_Files_Win_x64 
+        name: dsV2Gshark_Files_Win_x86_64 
         path: artifact_dir/*
 
   build-linux:

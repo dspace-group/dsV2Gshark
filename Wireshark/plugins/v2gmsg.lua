@@ -10,11 +10,45 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-DS_V2GSHARK_VERSION = "1.3.0" -- DO NOT CHANGE
+
+-- do OS specific stuff, required to load v2g libs
+if package.config:sub(1, 1) == "\\" then
+    local plugins_path = debug.getinfo(1, "S").source:sub(2):match("(.*[/\\])") or "./" -- path of this lua script
+    local wireshark_path = plugins_path .. "../"
+
+    -- extend path (where to load .lua files)
+    if not string.find(plugins_path, package.path) then
+        package.path = package.path .. ";" .. plugins_path .. "?.lua"
+    end
+
+    -- extend cpath (where to load .so files)
+    if not string.find(wireshark_path, package.cpath) then
+        package.cpath = package.cpath .. ";" .. wireshark_path .. "?.dll;" .. plugins_path .. "?.dll"
+    end
+else
+    -- UNIX
+    local global_plugins_path = debug.getinfo(1, "S").source:sub(2):match("(.*/)") or "./" -- path of this lua script
+    local wireshark_path = global_plugins_path .. "../"
+    local personal_plugins_path = os.getenv("HOME") .. "/.local/lib/wireshark/"
+
+    -- extend path (where to load .lua files)
+    if not string.find(global_plugins_path, package.path) then
+        package.path = package.path .. ";" .. global_plugins_path .. "?.lua"
+    end
+
+    -- extend cpath (where to load .so files)
+    if not string.find(wireshark_path, package.cpath) then
+        package.cpath =
+            package.cpath ..
+            ";" .. personal_plugins_path .. "?.so;" .. wireshark_path .. "?.so;" .. global_plugins_path .. "?.so"
+    end
+end
+
+local v2gshared = require("v2gshared")
 
 p_v2gmsg = Proto("v2gmsg", "V2G Message")
 local p_v2gmsg_info = {
-    version = DS_V2GSHARK_VERSION,
+    version = v2gshared.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH",
     description = "Dissector for V2G Messages (DIN 70121, ISO15118-2, ISO15118-20)"
 }
@@ -24,27 +58,6 @@ set_plugin_info(p_v2gmsg_info)
 local v2g_decoder = require("v2gLuaDecoder")
 v2g_decoder.initValidator()
 local cert_info_extractor = require("v2gX509CertInfos")
-
--- Settings
-p_v2gmsg.prefs["infotext"] = Pref.statictext("dSPACE V2Gshark Wireshark Plugin")
-p_v2gmsg.prefs["additionalinfo"] = Pref.statictext("powered by chargebyte cbExiGen")
-p_v2gmsg.prefs["additionalinfo2"] = Pref.statictext("")
-p_v2gmsg.prefs["portrange_tlssecret"] =
-    Pref.range(
-    "TLS secret UDP port(s)",
-    "49152-65535",
-    "UDP source ports of TLS secret disclosure packets.\n\nDefault: '49152-65535'",
-    65535
-)
-p_v2gmsg.prefs["portrange_v2g"] =
-    Pref.range(
-    "V2G message TCP port(s)",
-    "49152-65535",
-    "TCP source ports of V2G request and response messages.\n\nDefault: '49152-65535'",
-    65535
-)
-p_v2gmsg.prefs["additionalinfo3"] = Pref.statictext("")
-p_v2gmsg.prefs["versioninfo"] = Pref.statictext("Version " .. DS_V2GSHARK_VERSION)
 
 -- Buffer for all decoded messages. Maps packetID -> xml string (or nil)
 local xml_buffer = {}
@@ -128,10 +141,6 @@ function p_v2gmsg.init()
     decoded_with_auto_schema_detection = {}
     decoded_with_schema_namespace = {}
     decoded_error_code = {}
-
-    -- register v2g ports
-    DissectorTable.get("tls.port"):add(p_v2gmsg.prefs["portrange_v2g"], p_v2gtp)
-    DissectorTable.get("tcp.port"):add(p_v2gmsg.prefs["portrange_v2g"], p_v2gtp)
 end
 
 local function decode_v2g_message(schema, exi_string, packet_number)

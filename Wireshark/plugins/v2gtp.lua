@@ -4,13 +4,28 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
+local v2gshared = require("v2gshared")
 
 p_v2gtp = Proto("v2gtp", "V2G Transfer Protocol")
 local p_v2gtp_info = {
-    version = DS_V2GSHARK_VERSION,
+    version = v2gshared.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH"
 }
 set_plugin_info(p_v2gtp_info)
+
+-- Settings
+p_v2gtp.prefs["infotext"] = Pref.statictext("dSPACE V2Gshark Wireshark Plugin")
+p_v2gtp.prefs["additionalinfo"] = Pref.statictext("powered by chargebyte cbExiGen")
+p_v2gtp.prefs["additionalinfo2"] = Pref.statictext("")
+p_v2gtp.prefs["portrange_v2g"] =
+    Pref.range(
+    "V2G message TCP port(s)",
+    "49152-65535",
+    "TCP source ports of V2G request and response messages.\n\nDefault: '49152-65535'",
+    65535
+)
+p_v2gtp.prefs["additionalinfo3"] = Pref.statictext("")
+p_v2gtp.prefs["versioninfo"] = Pref.statictext("Version " .. v2gshared.DS_V2GSHARK_VERSION)
 
 local V2GTP_HDR_LENGTH = 8
 
@@ -158,8 +173,8 @@ end
 
 -- initialization routine
 function p_v2gtp.init()
-    -- register protocol
-    DissectorTable.get("udp.port"):add(15118, p_v2gtp)
-    DissectorTable.get("tcp.port"):add(15118, p_v2gtp)
-    DissectorTable.get("tls.port"):add(15118, p_v2gtp)
+    -- register v2g ports
+    DissectorTable.get("udp.port"):add(p_v2gtp.prefs["portrange_v2g"], p_v2gtp)
+    DissectorTable.get("tls.port"):add(p_v2gtp.prefs["portrange_v2g"], p_v2gtp)
+    DissectorTable.get("tcp.port"):add(p_v2gtp.prefs["portrange_v2g"], p_v2gtp)
 end

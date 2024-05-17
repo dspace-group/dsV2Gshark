@@ -1,5 +1,5 @@
 // DO NOT CHANGE VERSION HERE! Run update_version.bat
-#define AppVer "1.3.0"
+#define AppVer "1.3.1"
 #define AppId "dsV2Gshark"
 
 [Setup]
@@ -18,7 +18,7 @@ ChangesEnvironment=no
 DisableDirPage=no
 PrivilegesRequiredOverridesAllowed=dialog
 UsePreviousPrivileges=no
-OutputBaseFilename=dsV2Gshark_{#AppVer}_Setup
+OutputBaseFilename=dsV2Gshark_{#AppVer}_Win64_Setup
 DirExistsWarning=no
 DisableWelcomePage=no
 LanguageDetectionMethod=none
@@ -50,6 +50,7 @@ Name: "colorfilters"; Description: "Highlight V2G messages in Wireshark (current
 Name: "iograph"; Description: "Prepare Wireshark I/O Graphs for V2G messages{cm:Linebreak}(current user only, may override I/O Graph preferences)"; Types: full
 
 [Files]
+Source: "..\Wireshark\plugins\v2gshared.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gmsg.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gtp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gsdp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
@@ -211,10 +212,10 @@ var
   i: Integer;
 begin
   // check version of lua files
-  StringVersionPrefix := 'DS_V2GSHARK_VERSION = "';
+  StringVersionPrefix := 'v2gshared.DS_V2GSHARK_VERSION = "';
   stringVersionSuffix := '" -- DO NOT CHANGE';
-  ExtractTemporaryFile('v2gmsg.lua');
-  if LoadStringsFromFile(ExpandConstant('{tmp}\v2gmsg.lua'), Lines) then
+  ExtractTemporaryFile('v2gshared.lua');
+  if LoadStringsFromFile(ExpandConstant('{tmp}\v2gshared.lua'), Lines) then
   begin
     for i := 0 to GetArrayLength(Lines) - 1 do
     begin

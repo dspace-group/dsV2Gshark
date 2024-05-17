@@ -5,13 +5,28 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
+local v2gshared = require("v2gshared")
 
 p_v2gtlssecret = Proto("v2gtlssecret", "V2G TLS secret")
 local p_v2gtlssecret_info = {
-    version = DS_V2GSHARK_VERSION,
+    version = v2gshared.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH"
 }
 set_plugin_info(p_v2gtlssecret_info)
+
+-- Settings
+p_v2gtlssecret.prefs["infotext"] = Pref.statictext("dSPACE V2Gshark Wireshark Plugin")
+p_v2gtlssecret.prefs["additionalinfo"] = Pref.statictext("powered by chargebyte cbExiGen")
+p_v2gtlssecret.prefs["additionalinfo2"] = Pref.statictext("")
+p_v2gtlssecret.prefs["portrange_tlssecret"] =
+    Pref.range(
+    "TLS secret UDP port(s)",
+    "49152-65535",
+    "UDP source ports of TLS secret disclosure packets.\n\nDefault: '49152-65535'",
+    65535
+)
+p_v2gtlssecret.prefs["additionalinfo3"] = Pref.statictext("")
+p_v2gtlssecret.prefs["versioninfo"] = Pref.statictext("Version " .. v2gshared.DS_V2GSHARK_VERSION)
 
 local min_wireshark_version = "3.5.0"
 
@@ -204,6 +219,6 @@ end -- end function 'p_v2gtlssecret.dissector'
 -- initialization routine
 function p_v2gtlssecret.init()
     -- register tls secret ports
-    DissectorTable.get("udp.port"):add(p_v2gmsg.prefs["portrange_tlssecret"], p_v2gtlssecret)
+    DissectorTable.get("udp.port"):add(p_v2gtlssecret.prefs["portrange_tlssecret"], p_v2gtlssecret)
     frame_numbers = {}
 end
