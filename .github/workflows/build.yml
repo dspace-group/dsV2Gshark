@@ -34,7 +34,7 @@ jobs:
           mkdir artifact_dir/plugins
           cp ./Wireshark/plugins/* ./artifact_dir/plugins/
           echo "dSPACE V2Gshark Wireshark Plugin" > ./artifact_dir/README
-          echo "Please copy these files to your Wireshark installation." >> ./artifact_dir/README
+          echo "Please copy the .so files and the 'plugins' directory into your Wireshark installation or into your personal plugin directory (%appdata%/wireshark)." >> ./artifact_dir/README
 
     - name: Upload Win64 Files
       uses: actions/upload-artifact@v4
@@ -61,7 +61,7 @@ jobs:
           mkdir artifact_dir/plugins
           cp ./Wireshark/plugins/* ./artifact_dir/plugins/
           echo "dSPACE V2Gshark Wireshark Plugin" > ./artifact_dir/README
-          echo "Please copy these files to your Wireshark installation." >> ./artifact_dir/README
+          echo "Please copy the .so files and the 'plugins' directory into your Wireshark installation or into your personal plugin directory (~/.local/lib/wireshark)." >> ./artifact_dir/README
 
     - name: Upload Linux Files
       uses: actions/upload-artifact@v4

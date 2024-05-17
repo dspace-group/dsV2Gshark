@@ -60,7 +60,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - ISO 15118-20 is not fully supported yet
     - please let us know if you encounter incorrectly decoded packets
 - Linux
-    - no installer
+    - no installer, please copy the files manually into your Wireshark installation or into your personal plugin directory (~/.local/lib/wireshark)
     - filter buttons and color filters must be added manually
     - I/O graph must be configured manually
 
