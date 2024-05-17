@@ -11,37 +11,26 @@
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
 
--- do OS specific stuff, required to load v2g libs
+-- do OS specific stuff, required to properly load v2g libs
+local plugins_path -- path to the plugins directory of this script
+local lib_pattern
 if package.config:sub(1, 1) == "\\" then
-    local plugins_path = debug.getinfo(1, "S").source:sub(2):match("(.*[/\\])") or "./" -- path of this lua script
-    local wireshark_path = plugins_path .. "../"
-
-    -- extend path (where to load .lua files)
-    if not string.find(plugins_path, package.path) then
-        package.path = package.path .. ";" .. plugins_path .. "?.lua"
-    end
-
-    -- extend cpath (where to load .so files)
-    if not string.find(wireshark_path, package.cpath) then
-        package.cpath = package.cpath .. ";" .. wireshark_path .. "?.dll;" .. plugins_path .. "?.dll"
-    end
+    -- WINDOWS
+    plugins_path = debug.getinfo(1, "S").source:sub(2):match("(.*[/\\])") or "./"
+    lib_pattern = "?.dll"
 else
     -- UNIX
-    local global_plugins_path = debug.getinfo(1, "S").source:sub(2):match("(.*/)") or "./" -- path of this lua script
-    local wireshark_path = global_plugins_path .. "../"
-    local personal_plugins_path = os.getenv("HOME") .. "/.local/lib/wireshark/"
-
+    plugins_path = debug.getinfo(1, "S").source:sub(2):match("(.*/)") or "./"
+    lib_pattern = "?.so"
+end
+local wireshark_path = plugins_path .. "../"
+if not string.find(plugins_path, package.path) then
     -- extend path (where to load .lua files)
-    if not string.find(global_plugins_path, package.path) then
-        package.path = package.path .. ";" .. global_plugins_path .. "?.lua"
-    end
-
+    package.path = package.path .. ";" .. plugins_path .. "?.lua"
+end
+if not string.find(wireshark_path, package.cpath) then
     -- extend cpath (where to load .so files)
-    if not string.find(wireshark_path, package.cpath) then
-        package.cpath =
-            package.cpath ..
-            ";" .. personal_plugins_path .. "?.so;" .. wireshark_path .. "?.so;" .. global_plugins_path .. "?.so"
-    end
+    package.cpath = package.cpath .. ";" .. wireshark_path .. lib_pattern .. ";" .. plugins_path .. lib_pattern
 end
 
 local v2gshared = require("v2gshared")
