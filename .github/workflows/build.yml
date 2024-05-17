@@ -33,13 +33,13 @@ jobs:
           cp ./V2G_Libraries/V2GDecoder/bin/* ./artifact_dir/
           mkdir artifact_dir/plugins
           cp ./Wireshark/plugins/* ./artifact_dir/plugins/
-          echo "dSPACE V2Gshark Wireshark Plugin" > ./artifact_dir/README
-          echo "Please copy these files to your Wireshark installation." >> ./artifact_dir/README
+          cp ./LICENSE ./artifact_dir/dsV2Gshark_LICENSE.txt
+          cp ./README.md ./artifact_dir/dsV2Gshark_README.txt
 
     - name: Upload Win64 Files
       uses: actions/upload-artifact@v4
       with:
-        name: dsV2Gshark_Files_Win_x64 
+        name: dsV2Gshark_Files_Win_x86_64 
         path: artifact_dir/*
 
   build-linux:
@@ -60,8 +60,8 @@ jobs:
           cp ./V2G_Libraries/V2GDecoder/bin/* ./artifact_dir/
           mkdir artifact_dir/plugins
           cp ./Wireshark/plugins/* ./artifact_dir/plugins/
-          echo "dSPACE V2Gshark Wireshark Plugin" > ./artifact_dir/README
-          echo "Please copy these files to your Wireshark installation." >> ./artifact_dir/README
+          cp ./LICENSE ./artifact_dir/dsV2Gshark_LICENSE.txt
+          cp ./README.md ./artifact_dir/dsV2Gshark_README.txt
 
     - name: Upload Linux Files
       uses: actions/upload-artifact@v4

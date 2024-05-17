@@ -141,7 +141,7 @@ cbExiGen
 
 The license text of the 'Apache License Version 2.0' can be found in APPENDIX A.
 
-Wireshark 4.2.4
+Wireshark 4.2.5
   Copyright:
     Copyright 1998-2024 Gerald Combs <gerald@wireshark.org> and contributors
   Repository: https://gitlab.com/wireshark/wireshark
@@ -149,7 +149,7 @@ Wireshark 4.2.4
 
 The license text of the 'GNU GENERAL PUBLIC LICENSE v2.0' can be found in APPENDIX A.
 
-GnuTLS 3.8.3
+GnuTLS 3.8.4
   URL: https://www.gnutls.org/
   License: GnuTLS License
 
