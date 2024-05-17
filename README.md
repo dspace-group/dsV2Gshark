@@ -48,6 +48,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 
 ## Installation notes
 - The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest)
+- To use the plugin without installer, download the zipped files from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest) and copy its content manually into your Wireshark installation or into your personal plugin directory (Windows: %appdata%/wireshark/, Linux: ~/.local/lib/wireshark/). The filter buttons, color filter and I/O Graph configuration must be added manually in this case.
 - When updating Wireshark, please reinstall the plugin to avoid any warnings
 - Not compatible with other V2G dissector plugins. Please uninstall these plugins before installing dsV2Gshark.
 - Not compatible with 32 bit versions of Wireshark.
@@ -60,8 +61,8 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - ISO 15118-20 is not fully supported yet
     - please let us know if you encounter incorrectly decoded packets
 - Linux
-    - no installer, please copy the files manually into your Wireshark installation or into your personal plugin directory (~/.local/lib/wireshark)
-    - filter buttons and color filters must be added manually
+    - No installer, see [Installation Notes](#installation-notes). Make sure you have read permissions for all files.
+    - Filter buttons and color filters must be added manually
     - I/O graph must be configured manually
 
 ## Support
@@ -71,7 +72,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ## Further notes
 - When sniffing V2G communication, lost packets may occur, which cause corrupted TCP/TLS sessions. In that case, it may help to activate the option to ignore Message Authentication Code (MAC) check failures in the Wireshark TLS protocol settings.  
     This option can be found under Wireshark Preferences - Protocols - TLS
-- This plugin was built and tested with Wireshark 4.2.4
+- This plugin was built and tested with Wireshark 4.2.5
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 
