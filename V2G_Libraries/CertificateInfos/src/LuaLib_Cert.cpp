@@ -62,7 +62,11 @@ extern "C"
                 // function name, function reference
                 {"getX509Infos", l_getX509Infos},
                 {NULL, NULL}};
+#if LUA_VERSION_NUM > 501
         luaL_newlib(L, X509CertInfos);
+#else
+        luaL_register(L, "X509CertInfos", X509CertInfos);
+#endif
         return 1;
     }
 }

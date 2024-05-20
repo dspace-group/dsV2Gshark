@@ -17,7 +17,8 @@ BINARY=$(BINARY_DIR_OUT)/$(BINARY_FILE)
 FLAGS_COMMON = -Wall -O3 -MP -MD -fPIC
 FLAGS_LIB	 = -shared -static-libstdc++ -static-libgcc
 
-IFLAGS = -I"../Third_Party/lua/lua-5.2.4/include" -I"../Third_Party/zlib/include" -I"../Third_Party/libxml2/include/libxml2"
+LUAFLAGS ?= -I"../Third_Party/lua/lua-5.2.4/include"
+IFLAGS = ${LUAFLAGS} -I"../Third_Party/zlib/include" -I"../Third_Party/libxml2/include/libxml2"
 
 # CBV2G
 PATH_CBV2G = ../Third_Party/cbv2g

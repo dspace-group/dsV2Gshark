@@ -149,7 +149,11 @@ extern "C"
                 {"initValidator", l_validate_init},
                 {"cleanupValidator", l_validate_cleanup},
                 {NULL, NULL}};
+#if LUA_VERSION_NUM > 501
         luaL_newlib(L, LuaDecoderLib);
+#else
+        luaL_register(L, "LuaDecoder", LuaDecoderLib);
+#endif
         return 1;
     }
 }
