@@ -5,11 +5,11 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-local v2gshared = require("v2gshared")
+local v2gcommon = require("v2gcommon")
 
 p_v2gtlssecret = Proto("v2gtlssecret", "V2G TLS secret")
 local p_v2gtlssecret_info = {
-    version = v2gshared.DS_V2GSHARK_VERSION,
+    version = v2gcommon.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH"
 }
 set_plugin_info(p_v2gtlssecret_info)
@@ -26,7 +26,7 @@ p_v2gtlssecret.prefs["portrange_tlssecret"] =
     65535
 )
 p_v2gtlssecret.prefs["additionalinfo3"] = Pref.statictext("")
-p_v2gtlssecret.prefs["versioninfo"] = Pref.statictext("Version " .. v2gshared.DS_V2GSHARK_VERSION)
+p_v2gtlssecret.prefs["versioninfo"] = Pref.statictext("Version " .. v2gcommon.DS_V2GSHARK_VERSION)
 
 local min_wireshark_version = "3.5.0"
 

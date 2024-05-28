@@ -4,12 +4,12 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-local v2gshared = require("v2gshared")
+local v2gcommon = require("v2gcommon")
 
 p_sdpreq = Proto("v2gsdp-req", "V2G SECC Discovery Protocol Request")
 p_sdpres = Proto("v2gsdp-res", "V2G SECC Discovery Protocol Response")
 local p_v2gsdp_info = {
-    version = v2gshared.DS_V2GSHARK_VERSION,
+    version = v2gcommon.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH"
 }
 set_plugin_info(p_v2gsdp_info)

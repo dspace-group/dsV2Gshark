@@ -4,11 +4,11 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-local v2gshared = require("v2gshared")
+local v2gcommon = require("v2gcommon")
 
 p_v2gtp = Proto("v2gtp", "V2G Transfer Protocol")
 local p_v2gtp_info = {
-    version = v2gshared.DS_V2GSHARK_VERSION,
+    version = v2gcommon.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH"
 }
 set_plugin_info(p_v2gtp_info)
@@ -25,7 +25,7 @@ p_v2gtp.prefs["portrange_v2g"] =
     65535
 )
 p_v2gtp.prefs["additionalinfo3"] = Pref.statictext("")
-p_v2gtp.prefs["versioninfo"] = Pref.statictext("Version " .. v2gshared.DS_V2GSHARK_VERSION)
+p_v2gtp.prefs["versioninfo"] = Pref.statictext("Version " .. v2gcommon.DS_V2GSHARK_VERSION)
 
 local V2GTP_HDR_LENGTH = 8
 

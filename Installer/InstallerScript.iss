@@ -50,7 +50,7 @@ Name: "colorfilters"; Description: "Highlight V2G messages in Wireshark (current
 Name: "iograph"; Description: "Prepare Wireshark I/O Graphs for V2G messages{cm:Linebreak}(current user only, may override I/O Graph preferences)"; Types: full
 
 [Files]
-Source: "..\Wireshark\plugins\v2gshared.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
+Source: "..\Wireshark\plugins\v2gcommon.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gmsg.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gtp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gsdp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
@@ -64,6 +64,7 @@ Source: "dsV2Gshark_README.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_README.
 Type: filesandordirs; Name: "{app}\luaV2Gdecoder.dll"
 Type: filesandordirs; Name: "{app}\X509CertInfos.dll"
 Type: filesandordirs; Name: "{app}\plugins\v2gmsg_generic.lua"
+Type: filesandordirs; Name: "{app}\plugins\v2gmsg_shared.lua"
 
 [Code]
 function HasWriteAccessToApp: Boolean;
@@ -212,10 +213,10 @@ var
   i: Integer;
 begin
   // check version of lua files
-  StringVersionPrefix := 'v2gshared.DS_V2GSHARK_VERSION = "';
+  StringVersionPrefix := 'v2gcommon.DS_V2GSHARK_VERSION = "';
   stringVersionSuffix := '" -- DO NOT CHANGE';
-  ExtractTemporaryFile('v2gshared.lua');
-  if LoadStringsFromFile(ExpandConstant('{tmp}\v2gshared.lua'), Lines) then
+  ExtractTemporaryFile('v2gcommon.lua');
+  if LoadStringsFromFile(ExpandConstant('{tmp}\v2gcommon.lua'), Lines) then
   begin
     for i := 0 to GetArrayLength(Lines) - 1 do
     begin
