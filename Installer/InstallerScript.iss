@@ -43,8 +43,9 @@ Name: "plugin/decoder"; Description: "EXI decoder (powered by chargebyte cbexige
 Name: "plugin/decoder/din"; Description: "DIN 70121 support"; Types: full custom; Flags: fixed
 Name: "plugin/decoder/iso2"; Description: "ISO 15118-2 support"; Types: full custom; Flags: fixed
 Name: "plugin/decoder/iso20"; Description: "ISO 15118-20 support (experimental)"; Types: full custom; Flags: fixed
-Name: "plugin/autoschema"; Description: "Automatic schema detection"; Types: full custom; Flags: fixed    
+Name: "plugin/autoschema"; Description: "Automatic schema detection"; Types: full custom; Flags: fixed
 Name: "plugin/autodecrypt"; Description: "Live TLS decryption with disclosed master secret from UDP packet"; Types: full custom;
+Name: "plugin/llc_diagnostic"; Description: "Additional dissector for CP-State related Homeplug AV packets"; Types: full custom;
 Name: "buttons"; Description: "Add filter buttons to Wireshark (current user only)"; Types: full
 Name: "colorfilters"; Description: "Highlight V2G messages in Wireshark (current user only)"; Types: full
 Name: "iograph"; Description: "Prepare Wireshark I/O Graphs for V2G messages{cm:Linebreak}(current user only, may override I/O Graph preferences)"; Types: full
@@ -55,6 +56,7 @@ Source: "..\Wireshark\plugins\v2gmsg.lua"; DestDir: "{app}\plugins"; Flags: igno
 Source: "..\Wireshark\plugins\v2gtp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gsdp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gtlssecret.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/autodecrypt
+Source: "..\Wireshark\plugins\v2gllc.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/llc_diagnostic
 Source: "..\Wireshark\*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/decoder
 Source: "..\LICENSE"; DestDir: "{app}"; DestName: "dsV2Gshark_LICENSE.txt"; Flags: ignoreversion;
 Source: "..\OSSAcknowledgements.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_OSSAcknowledgements.txt"; Flags: ignoreversion recursesubdirs;
@@ -64,7 +66,7 @@ Source: "dsV2Gshark_README.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_README.
 Type: filesandordirs; Name: "{app}\luaV2Gdecoder.dll"
 Type: filesandordirs; Name: "{app}\X509CertInfos.dll"
 Type: filesandordirs; Name: "{app}\plugins\v2gmsg_generic.lua"
-Type: filesandordirs; Name: "{app}\plugins\v2gmsg_shared.lua"
+Type: filesandordirs; Name: "{app}\plugins\v2gshared.lua"
 
 [Code]
 function HasWriteAccessToApp: Boolean;
@@ -272,7 +274,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 var
   FileName: string;
   Lines: TArrayOfString;
-  StringsToCheck, StringsToAdd: TArrayOfString;
+  StringsToCheck, StringsToAdd, StringsToRemove: TArrayOfString;
 begin
   // add wireshark filter buttons after installation
   if (CurStep = ssPostInstall) then               
@@ -336,9 +338,13 @@ begin
                         '"Disabled","[ISO20] Max Current EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumChargeCurrent","None","1"',
                         '"Disabled","[ISO20] Max Voltage EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumVoltage","None","1"',
                         '"Disabled","[ISO20] Max Current EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumChargeCurrent","None","1"',
-                        '"Disabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug_av.st_iotecha.cpstate.state","None","20"'];
+                        '"Disabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug-av-llc.cpstate","None","20"',
+                        '"Disabled","(disabled_filter_button1)","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","#5C3566","Line","Packets","","None","1"',
+                        '"Disabled","(disabled_filter_button2)","v2gtp or v2gtlssecret","#FFFFFF","Line","Packets","","None","1"'];
+      StringsToRemove := ['"Disabled","CP State","","#FFFFFF","Dot","AVG(Y Field)","homeplug_av.st_iotecha.cpstate.state","None","20"'];
       if FileExists(FileName) then
       begin
+        RemoveFromFile(FileName, StringsToRemove);
         if not PrependStringsToFile(FileName, StringsToAdd) then
           MsgBox('Failed to add I/O Graph presets to Wireshark!', mbError, MB_OK);
       end
