@@ -94,7 +94,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
     local info_strings = {}
 
     -- one UDP packet may contain several lines, check each line
-    for line in str:gmatch "[^\r\n]+" do
+    for line in str:gmatch "[^\r\n\0]+" do
         -- check if this is really a secret
         local match = line:match "^([%u_]+)%d* %x+ %x+$"
         if match == nil then
