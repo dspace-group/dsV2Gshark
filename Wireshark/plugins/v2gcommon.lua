@@ -5,7 +5,7 @@
 --
 
 -- do OS specific stuff, required to properly load v2g libs
-local plugins_path -- path to the plugins directory of this script
+local plugins_path  -- path to the plugins directory of this script
 local lib_pattern
 if package.config:sub(1, 1) == "\\" then
     -- WINDOWS
@@ -25,7 +25,6 @@ if not string.find(wireshark_path, package.cpath) then
     -- extend cpath (where to load .so files)
     package.cpath = package.cpath .. ";" .. wireshark_path .. lib_pattern .. ";" .. plugins_path .. lib_pattern
 end
-
 
 local v2gcommon = {}
 

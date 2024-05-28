@@ -56,8 +56,8 @@ p_v2gtlssecret.experts = {ef_io_error, ef_bad_version}
 
 -- verify tshark/wireshark version is compatible
 local function check_version(required_version)
-    major_req, minor_req, micro_req = required_version:match("(%d+)%.(%d+)%.(%d+)")
-    major, minor, micro = get_version():match("(%d+)%.(%d+)%.(%d+)")
+    local major_req, minor_req, micro_req = required_version:match("(%d+)%.(%d+)%.(%d+)")
+    local major, minor, micro = get_version():match("(%d+)%.(%d+)%.(%d+)")
 
     if
         (tonumber(major) < tonumber(major_req)) or

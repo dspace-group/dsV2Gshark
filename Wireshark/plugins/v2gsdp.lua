@@ -34,7 +34,7 @@ function p_sdpreq.dissector(buf, pinfo, root)
     pinfo.cols.protocol = "V2GMSG (SDP)"
 
     -- create subtree
-    subtree = root:add(p_sdpreq, buf(0))
+    local subtree = root:add(p_sdpreq, buf(0))
 
     -- add protocol fields to subtree
 

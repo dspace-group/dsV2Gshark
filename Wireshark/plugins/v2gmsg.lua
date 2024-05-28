@@ -71,7 +71,7 @@ local values_to_plot = {
     "EVSEMaximumChargeCurrent"
 }
 local f_plot_fields = {} -- maps value name to iograph-field
-for k, value in pairs(values_to_plot) do
+for _, value in pairs(values_to_plot) do
     f_plot_fields[value] = ProtoField.double("v2gmsg.xml.iograph." .. value, "I/O Graph Value")
     table.insert(p_v2gmsg.fields, f_plot_fields[value])
 end
@@ -111,8 +111,7 @@ function p_v2gmsg.init()
 end
 
 local function decode_v2g_message(schema, exi_string, packet_number)
-    local xml_out
-    local xml_schema
+    local xml_out, xml_schema, errn
 
     decoded_with_auto_schema_detection[packet_number] = false
     xml_out, xml_schema, errn = v2g_decoder.decodeV2GExi(schema, exi_string)
