@@ -10,7 +10,8 @@ local v2gcommon = require("v2gcommon")
 p_v2gtlssecret = Proto("v2gtlssecret", "V2G TLS secret")
 local p_v2gtlssecret_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH"
+    author = "dSPACE GmbH",
+    repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gtlssecret_info)
 

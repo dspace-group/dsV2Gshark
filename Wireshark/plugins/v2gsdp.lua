@@ -10,7 +10,8 @@ p_sdpreq = Proto("v2gsdp-req", "V2G SECC Discovery Protocol Request")
 p_sdpres = Proto("v2gsdp-res", "V2G SECC Discovery Protocol Response")
 local p_v2gsdp_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH"
+    author = "dSPACE GmbH",
+    repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gsdp_info)
 

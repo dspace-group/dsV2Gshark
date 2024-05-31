@@ -17,7 +17,8 @@ p_v2gmsg = Proto("v2gmsg", "V2G Message")
 local p_v2gmsg_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH",
-    description = "Dissector for V2G Messages (DIN 70121, ISO15118-2, ISO15118-20)"
+    description = "Dissector for V2G Messages (DIN 70121, ISO15118-2, ISO15118-20)",
+    repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gmsg_info)
 
