@@ -1,11 +1,14 @@
 --
 -- Copyright 2024, dSPACE GmbH. All rights reserved.
 --
+-- This dissector adds functionality to the standard HomePlug AV dissector
+-- to allow displaying CP State indication packets
+--
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
 local v2gcommon = require("v2gcommon")
 
-p_hpav_llc = Proto("homeplug-av-llc", "HomePlug AV protocol LLC Diagnostics")
+p_hpav_llc = Proto("homeplug-av-llc", "HomePlug AV protocol LLC diagnostics")
 local p_hpav_llc_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH"
@@ -13,7 +16,7 @@ local p_hpav_llc_info = {
 set_plugin_info(p_hpav_llc_info)
 
 local f_freq = ProtoField.int16("homeplug-av-llc.freq", "Frequency", base.DEC)
-local f_dutycycle = ProtoField.float("homeplug-av-llc.dutycycle", "Duty Cycle", base.DEC)
+local f_dutycycle = ProtoField.float("homeplug-av-llc.dutycycle", "Duty cycle", base.DEC)
 local f_voltage = ProtoField.float("homeplug-av-llc.voltage", "Voltage", base.DEC)
 local f_cpstate = ProtoField.int8("homeplug-av-llc.cpstate", "CP State")
 local f_acmax = ProtoField.string("homeplug-av-llc.ac_max", "AC max current")
@@ -65,13 +68,13 @@ local function get_cp_state(freq, dutycycle, voltage)
     end
 
     local cp_state_out
-    if voltage <= (StateA + Tolerance) and voltage >= StateA - (Tolerance) then
+    if voltage <= (StateA + Tolerance) and voltage >= (StateA - Tolerance) then
         cp_state_out = "A"
-    elseif voltage <= (StateB + Tolerance) and voltage >= StateB - (Tolerance) then
+    elseif voltage <= (StateB + Tolerance) and voltage >= (StateB - Tolerance) then
         cp_state_out = "B"
-    elseif voltage <= (StateC + Tolerance) and voltage >= StateC - (Tolerance) then
+    elseif voltage <= (StateC + Tolerance) and voltage >= (StateC - Tolerance) then
         cp_state_out = "C"
-    elseif voltage <= (StateD + Tolerance) and voltage >= StateD - (Tolerance) then
+    elseif voltage <= (StateD + Tolerance) and voltage >= (StateD - Tolerance) then
         cp_state_out = "D"
     elseif voltage <= (StateEF + Tolerance) then
         return "E/F"
@@ -88,7 +91,7 @@ local function get_cp_state(freq, dutycycle, voltage)
 end
 
 local function cp_state_to_int(cp_state)
-    --- used for I/O Graph plotting of cp state
+    --- used for I/O Graph plotting of CP State
     if cp_state == "A1" then
         return 1
     elseif cp_state == "A2" then
@@ -144,18 +147,21 @@ function p_hpav_llc.dissector(buf, pinfo, root)
 
     local elem_frequency = subtree:add(f_freq, freq)
     elem_frequency:append_text("Hz")
+    -- frequency bitmask: 001
     if result == 1 or result == 3 or result == 5 or result == 7 then
         elem_frequency:append_text(" (changed)")
     end
 
     local elem_dutycycle = subtree:add(f_dutycycle, dutycycle)
     elem_dutycycle:append_text("%")
+    -- duty cycle bitmask: 010
     if result == 2 or result == 3 or result == 6 or result == 7 then
         elem_dutycycle:append_text(" (changed)")
     end
 
     local elem_voltage = subtree:add(f_voltage, voltage)
     elem_voltage:append_text("V")
+    -- voltage bitmask: 100
     if result == 4 or result == 5 or result == 6 or result == 7 then
         elem_voltage:append_text(" (changed)")
     end
