@@ -135,7 +135,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
     if check_version(min_wireshark_version) == false then
         subtree:add_proto_expert_info(ef_bad_version)
         pinfo.cols.info = "[ERROR]" .. tostring(pinfo.cols.info)
-        return
+        return buf:len()
     end
 
     -- check if path to 'keylog_file' is not set, use default path defined in this script
@@ -214,6 +214,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
             end
         end
     end -- end if 'already_visited'
+    return buf:len()
 end -- end function 'p_v2gtlssecret.dissector'
 
 -- initialization routine

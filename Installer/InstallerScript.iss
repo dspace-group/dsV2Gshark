@@ -339,9 +339,9 @@ begin
                         '"Disabled","[ISO20] Max Voltage EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumVoltage","None","1"',
                         '"Disabled","[ISO20] Max Current EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumChargeCurrent","None","1"',
                         '"Disabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug-av-llc.cpstate","None","20"',
-                        '"Disabled","(disabled_filter_button1)","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","#5C3566","Line","Packets","","None","1"',
+                        '"Disabled","(disabled_filter_button1)","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","#FFFFFF","Line","Packets","","None","1"',
                         '"Disabled","(disabled_filter_button2)","v2gtp or v2gtlssecret","#FFFFFF","Line","Packets","","None","1"'];
-      StringsToRemove := ['"Disabled","CP State","","#FFFFFF","Dot","AVG(Y Field)","homeplug_av.st_iotecha.cpstate.state","None","20"'];
+      StringsToRemove := ['"Disabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug_av.st_iotecha.cpstate.state","None","20"'];
       if FileExists(FileName) then
       begin
         RemoveFromFile(FileName, StringsToRemove);

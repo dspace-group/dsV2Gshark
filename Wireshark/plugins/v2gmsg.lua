@@ -401,7 +401,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                 pinfo,
                 ef_error_generic
             )
-            return
+            return buf:len()
         end
 
         local message_name = get_message_name(xml_data)
@@ -452,7 +452,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                 pinfo,
                 ef_error_generic
             )
-            return
+            return buf:len()
         end
 
         -- get the message name and write it to the info cols
@@ -530,4 +530,5 @@ function p_v2gmsg.dissector(buf, pinfo, root)
             add_xml_table_to_tree(parse_XML(xml_data), subtree, f_entry, pinfo)
         end
     end
+    return buf:len()
 end

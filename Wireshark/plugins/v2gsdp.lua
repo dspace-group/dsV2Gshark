@@ -116,4 +116,5 @@ function p_sdpres.dissector(buf, pinfo, root)
     if selected_schema_at_packet_nr ~= nil then
         selected_schema_at_packet_nr[pinfo.number] = "urn:iso:15118:2:2010:AppProtocol"
     end
+    return buf:len()
 end

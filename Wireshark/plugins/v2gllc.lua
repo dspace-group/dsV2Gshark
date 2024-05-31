@@ -5,7 +5,7 @@
 --
 local v2gcommon = require("v2gcommon")
 
-p_hpav_llc = Proto("homeplug-av-llc", "Homeplug AV protocol LLC Diagnostics")
+p_hpav_llc = Proto("homeplug-av-llc", "HomePlug AV protocol LLC Diagnostics")
 local p_hpav_llc_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH"
@@ -117,7 +117,15 @@ function p_hpav_llc.dissector(buf, pinfo, root)
     end
 
     -- always call default homeplug-av dissector first
-    Dissector.get("homeplug-av"):call(buf, pinfo, root)
+    local hpav_dissector = Dissector.get("homeplug-av")
+    local consumed_bytes_hpav
+    if hpav_dissector ~= nil then
+        consumed_bytes_hpav = hpav_dissector:call(buf, pinfo, root)
+    else
+        -- some older wireshark versions does not have a homeplug-av dissector
+        consumed_bytes_hpav = Dissector.get("data"):call(buf, pinfo, root)
+        pinfo.cols.info = "Homeplug AV"
+    end
 
     local mac_mme_type = buf(1, 2):le_uint()
     local mme_vendor = buf(5, 3):uint()
@@ -127,11 +135,11 @@ function p_hpav_llc.dissector(buf, pinfo, root)
     elseif mme_vendor == 0x0080E1 and mac_mme_type == 0xA22E then -- Vendor OUI: ST/IoTecha
         freq, dutycycle, voltage, result = extract_infos_iotecha(buf)
     else
-        -- handle as default homeplug-av packet
-        return
+        -- default homeplug-av packet
+        return consumed_bytes_hpav
     end
 
-    pinfo.cols.protocol = "Homeplug AV LLC"
+    pinfo.cols.protocol = "HomePlug AV LLC"
     local subtree = root:add(p_hpav_llc, buf(0))
 
     local elem_frequency = subtree:add(f_freq, freq)
@@ -162,6 +170,7 @@ function p_hpav_llc.dissector(buf, pinfo, root)
     else
         pinfo.cols.info = "CP State: " .. cp_state
     end
+    return buf:len()
 end
 
 DissectorTable.get("ethertype"):add(0x88e1, p_hpav_llc)
