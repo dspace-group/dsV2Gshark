@@ -5,12 +5,13 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-local v2gshared = require("v2gshared")
+local v2gcommon = require("v2gcommon")
 
 p_v2gtlssecret = Proto("v2gtlssecret", "V2G TLS secret")
 local p_v2gtlssecret_info = {
-    version = v2gshared.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH"
+    version = v2gcommon.DS_V2GSHARK_VERSION,
+    author = "dSPACE GmbH",
+    repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gtlssecret_info)
 
@@ -26,7 +27,7 @@ p_v2gtlssecret.prefs["portrange_tlssecret"] =
     65535
 )
 p_v2gtlssecret.prefs["additionalinfo3"] = Pref.statictext("")
-p_v2gtlssecret.prefs["versioninfo"] = Pref.statictext("Version " .. v2gshared.DS_V2GSHARK_VERSION)
+p_v2gtlssecret.prefs["versioninfo"] = Pref.statictext("Version " .. v2gcommon.DS_V2GSHARK_VERSION)
 
 local min_wireshark_version = "3.5.0"
 
@@ -56,8 +57,8 @@ p_v2gtlssecret.experts = {ef_io_error, ef_bad_version}
 
 -- verify tshark/wireshark version is compatible
 local function check_version(required_version)
-    major_req, minor_req, micro_req = required_version:match("(%d+)%.(%d+)%.(%d+)")
-    major, minor, micro = get_version():match("(%d+)%.(%d+)%.(%d+)")
+    local major_req, minor_req, micro_req = required_version:match("(%d+)%.(%d+)%.(%d+)")
+    local major, minor, micro = get_version():match("(%d+)%.(%d+)%.(%d+)")
 
     if
         (tonumber(major) < tonumber(major_req)) or
@@ -90,11 +91,11 @@ end
 -- PDU dissection function
 function p_v2gtlssecret.dissector(buf, pinfo, root)
     local str = buf:raw()
-    local tls_secret_list = {}
+    local tls_secret_list = {} -- stores secret string [1] and start position in payload [2]
     local info_strings = {}
 
     -- one UDP packet may contain several lines, check each line
-    for line in str:gmatch "[^\r\n]+" do
+    for startpos, line in str:gmatch "()([^\r\n\0]+)" do
         -- check if this is really a secret
         local match = line:match "^([%u_]+)%d* %x+ %x+$"
         if match == nil then
@@ -114,7 +115,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
         end
         -- one last plausibility check
         if line:len() > 100 and line:len() < 300 then
-            table.insert(tls_secret_list, line)
+            table.insert(tls_secret_list, {line, startpos})
         end
     end
 
@@ -122,11 +123,9 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
         return 0
     end
 
-    local byte_offset = 0
     local subtree = root:add(p_v2gtlssecret, buf(byte_offset))
     for _, v in ipairs(tls_secret_list) do
-        subtree:add(f_cr, buf(byte_offset, v:len()))
-        byte_offset = byte_offset + v:len() + 1 -- (+1) for line break
+        subtree:add(f_cr, buf(v[2] - 1, v[1]:len()))
     end
 
     -- set info column
@@ -135,7 +134,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
     if check_version(min_wireshark_version) == false then
         subtree:add_proto_expert_info(ef_bad_version)
         pinfo.cols.info = "[ERROR]" .. tostring(pinfo.cols.info)
-        return
+        return buf:len()
     end
 
     -- check if path to 'keylog_file' is not set, use default path defined in this script
@@ -162,7 +161,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
 
             for idx = #tls_secret_list, 1, -1 do
                 local to_be_removed = false
-                local splitted_from_packet = split_string(tls_secret_list[idx])
+                local splitted_from_packet = split_string(tls_secret_list[idx][1])
                 for line in file_content:gmatch "[^\r\n]+" do
                     local splitted_from_file = split_string(tostring(line))
                     if #splitted_from_packet == 3 and #splitted_from_file == 3 then
@@ -200,7 +199,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
                 add_expert_info(err_str, subtree, pinfo, ef_io_error)
             else
                 for _, tls_secret in ipairs(tls_secret_list) do
-                    file:write(tls_secret .. "\n")
+                    file:write(tls_secret[1] .. "\n")
                 end
                 table.insert(frame_numbers, pinfo.number) -- add frame number to table
                 file:close(file)
@@ -214,6 +213,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
             end
         end
     end -- end if 'already_visited'
+    return buf:len()
 end -- end function 'p_v2gtlssecret.dissector'
 
 -- initialization routine

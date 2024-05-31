@@ -11,35 +11,14 @@
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
 
--- do OS specific stuff, required to properly load v2g libs
-local plugins_path -- path to the plugins directory of this script
-local lib_pattern
-if package.config:sub(1, 1) == "\\" then
-    -- WINDOWS
-    plugins_path = debug.getinfo(1, "S").source:sub(2):match("(.*[/\\])") or "./"
-    lib_pattern = "?.dll"
-else
-    -- UNIX
-    plugins_path = debug.getinfo(1, "S").source:sub(2):match("(.*/)") or "./"
-    lib_pattern = "?.so"
-end
-local wireshark_path = plugins_path .. "../"
-if not string.find(plugins_path, package.path) then
-    -- extend path (where to load .lua files)
-    package.path = package.path .. ";" .. plugins_path .. "?.lua"
-end
-if not string.find(wireshark_path, package.cpath) then
-    -- extend cpath (where to load .so files)
-    package.cpath = package.cpath .. ";" .. wireshark_path .. lib_pattern .. ";" .. plugins_path .. lib_pattern
-end
-
-local v2gshared = require("v2gshared")
+local v2gcommon = require("v2gcommon")
 
 p_v2gmsg = Proto("v2gmsg", "V2G Message")
 local p_v2gmsg_info = {
-    version = v2gshared.DS_V2GSHARK_VERSION,
+    version = v2gcommon.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH",
-    description = "Dissector for V2G Messages (DIN 70121, ISO15118-2, ISO15118-20)"
+    description = "Dissector for V2G Messages (DIN 70121, ISO15118-2, ISO15118-20)",
+    repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gmsg_info)
 
@@ -93,7 +72,7 @@ local values_to_plot = {
     "EVSEMaximumChargeCurrent"
 }
 local f_plot_fields = {} -- maps value name to iograph-field
-for k, value in pairs(values_to_plot) do
+for _, value in pairs(values_to_plot) do
     f_plot_fields[value] = ProtoField.double("v2gmsg.xml.iograph." .. value, "I/O Graph Value")
     table.insert(p_v2gmsg.fields, f_plot_fields[value])
 end
@@ -133,8 +112,7 @@ function p_v2gmsg.init()
 end
 
 local function decode_v2g_message(schema, exi_string, packet_number)
-    local xml_out
-    local xml_schema
+    local xml_out, xml_schema, errn
 
     decoded_with_auto_schema_detection[packet_number] = false
     xml_out, xml_schema, errn = v2g_decoder.decodeV2GExi(schema, exi_string)
@@ -424,7 +402,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                 pinfo,
                 ef_error_generic
             )
-            return
+            return buf:len()
         end
 
         local message_name = get_message_name(xml_data)
@@ -475,7 +453,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                 pinfo,
                 ef_error_generic
             )
-            return
+            return buf:len()
         end
 
         -- get the message name and write it to the info cols
@@ -553,4 +531,5 @@ function p_v2gmsg.dissector(buf, pinfo, root)
             add_xml_table_to_tree(parse_XML(xml_data), subtree, f_entry, pinfo)
         end
     end
+    return buf:len()
 end

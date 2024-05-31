@@ -4,12 +4,13 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-local v2gshared = require("v2gshared")
+local v2gcommon = require("v2gcommon")
 
 p_v2gtp = Proto("v2gtp", "V2G Transfer Protocol")
 local p_v2gtp_info = {
-    version = v2gshared.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH"
+    version = v2gcommon.DS_V2GSHARK_VERSION,
+    author = "dSPACE GmbH",
+    repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gtp_info)
 
@@ -25,7 +26,7 @@ p_v2gtp.prefs["portrange_v2g"] =
     65535
 )
 p_v2gtp.prefs["additionalinfo3"] = Pref.statictext("")
-p_v2gtp.prefs["versioninfo"] = Pref.statictext("Version " .. v2gshared.DS_V2GSHARK_VERSION)
+p_v2gtp.prefs["versioninfo"] = Pref.statictext("Version " .. v2gcommon.DS_V2GSHARK_VERSION)
 
 local V2GTP_HDR_LENGTH = 8
 
@@ -129,39 +130,41 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
     --
     if buf:len() > V2GTP_HDR_LENGTH then
         if p_type_num == SDP_REQ then
-            Dissector.get("v2gsdp-req"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gsdp-req"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == SDP_RES then
-            Dissector.get("v2gsdp-res"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gsdp-res"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == V2G then
             -- do not set schema for 8001 payloads, s.t. it is derived from the SAP
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_MAIN then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_AC then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:AC"
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_DC then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:DC"
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_ACDP then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:ACDP"
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_WPT then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:WPT"
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_SCHEDULE_RENEG then
             -- the schema must be derived from the SAP in this case. TODO: test this as soon as sidestreams are used
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_METER_CONF then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages" -- Meter Conf Sidestream uses common messages only
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_ACDP_SYS_STATUS then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:ACDP"
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_PARKING_STATUS then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
-            Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
+        else
+            return 0
         end
     end
 end

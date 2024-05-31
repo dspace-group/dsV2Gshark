@@ -4,13 +4,14 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-local v2gshared = require("v2gshared")
+local v2gcommon = require("v2gcommon")
 
 p_sdpreq = Proto("v2gsdp-req", "V2G SECC Discovery Protocol Request")
 p_sdpres = Proto("v2gsdp-res", "V2G SECC Discovery Protocol Response")
 local p_v2gsdp_info = {
-    version = v2gshared.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH"
+    version = v2gcommon.DS_V2GSHARK_VERSION,
+    author = "dSPACE GmbH",
+    repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gsdp_info)
 
@@ -34,7 +35,7 @@ function p_sdpreq.dissector(buf, pinfo, root)
     pinfo.cols.protocol = "V2GMSG (SDP)"
 
     -- create subtree
-    subtree = root:add(p_sdpreq, buf(0))
+    local subtree = root:add(p_sdpreq, buf(0))
 
     -- add protocol fields to subtree
 
@@ -116,4 +117,5 @@ function p_sdpres.dissector(buf, pinfo, root)
     if selected_schema_at_packet_nr ~= nil then
         selected_schema_at_packet_nr[pinfo.number] = "urn:iso:15118:2:2010:AppProtocol"
     end
+    return buf:len()
 end
