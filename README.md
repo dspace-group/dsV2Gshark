@@ -21,6 +21,7 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
     - Validation of V2G messages according to XSD specification
     - Certificate information details for Plug & Charge (PnC)
     - Live TLS decryption
+    - LLC diagnostics via HomePlug AV packets for sniffer- and debug packets
 - Automatic schema detection
     - Detect schema automatically in case of missing SDP or SAP
 - Color filter for V2G packets
@@ -91,3 +92,5 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ![Plugin Preferences](Images/WS_Preferences.png)
 ### Wireshark I/O Graph
 ![I/O Graph](Images/IO_Graph.png)
+### HomePlug AV LLC Diagnostics
+![I/O Graph](Images/HPAV_LLC_AC.png)
