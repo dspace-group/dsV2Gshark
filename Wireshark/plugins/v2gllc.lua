@@ -125,9 +125,9 @@ local heuristic_hpav_dissector = function(buf, pinfo, root)
     end
 
     -- check eth type
-	if buf(12,2):uint() ~= HPAV_ETHERNET_TYPE then
-		return 0
-	end
+    if buf(12, 2):uint() ~= HPAV_ETHERNET_TYPE then
+        return 0
+    end
 
     buf = buf(14):tvb() -- skip eth header
 
@@ -143,7 +143,10 @@ local heuristic_hpav_dissector = function(buf, pinfo, root)
         return 0
     end
 
-    root:add("Ethernet II,", "dissection skipped for this packet! If you want to inspect this layer, please deactivate homeplug-llc")
+    root:add(
+        "Ethernet II,",
+        "dissection skipped for this packet! If you want to inspect this layer, please deactivate homeplug-llc"
+    )
 
     -- call default hpav dissector to add additional information
     local hpav_dissector = Dissector.get("homeplug-av")
