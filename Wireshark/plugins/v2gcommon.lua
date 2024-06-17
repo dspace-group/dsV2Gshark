@@ -28,6 +28,6 @@ end
 
 local v2gcommon = {}
 
-v2gcommon.DS_V2GSHARK_VERSION = "1.4.0" -- DO NOT CHANGE
+v2gcommon.DS_V2GSHARK_VERSION = "1.4.1" -- DO NOT CHANGE
 
 return v2gcommon
