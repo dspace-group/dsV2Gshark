@@ -1,5 +1,5 @@
 // DO NOT CHANGE VERSION HERE! Run update_version.bat
-#define AppVer "1.4.0"
+#define AppVer "1.4.1"
 #define AppId "dsV2Gshark"
 
 [Setup]
@@ -260,9 +260,12 @@ begin
                     '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ",""',
                     '"TRUE","[V2G]","v2gtp or v2gtlssecret",""',
 
-                    // current buttons
+                    // v1.4.0 buttons
                     '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","Filter V2G messages, SLAC messages and additional TCP packets"',
-                    '"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"'];
+
+                    // current buttons
+                    '"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"',
+                    '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av or homeplug-llc ","Filter V2G messages, SLAC messages and additional TCP packets"'];
   RemoveFromFile(FileName, LinesToRemove);
 
   FileName := GetWiresharkConfigPath + 'io_graphs'
@@ -283,7 +286,7 @@ begin
     if WizardIsComponentSelected('buttons') then
     begin
       FileName := GetWiresharkConfigPath + 'dfilter_buttons'
-      StringsToCheck := ['"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","Filter V2G messages, SLAC messages and additional TCP packets"',
+      StringsToCheck := ['"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av or homeplug-llc ","Filter V2G messages, SLAC messages and additional TCP packets"',
                          '"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"']
       StringsToAdd := CheckLines(FileName, StringsToCheck)
       if Length(StringsToAdd) > 0 then

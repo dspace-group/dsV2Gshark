@@ -6,9 +6,12 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
+local HPAV_PACKET_SIZE = 60
+local HPAV_ETHERNET_TYPE = 0x88e1
+
 local v2gcommon = require("v2gcommon")
 
-p_hpav_llc = Proto("homeplug-av-llc", "HomePlug AV protocol LLC diagnostics")
+p_hpav_llc = Proto("homeplug-llc", "HomePlug AV protocol LLC diagnostics")
 local p_hpav_llc_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
     author = "dSPACE GmbH",
@@ -115,22 +118,20 @@ local function cp_state_to_int(cp_state)
     return 0
 end
 
-function p_hpav_llc.dissector(buf, pinfo, root)
-    if buf:len() == 0 then
+local heuristic_hpav_dissector = function(buf, pinfo, root)
+    -- check size
+    if buf:len() ~= HPAV_PACKET_SIZE then
         return 0
     end
 
-    -- always call default homeplug-av dissector first
-    local hpav_dissector = Dissector.get("homeplug-av")
-    local consumed_bytes_hpav
-    if hpav_dissector ~= nil then
-        consumed_bytes_hpav = hpav_dissector:call(buf, pinfo, root)
-    else
-        -- some older wireshark versions does not have a homeplug-av dissector
-        consumed_bytes_hpav = Dissector.get("data"):call(buf, pinfo, root)
-        pinfo.cols.info = "Homeplug AV"
+    -- check eth type
+    if buf(12, 2):uint() ~= HPAV_ETHERNET_TYPE then
+        return 0
     end
 
+    buf = buf(14):tvb() -- skip eth header
+
+    -- check hpav message type
     local mac_mme_type = buf(1, 2):le_uint()
     local mme_vendor = buf(5, 3):uint()
     local freq, dutycycle, voltage, result
@@ -139,8 +140,18 @@ function p_hpav_llc.dissector(buf, pinfo, root)
     elseif mme_vendor == 0x0080E1 and mac_mme_type == 0xA22E then -- Vendor OUI: ST/IoTecha
         freq, dutycycle, voltage, result = extract_infos_iotecha(buf)
     else
-        -- default homeplug-av packet
-        return consumed_bytes_hpav
+        return 0
+    end
+
+    root:add(
+        "Ethernet II,",
+        "dissection skipped for this packet! If you want to inspect this layer, please deactivate homeplug-llc"
+    )
+
+    -- call default hpav dissector to add additional information
+    local hpav_dissector = Dissector.get("homeplug-av")
+    if hpav_dissector ~= nil then
+        hpav_dissector:call(buf, pinfo, root)
     end
 
     pinfo.cols.protocol = "HomePlug AV LLC"
@@ -177,7 +188,8 @@ function p_hpav_llc.dissector(buf, pinfo, root)
     else
         pinfo.cols.info = "CP State: " .. cp_state
     end
-    return buf:len()
+    return HPAV_PACKET_SIZE
 end
 
-DissectorTable.get("ethertype"):add(0x88e1, p_hpav_llc)
+-- use heuristic dissection on ethernet layer to support older wireshark versions
+p_hpav_llc:register_heuristic("eth", heuristic_hpav_dissector)
