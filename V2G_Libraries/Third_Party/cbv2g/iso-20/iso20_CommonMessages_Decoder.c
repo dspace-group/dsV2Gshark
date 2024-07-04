@@ -20,6 +20,7 @@
   **/
 #include <stdint.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -186,6 +187,12 @@ static int decode_iso20_TransformType(exi_bitstream_t* stream, struct iso20_Tran
                             TransformType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, TransformType->Algorithm.charactersLen, TransformType->Algorithm.characters, iso20_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < TransformType->Algorithm.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(TransformType->Algorithm.characters[i]))
+                                {
+                                    TransformType->Algorithm.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, TransformType->Algorithm.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -235,6 +242,12 @@ static int decode_iso20_TransformType(exi_bitstream_t* stream, struct iso20_Tran
                                     TransformType->XPath.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, TransformType->XPath.charactersLen, TransformType->XPath.characters, iso20_XPath_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < TransformType->XPath.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(TransformType->XPath.characters[i]))
+                                        {
+                                            TransformType->XPath.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, TransformType->XPath.characters);
                                 }
                                 else
@@ -1222,6 +1235,12 @@ static int decode_iso20_X509IssuerSerialType(exi_bitstream_t* stream, struct iso
                                     X509IssuerSerialType->X509IssuerName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, X509IssuerSerialType->X509IssuerName.charactersLen, X509IssuerSerialType->X509IssuerName.characters, iso20_X509IssuerName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < X509IssuerSerialType->X509IssuerName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(X509IssuerSerialType->X509IssuerName.characters[i]))
+                                        {
+                                            X509IssuerSerialType->X509IssuerName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, X509IssuerSerialType->X509IssuerName.characters);
                                 }
                                 else
@@ -1410,6 +1429,12 @@ static int decode_iso20_DigestMethodType(exi_bitstream_t* stream, struct iso20_D
                             DigestMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, DigestMethodType->Algorithm.charactersLen, DigestMethodType->Algorithm.characters, iso20_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < DigestMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(DigestMethodType->Algorithm.characters[i]))
+                                {
+                                    DigestMethodType->Algorithm.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, DigestMethodType->Algorithm.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -1732,6 +1757,12 @@ static int decode_iso20_CanonicalizationMethodType(exi_bitstream_t* stream, stru
                             CanonicalizationMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, CanonicalizationMethodType->Algorithm.charactersLen, CanonicalizationMethodType->Algorithm.characters, iso20_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < CanonicalizationMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(CanonicalizationMethodType->Algorithm.characters[i]))
+                                {
+                                    CanonicalizationMethodType->Algorithm.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, CanonicalizationMethodType->Algorithm.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2041,6 +2072,12 @@ static int decode_iso20_SignatureMethodType(exi_bitstream_t* stream, struct iso2
                             SignatureMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureMethodType->Algorithm.charactersLen, SignatureMethodType->Algorithm.characters, iso20_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignatureMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignatureMethodType->Algorithm.characters[i]))
+                                {
+                                    SignatureMethodType->Algorithm.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignatureMethodType->Algorithm.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2465,6 +2502,12 @@ static int decode_iso20_ReferenceType(exi_bitstream_t* stream, struct iso20_Refe
                             ReferenceType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Id.charactersLen, ReferenceType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->Id.characters[i]))
+                                {
+                                    ReferenceType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2494,6 +2537,12 @@ static int decode_iso20_ReferenceType(exi_bitstream_t* stream, struct iso20_Refe
                             ReferenceType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Type.charactersLen, ReferenceType->Type.characters, iso20_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->Type.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->Type.characters[i]))
+                                {
+                                    ReferenceType->Type.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->Type.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2523,6 +2572,12 @@ static int decode_iso20_ReferenceType(exi_bitstream_t* stream, struct iso20_Refe
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->URI.characters[i]))
+                                {
+                                    ReferenceType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2610,6 +2665,12 @@ static int decode_iso20_ReferenceType(exi_bitstream_t* stream, struct iso20_Refe
                             ReferenceType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Type.charactersLen, ReferenceType->Type.characters, iso20_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->Type.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->Type.characters[i]))
+                                {
+                                    ReferenceType->Type.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->Type.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2639,6 +2700,12 @@ static int decode_iso20_ReferenceType(exi_bitstream_t* stream, struct iso20_Refe
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->URI.characters[i]))
+                                {
+                                    ReferenceType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2726,6 +2793,12 @@ static int decode_iso20_ReferenceType(exi_bitstream_t* stream, struct iso20_Refe
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->URI.characters[i]))
+                                {
+                                    ReferenceType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -3014,6 +3087,12 @@ static int decode_iso20_RetrievalMethodType(exi_bitstream_t* stream, struct iso2
                             RetrievalMethodType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->Type.charactersLen, RetrievalMethodType->Type.characters, iso20_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < RetrievalMethodType->Type.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(RetrievalMethodType->Type.characters[i]))
+                                {
+                                    RetrievalMethodType->Type.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, RetrievalMethodType->Type.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -3043,6 +3122,12 @@ static int decode_iso20_RetrievalMethodType(exi_bitstream_t* stream, struct iso2
                             RetrievalMethodType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->URI.charactersLen, RetrievalMethodType->URI.characters, iso20_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < RetrievalMethodType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(RetrievalMethodType->URI.characters[i]))
+                                {
+                                    RetrievalMethodType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, RetrievalMethodType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -3115,6 +3200,12 @@ static int decode_iso20_RetrievalMethodType(exi_bitstream_t* stream, struct iso2
                             RetrievalMethodType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->URI.charactersLen, RetrievalMethodType->URI.characters, iso20_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < RetrievalMethodType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(RetrievalMethodType->URI.characters[i]))
+                                {
+                                    RetrievalMethodType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, RetrievalMethodType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -3357,6 +3448,12 @@ static int decode_iso20_X509DataType(exi_bitstream_t* stream, struct iso20_X509D
                                     X509DataType->X509SubjectName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, X509DataType->X509SubjectName.charactersLen, X509DataType->X509SubjectName.characters, iso20_X509SubjectName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < X509DataType->X509SubjectName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(X509DataType->X509SubjectName.characters[i]))
+                                        {
+                                            X509DataType->X509SubjectName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, X509DataType->X509SubjectName.characters);
                                 }
                                 else
@@ -5967,6 +6064,12 @@ static int decode_iso20_TaxRuleType(exi_bitstream_t* stream, struct iso20_TaxRul
                                     TaxRuleType->TaxRuleName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, TaxRuleType->TaxRuleName.charactersLen, TaxRuleType->TaxRuleName.characters, iso20_TaxRuleName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < TaxRuleType->TaxRuleName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(TaxRuleType->TaxRuleName.characters[i]))
+                                        {
+                                            TaxRuleType->TaxRuleName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, TaxRuleType->TaxRuleName.characters);
                                 }
                                 else
@@ -6986,6 +7089,12 @@ static int decode_iso20_AdditionalServiceType(exi_bitstream_t* stream, struct is
                                     AdditionalServiceType->ServiceName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, AdditionalServiceType->ServiceName.charactersLen, AdditionalServiceType->ServiceName.characters, iso20_ServiceName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < AdditionalServiceType->ServiceName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(AdditionalServiceType->ServiceName.characters[i]))
+                                        {
+                                            AdditionalServiceType->ServiceName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, AdditionalServiceType->ServiceName.characters);
                                 }
                                 else
@@ -7538,6 +7647,12 @@ static int decode_iso20_OverstayRuleType(exi_bitstream_t* stream, struct iso20_O
                                     OverstayRuleType->OverstayRuleDescription.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, OverstayRuleType->OverstayRuleDescription.charactersLen, OverstayRuleType->OverstayRuleDescription.characters, iso20_OverstayRuleDescription_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < OverstayRuleType->OverstayRuleDescription.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(OverstayRuleType->OverstayRuleDescription.characters[i]))
+                                        {
+                                            OverstayRuleType->OverstayRuleDescription.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, OverstayRuleType->OverstayRuleDescription.characters);
                                 }
                                 else
@@ -8097,6 +8212,12 @@ static int decode_iso20_SignedInfoType(exi_bitstream_t* stream, struct iso20_Sig
                             SignedInfoType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignedInfoType->Id.charactersLen, SignedInfoType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignedInfoType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignedInfoType->Id.characters[i]))
+                                {
+                                    SignedInfoType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignedInfoType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -8623,6 +8744,12 @@ static int decode_iso20_SignatureValueType(exi_bitstream_t* stream, struct iso20
                             SignatureValueType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureValueType->Id.charactersLen, SignatureValueType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignatureValueType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignatureValueType->Id.characters[i]))
+                                {
+                                    SignatureValueType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignatureValueType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -9068,6 +9195,12 @@ static int decode_iso20_ParameterType(exi_bitstream_t* stream, struct iso20_Para
                             ParameterType->Name.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ParameterType->Name.charactersLen, ParameterType->Name.characters, iso20_Name_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ParameterType->Name.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ParameterType->Name.characters[i]))
+                                {
+                                    ParameterType->Name.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ParameterType->Name.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -9308,6 +9441,12 @@ static int decode_iso20_ParameterType(exi_bitstream_t* stream, struct iso20_Para
                                     ParameterType->finiteString.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, ParameterType->finiteString.charactersLen, ParameterType->finiteString.characters, iso20_finiteString_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < ParameterType->finiteString.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(ParameterType->finiteString.characters[i]))
+                                        {
+                                            ParameterType->finiteString.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, ParameterType->finiteString.characters);
                                 }
                                 else
@@ -9471,6 +9610,12 @@ static int decode_iso20_EVAbsolutePriceScheduleType(exi_bitstream_t* stream, str
                                     EVAbsolutePriceScheduleType->Currency.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, EVAbsolutePriceScheduleType->Currency.charactersLen, EVAbsolutePriceScheduleType->Currency.characters, iso20_Currency_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < EVAbsolutePriceScheduleType->Currency.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(EVAbsolutePriceScheduleType->Currency.characters[i]))
+                                        {
+                                            EVAbsolutePriceScheduleType->Currency.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, EVAbsolutePriceScheduleType->Currency.characters);
                                 }
                                 else
@@ -9547,6 +9692,12 @@ static int decode_iso20_EVAbsolutePriceScheduleType(exi_bitstream_t* stream, str
                                     EVAbsolutePriceScheduleType->PriceAlgorithm.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, EVAbsolutePriceScheduleType->PriceAlgorithm.charactersLen, EVAbsolutePriceScheduleType->PriceAlgorithm.characters, iso20_PriceAlgorithm_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < EVAbsolutePriceScheduleType->PriceAlgorithm.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(EVAbsolutePriceScheduleType->PriceAlgorithm.characters[i]))
+                                        {
+                                            EVAbsolutePriceScheduleType->PriceAlgorithm.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, EVAbsolutePriceScheduleType->PriceAlgorithm.characters);
                                 }
                                 else
@@ -9816,6 +9967,12 @@ static int decode_iso20_KeyInfoType(exi_bitstream_t* stream, struct iso20_KeyInf
                             KeyInfoType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, KeyInfoType->Id.charactersLen, KeyInfoType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < KeyInfoType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(KeyInfoType->Id.characters[i]))
+                                {
+                                    KeyInfoType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, KeyInfoType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -9853,6 +10010,12 @@ static int decode_iso20_KeyInfoType(exi_bitstream_t* stream, struct iso20_KeyInf
                                     KeyInfoType->KeyName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->KeyName.charactersLen, KeyInfoType->KeyName.characters, iso20_KeyName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < KeyInfoType->KeyName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(KeyInfoType->KeyName.characters[i]))
+                                        {
+                                            KeyInfoType->KeyName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, KeyInfoType->KeyName.characters);
                                 }
                                 else
@@ -10032,6 +10195,12 @@ static int decode_iso20_KeyInfoType(exi_bitstream_t* stream, struct iso20_KeyInf
                                     KeyInfoType->MgmtData.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->MgmtData.charactersLen, KeyInfoType->MgmtData.characters, iso20_MgmtData_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < KeyInfoType->MgmtData.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(KeyInfoType->MgmtData.characters[i]))
+                                        {
+                                            KeyInfoType->MgmtData.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, KeyInfoType->MgmtData.characters);
                                 }
                                 else
@@ -10147,6 +10316,12 @@ static int decode_iso20_KeyInfoType(exi_bitstream_t* stream, struct iso20_KeyInf
                                     KeyInfoType->KeyName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->KeyName.charactersLen, KeyInfoType->KeyName.characters, iso20_KeyName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < KeyInfoType->KeyName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(KeyInfoType->KeyName.characters[i]))
+                                        {
+                                            KeyInfoType->KeyName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, KeyInfoType->KeyName.characters);
                                 }
                                 else
@@ -10326,6 +10501,12 @@ static int decode_iso20_KeyInfoType(exi_bitstream_t* stream, struct iso20_KeyInf
                                     KeyInfoType->MgmtData.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->MgmtData.charactersLen, KeyInfoType->MgmtData.characters, iso20_MgmtData_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < KeyInfoType->MgmtData.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(KeyInfoType->MgmtData.characters[i]))
+                                        {
+                                            KeyInfoType->MgmtData.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, KeyInfoType->MgmtData.characters);
                                 }
                                 else
@@ -10481,6 +10662,12 @@ static int decode_iso20_ObjectType(exi_bitstream_t* stream, struct iso20_ObjectT
                             ObjectType->Encoding.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Encoding.charactersLen, ObjectType->Encoding.characters, iso20_Encoding_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->Encoding.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->Encoding.characters[i]))
+                                {
+                                    ObjectType->Encoding.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->Encoding.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -10510,6 +10697,12 @@ static int decode_iso20_ObjectType(exi_bitstream_t* stream, struct iso20_ObjectT
                             ObjectType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Id.charactersLen, ObjectType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->Id.characters[i]))
+                                {
+                                    ObjectType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -10539,6 +10732,12 @@ static int decode_iso20_ObjectType(exi_bitstream_t* stream, struct iso20_ObjectT
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->MimeType.characters[i]))
+                                {
+                                    ObjectType->MimeType.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->MimeType.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -10633,6 +10832,12 @@ static int decode_iso20_ObjectType(exi_bitstream_t* stream, struct iso20_ObjectT
                             ObjectType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Id.charactersLen, ObjectType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->Id.characters[i]))
+                                {
+                                    ObjectType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -10662,6 +10867,12 @@ static int decode_iso20_ObjectType(exi_bitstream_t* stream, struct iso20_ObjectT
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->MimeType.characters[i]))
+                                {
+                                    ObjectType->MimeType.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->MimeType.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -10756,6 +10967,12 @@ static int decode_iso20_ObjectType(exi_bitstream_t* stream, struct iso20_ObjectT
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->MimeType.characters[i]))
+                                {
+                                    ObjectType->MimeType.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->MimeType.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -14169,6 +14386,12 @@ static int decode_iso20_SupportedProvidersListType(exi_bitstream_t* stream, stru
                                             SupportedProvidersListType->ProviderID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < SupportedProvidersListType->ProviderID.array[SupportedProvidersListType->ProviderID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(SupportedProvidersListType->ProviderID.array[SupportedProvidersListType->ProviderID.arrayLen].characters[i]))
+                                            {
+                                                SupportedProvidersListType->ProviderID.array[SupportedProvidersListType->ProviderID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, SupportedProvidersListType->ProviderID.array[SupportedProvidersListType->ProviderID.arrayLen].characters);
                                     }
                                     else
@@ -14256,6 +14479,12 @@ static int decode_iso20_SupportedProvidersListType(exi_bitstream_t* stream, stru
                                             SupportedProvidersListType->ProviderID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < SupportedProvidersListType->ProviderID.array[SupportedProvidersListType->ProviderID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(SupportedProvidersListType->ProviderID.array[SupportedProvidersListType->ProviderID.arrayLen].characters[i]))
+                                            {
+                                                SupportedProvidersListType->ProviderID.array[SupportedProvidersListType->ProviderID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, SupportedProvidersListType->ProviderID.array[SupportedProvidersListType->ProviderID.arrayLen].characters);
                                     }
                                     else
@@ -14554,6 +14783,12 @@ static int decode_iso20_MeterInfoType(exi_bitstream_t* stream, struct iso20_Mete
                                     MeterInfoType->MeterID.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, MeterInfoType->MeterID.charactersLen, MeterInfoType->MeterID.characters, iso20_MeterID_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < MeterInfoType->MeterID.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(MeterInfoType->MeterID.characters[i]))
+                                        {
+                                            MeterInfoType->MeterID.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, MeterInfoType->MeterID.characters);
                                 }
                                 else
@@ -15477,6 +15712,12 @@ static int decode_iso20_SignatureType(exi_bitstream_t* stream, struct iso20_Sign
                             SignatureType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureType->Id.charactersLen, SignatureType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignatureType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignatureType->Id.characters[i]))
+                                {
+                                    SignatureType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignatureType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -18631,6 +18872,12 @@ static int decode_iso20_AbsolutePriceScheduleType(exi_bitstream_t* stream, struc
                             AbsolutePriceScheduleType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, AbsolutePriceScheduleType->Id.charactersLen, AbsolutePriceScheduleType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < AbsolutePriceScheduleType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(AbsolutePriceScheduleType->Id.characters[i]))
+                                {
+                                    AbsolutePriceScheduleType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, AbsolutePriceScheduleType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -18782,6 +19029,12 @@ static int decode_iso20_AbsolutePriceScheduleType(exi_bitstream_t* stream, struc
                                     AbsolutePriceScheduleType->PriceScheduleDescription.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, AbsolutePriceScheduleType->PriceScheduleDescription.charactersLen, AbsolutePriceScheduleType->PriceScheduleDescription.characters, iso20_PriceScheduleDescription_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < AbsolutePriceScheduleType->PriceScheduleDescription.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(AbsolutePriceScheduleType->PriceScheduleDescription.characters[i]))
+                                        {
+                                            AbsolutePriceScheduleType->PriceScheduleDescription.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, AbsolutePriceScheduleType->PriceScheduleDescription.characters);
                                 }
                                 else
@@ -18846,6 +19099,12 @@ static int decode_iso20_AbsolutePriceScheduleType(exi_bitstream_t* stream, struc
                                     AbsolutePriceScheduleType->Currency.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, AbsolutePriceScheduleType->Currency.charactersLen, AbsolutePriceScheduleType->Currency.characters, iso20_Currency_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < AbsolutePriceScheduleType->Currency.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(AbsolutePriceScheduleType->Currency.characters[i]))
+                                        {
+                                            AbsolutePriceScheduleType->Currency.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, AbsolutePriceScheduleType->Currency.characters);
                                 }
                                 else
@@ -18922,6 +19181,12 @@ static int decode_iso20_AbsolutePriceScheduleType(exi_bitstream_t* stream, struc
                                     AbsolutePriceScheduleType->Currency.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, AbsolutePriceScheduleType->Currency.charactersLen, AbsolutePriceScheduleType->Currency.characters, iso20_Currency_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < AbsolutePriceScheduleType->Currency.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(AbsolutePriceScheduleType->Currency.characters[i]))
+                                        {
+                                            AbsolutePriceScheduleType->Currency.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, AbsolutePriceScheduleType->Currency.characters);
                                 }
                                 else
@@ -18998,6 +19263,12 @@ static int decode_iso20_AbsolutePriceScheduleType(exi_bitstream_t* stream, struc
                                     AbsolutePriceScheduleType->Language.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, AbsolutePriceScheduleType->Language.charactersLen, AbsolutePriceScheduleType->Language.characters, iso20_Language_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < AbsolutePriceScheduleType->Language.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(AbsolutePriceScheduleType->Language.characters[i]))
+                                        {
+                                            AbsolutePriceScheduleType->Language.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, AbsolutePriceScheduleType->Language.characters);
                                 }
                                 else
@@ -19074,6 +19345,12 @@ static int decode_iso20_AbsolutePriceScheduleType(exi_bitstream_t* stream, struc
                                     AbsolutePriceScheduleType->PriceAlgorithm.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, AbsolutePriceScheduleType->PriceAlgorithm.charactersLen, AbsolutePriceScheduleType->PriceAlgorithm.characters, iso20_PriceAlgorithm_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < AbsolutePriceScheduleType->PriceAlgorithm.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(AbsolutePriceScheduleType->PriceAlgorithm.characters[i]))
+                                        {
+                                            AbsolutePriceScheduleType->PriceAlgorithm.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, AbsolutePriceScheduleType->PriceAlgorithm.characters);
                                 }
                                 else
@@ -19847,6 +20124,12 @@ static int decode_iso20_PriceLevelScheduleType(exi_bitstream_t* stream, struct i
                             PriceLevelScheduleType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, PriceLevelScheduleType->Id.charactersLen, PriceLevelScheduleType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < PriceLevelScheduleType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(PriceLevelScheduleType->Id.characters[i]))
+                                {
+                                    PriceLevelScheduleType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, PriceLevelScheduleType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -19998,6 +20281,12 @@ static int decode_iso20_PriceLevelScheduleType(exi_bitstream_t* stream, struct i
                                     PriceLevelScheduleType->PriceScheduleDescription.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, PriceLevelScheduleType->PriceScheduleDescription.charactersLen, PriceLevelScheduleType->PriceScheduleDescription.characters, iso20_PriceScheduleDescription_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < PriceLevelScheduleType->PriceScheduleDescription.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(PriceLevelScheduleType->PriceScheduleDescription.characters[i]))
+                                        {
+                                            PriceLevelScheduleType->PriceScheduleDescription.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, PriceLevelScheduleType->PriceScheduleDescription.characters);
                                 }
                                 else
@@ -20850,6 +21139,12 @@ static int decode_iso20_SignaturePropertyType(exi_bitstream_t* stream, struct is
                             SignaturePropertyType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Id.charactersLen, SignaturePropertyType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignaturePropertyType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignaturePropertyType->Id.characters[i]))
+                                {
+                                    SignaturePropertyType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignaturePropertyType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -20879,6 +21174,12 @@ static int decode_iso20_SignaturePropertyType(exi_bitstream_t* stream, struct is
                             SignaturePropertyType->Target.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Target.charactersLen, SignaturePropertyType->Target.characters, iso20_Target_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignaturePropertyType->Target.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignaturePropertyType->Target.characters[i]))
+                                {
+                                    SignaturePropertyType->Target.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignaturePropertyType->Target.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -20920,6 +21221,12 @@ static int decode_iso20_SignaturePropertyType(exi_bitstream_t* stream, struct is
                             SignaturePropertyType->Target.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Target.charactersLen, SignaturePropertyType->Target.characters, iso20_Target_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignaturePropertyType->Target.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignaturePropertyType->Target.characters[i]))
+                                {
+                                    SignaturePropertyType->Target.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignaturePropertyType->Target.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -22057,6 +22364,12 @@ static int decode_iso20_SignedMeteringDataType(exi_bitstream_t* stream, struct i
                             SignedMeteringDataType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignedMeteringDataType->Id.charactersLen, SignedMeteringDataType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignedMeteringDataType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignedMeteringDataType->Id.characters[i]))
+                                {
+                                    SignedMeteringDataType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignedMeteringDataType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -22369,6 +22682,12 @@ static int decode_iso20_SignedCertificateChainType(exi_bitstream_t* stream, stru
                             SignedCertificateChainType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignedCertificateChainType->Id.charactersLen, SignedCertificateChainType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignedCertificateChainType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignedCertificateChainType->Id.characters[i]))
+                                {
+                                    SignedCertificateChainType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignedCertificateChainType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -25012,6 +25331,12 @@ static int decode_iso20_PnC_AReqAuthorizationModeType(exi_bitstream_t* stream, s
                             PnC_AReqAuthorizationModeType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, PnC_AReqAuthorizationModeType->Id.charactersLen, PnC_AReqAuthorizationModeType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < PnC_AReqAuthorizationModeType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(PnC_AReqAuthorizationModeType->Id.characters[i]))
+                                {
+                                    PnC_AReqAuthorizationModeType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, PnC_AReqAuthorizationModeType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -28141,6 +28466,12 @@ static int decode_iso20_EMAIDListType(exi_bitstream_t* stream, struct iso20_EMAI
                                             EMAIDListType->EMAID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]))
+                                            {
+                                                EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters);
                                     }
                                     else
@@ -28228,6 +28559,12 @@ static int decode_iso20_EMAIDListType(exi_bitstream_t* stream, struct iso20_EMAI
                                             EMAIDListType->EMAID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]))
+                                            {
+                                                EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters);
                                     }
                                     else
@@ -28322,6 +28659,12 @@ static int decode_iso20_EMAIDListType(exi_bitstream_t* stream, struct iso20_EMAI
                                             EMAIDListType->EMAID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]))
+                                            {
+                                                EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters);
                                     }
                                     else
@@ -28416,6 +28759,12 @@ static int decode_iso20_EMAIDListType(exi_bitstream_t* stream, struct iso20_EMAI
                                             EMAIDListType->EMAID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]))
+                                            {
+                                                EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters);
                                     }
                                     else
@@ -28510,6 +28859,12 @@ static int decode_iso20_EMAIDListType(exi_bitstream_t* stream, struct iso20_EMAI
                                             EMAIDListType->EMAID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]))
+                                            {
+                                                EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters);
                                     }
                                     else
@@ -28604,6 +28959,12 @@ static int decode_iso20_EMAIDListType(exi_bitstream_t* stream, struct iso20_EMAI
                                             EMAIDListType->EMAID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]))
+                                            {
+                                                EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters);
                                     }
                                     else
@@ -28698,6 +29059,12 @@ static int decode_iso20_EMAIDListType(exi_bitstream_t* stream, struct iso20_EMAI
                                             EMAIDListType->EMAID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]))
+                                            {
+                                                EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters);
                                     }
                                     else
@@ -28792,6 +29159,12 @@ static int decode_iso20_EMAIDListType(exi_bitstream_t* stream, struct iso20_EMAI
                                             EMAIDListType->EMAID.arrayLen++;
                                         }
                                         strcat(xmlOut, ">");
+                                        for(int i = 0; i < EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].charactersLen; i++) { // check for unprintable characters
+                                            if(!isprint(EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]))
+                                            {
+                                                EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters[i]   = '?';
+                                            }
+                                        }
                                         strcat(xmlOut, EMAIDListType->EMAID.array[EMAIDListType->EMAID.arrayLen].characters);
                                     }
                                     else
@@ -28920,6 +29293,12 @@ static int decode_iso20_SignedInstallationDataType(exi_bitstream_t* stream, stru
                             SignedInstallationDataType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignedInstallationDataType->Id.charactersLen, SignedInstallationDataType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignedInstallationDataType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignedInstallationDataType->Id.characters[i]))
+                                {
+                                    SignedInstallationDataType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignedInstallationDataType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -29701,6 +30080,12 @@ static int decode_iso20_SessionSetupReqType(exi_bitstream_t* stream, struct iso2
                                     SessionSetupReqType->EVCCID.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, SessionSetupReqType->EVCCID.charactersLen, SessionSetupReqType->EVCCID.characters, iso20_EVCCID_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < SessionSetupReqType->EVCCID.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(SessionSetupReqType->EVCCID.characters[i]))
+                                        {
+                                            SessionSetupReqType->EVCCID.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, SessionSetupReqType->EVCCID.characters);
                                 }
                                 else
@@ -29927,6 +30312,12 @@ static int decode_iso20_SessionSetupResType(exi_bitstream_t* stream, struct iso2
                                     SessionSetupResType->EVSEID.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, SessionSetupResType->EVSEID.charactersLen, SessionSetupResType->EVSEID.characters, iso20_EVSEID_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < SessionSetupResType->EVSEID.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(SessionSetupResType->EVSEID.characters[i]))
+                                        {
+                                            SessionSetupResType->EVSEID.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, SessionSetupResType->EVSEID.characters);
                                 }
                                 else
@@ -33669,6 +34060,12 @@ static int decode_iso20_SessionStopReqType(exi_bitstream_t* stream, struct iso20
                                     SessionStopReqType->EVTerminationCode.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, SessionStopReqType->EVTerminationCode.charactersLen, SessionStopReqType->EVTerminationCode.characters, iso20_EVTerminationCode_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < SessionStopReqType->EVTerminationCode.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(SessionStopReqType->EVTerminationCode.characters[i]))
+                                        {
+                                            SessionStopReqType->EVTerminationCode.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, SessionStopReqType->EVTerminationCode.characters);
                                 }
                                 else
@@ -33733,6 +34130,12 @@ static int decode_iso20_SessionStopReqType(exi_bitstream_t* stream, struct iso20
                                     SessionStopReqType->EVTerminationExplanation.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, SessionStopReqType->EVTerminationExplanation.charactersLen, SessionStopReqType->EVTerminationExplanation.characters, iso20_EVTerminationExplanation_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < SessionStopReqType->EVTerminationExplanation.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(SessionStopReqType->EVTerminationExplanation.characters[i]))
+                                        {
+                                            SessionStopReqType->EVTerminationExplanation.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, SessionStopReqType->EVTerminationExplanation.characters);
                                 }
                                 else
@@ -33817,6 +34220,12 @@ static int decode_iso20_SessionStopReqType(exi_bitstream_t* stream, struct iso20
                                     SessionStopReqType->EVTerminationExplanation.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, SessionStopReqType->EVTerminationExplanation.charactersLen, SessionStopReqType->EVTerminationExplanation.characters, iso20_EVTerminationExplanation_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < SessionStopReqType->EVTerminationExplanation.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(SessionStopReqType->EVTerminationExplanation.characters[i]))
+                                        {
+                                            SessionStopReqType->EVTerminationExplanation.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, SessionStopReqType->EVTerminationExplanation.characters);
                                 }
                                 else
@@ -35990,6 +36399,12 @@ static int decode_iso20_ManifestType(exi_bitstream_t* stream, struct iso20_Manif
                             ManifestType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ManifestType->Id.charactersLen, ManifestType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ManifestType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ManifestType->Id.characters[i]))
+                                {
+                                    ManifestType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ManifestType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -36513,6 +36928,12 @@ static int decode_iso20_SignaturePropertiesType(exi_bitstream_t* stream, struct 
                             SignaturePropertiesType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertiesType->Id.charactersLen, SignaturePropertiesType->Id.characters, iso20_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignaturePropertiesType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignaturePropertiesType->Id.characters[i]))
+                                {
+                                    SignaturePropertiesType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignaturePropertiesType->Id.characters);
                             strcat(xmlOut, "\"");
                         }

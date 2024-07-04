@@ -20,6 +20,7 @@
   **/
 #include <stdint.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -126,6 +127,12 @@ static int decode_iso20_dc_TransformType(exi_bitstream_t* stream, struct iso20_d
                             TransformType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, TransformType->Algorithm.charactersLen, TransformType->Algorithm.characters, iso20_dc_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < TransformType->Algorithm.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(TransformType->Algorithm.characters[i]))
+                                {
+                                    TransformType->Algorithm.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, TransformType->Algorithm.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -175,6 +182,12 @@ static int decode_iso20_dc_TransformType(exi_bitstream_t* stream, struct iso20_d
                                     TransformType->XPath.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, TransformType->XPath.charactersLen, TransformType->XPath.characters, iso20_dc_XPath_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < TransformType->XPath.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(TransformType->XPath.characters[i]))
+                                        {
+                                            TransformType->XPath.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, TransformType->XPath.characters);
                                 }
                                 else
@@ -1162,6 +1175,12 @@ static int decode_iso20_dc_X509IssuerSerialType(exi_bitstream_t* stream, struct 
                                     X509IssuerSerialType->X509IssuerName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, X509IssuerSerialType->X509IssuerName.charactersLen, X509IssuerSerialType->X509IssuerName.characters, iso20_dc_X509IssuerName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < X509IssuerSerialType->X509IssuerName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(X509IssuerSerialType->X509IssuerName.characters[i]))
+                                        {
+                                            X509IssuerSerialType->X509IssuerName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, X509IssuerSerialType->X509IssuerName.characters);
                                 }
                                 else
@@ -1350,6 +1369,12 @@ static int decode_iso20_dc_DigestMethodType(exi_bitstream_t* stream, struct iso2
                             DigestMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, DigestMethodType->Algorithm.charactersLen, DigestMethodType->Algorithm.characters, iso20_dc_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < DigestMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(DigestMethodType->Algorithm.characters[i]))
+                                {
+                                    DigestMethodType->Algorithm.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, DigestMethodType->Algorithm.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -1672,6 +1697,12 @@ static int decode_iso20_dc_CanonicalizationMethodType(exi_bitstream_t* stream, s
                             CanonicalizationMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, CanonicalizationMethodType->Algorithm.charactersLen, CanonicalizationMethodType->Algorithm.characters, iso20_dc_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < CanonicalizationMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(CanonicalizationMethodType->Algorithm.characters[i]))
+                                {
+                                    CanonicalizationMethodType->Algorithm.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, CanonicalizationMethodType->Algorithm.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -1826,6 +1857,12 @@ static int decode_iso20_dc_SignatureMethodType(exi_bitstream_t* stream, struct i
                             SignatureMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureMethodType->Algorithm.charactersLen, SignatureMethodType->Algorithm.characters, iso20_dc_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignatureMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignatureMethodType->Algorithm.characters[i]))
+                                {
+                                    SignatureMethodType->Algorithm.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignatureMethodType->Algorithm.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2250,6 +2287,12 @@ static int decode_iso20_dc_ReferenceType(exi_bitstream_t* stream, struct iso20_d
                             ReferenceType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Id.charactersLen, ReferenceType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->Id.characters[i]))
+                                {
+                                    ReferenceType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2279,6 +2322,12 @@ static int decode_iso20_dc_ReferenceType(exi_bitstream_t* stream, struct iso20_d
                             ReferenceType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Type.charactersLen, ReferenceType->Type.characters, iso20_dc_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->Type.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->Type.characters[i]))
+                                {
+                                    ReferenceType->Type.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->Type.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2308,6 +2357,12 @@ static int decode_iso20_dc_ReferenceType(exi_bitstream_t* stream, struct iso20_d
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_dc_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->URI.characters[i]))
+                                {
+                                    ReferenceType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2395,6 +2450,12 @@ static int decode_iso20_dc_ReferenceType(exi_bitstream_t* stream, struct iso20_d
                             ReferenceType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Type.charactersLen, ReferenceType->Type.characters, iso20_dc_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->Type.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->Type.characters[i]))
+                                {
+                                    ReferenceType->Type.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->Type.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2424,6 +2485,12 @@ static int decode_iso20_dc_ReferenceType(exi_bitstream_t* stream, struct iso20_d
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_dc_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->URI.characters[i]))
+                                {
+                                    ReferenceType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2511,6 +2578,12 @@ static int decode_iso20_dc_ReferenceType(exi_bitstream_t* stream, struct iso20_d
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_dc_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ReferenceType->URI.characters[i]))
+                                {
+                                    ReferenceType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ReferenceType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2799,6 +2872,12 @@ static int decode_iso20_dc_RetrievalMethodType(exi_bitstream_t* stream, struct i
                             RetrievalMethodType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->Type.charactersLen, RetrievalMethodType->Type.characters, iso20_dc_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < RetrievalMethodType->Type.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(RetrievalMethodType->Type.characters[i]))
+                                {
+                                    RetrievalMethodType->Type.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, RetrievalMethodType->Type.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2828,6 +2907,12 @@ static int decode_iso20_dc_RetrievalMethodType(exi_bitstream_t* stream, struct i
                             RetrievalMethodType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->URI.charactersLen, RetrievalMethodType->URI.characters, iso20_dc_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < RetrievalMethodType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(RetrievalMethodType->URI.characters[i]))
+                                {
+                                    RetrievalMethodType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, RetrievalMethodType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -2900,6 +2985,12 @@ static int decode_iso20_dc_RetrievalMethodType(exi_bitstream_t* stream, struct i
                             RetrievalMethodType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->URI.charactersLen, RetrievalMethodType->URI.characters, iso20_dc_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < RetrievalMethodType->URI.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(RetrievalMethodType->URI.characters[i]))
+                                {
+                                    RetrievalMethodType->URI.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, RetrievalMethodType->URI.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -3142,6 +3233,12 @@ static int decode_iso20_dc_X509DataType(exi_bitstream_t* stream, struct iso20_dc
                                     X509DataType->X509SubjectName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, X509DataType->X509SubjectName.charactersLen, X509DataType->X509SubjectName.characters, iso20_dc_X509SubjectName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < X509DataType->X509SubjectName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(X509DataType->X509SubjectName.characters[i]))
+                                        {
+                                            X509DataType->X509SubjectName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, X509DataType->X509SubjectName.characters);
                                 }
                                 else
@@ -4032,6 +4129,12 @@ static int decode_iso20_dc_SignedInfoType(exi_bitstream_t* stream, struct iso20_
                             SignedInfoType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignedInfoType->Id.charactersLen, SignedInfoType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignedInfoType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignedInfoType->Id.characters[i]))
+                                {
+                                    SignedInfoType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignedInfoType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -4437,6 +4540,12 @@ static int decode_iso20_dc_SignatureValueType(exi_bitstream_t* stream, struct is
                             SignatureValueType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureValueType->Id.charactersLen, SignatureValueType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignatureValueType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignatureValueType->Id.characters[i]))
+                                {
+                                    SignatureValueType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignatureValueType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -4616,6 +4725,12 @@ static int decode_iso20_dc_KeyInfoType(exi_bitstream_t* stream, struct iso20_dc_
                             KeyInfoType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, KeyInfoType->Id.charactersLen, KeyInfoType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < KeyInfoType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(KeyInfoType->Id.characters[i]))
+                                {
+                                    KeyInfoType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, KeyInfoType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -4653,6 +4768,12 @@ static int decode_iso20_dc_KeyInfoType(exi_bitstream_t* stream, struct iso20_dc_
                                     KeyInfoType->KeyName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->KeyName.charactersLen, KeyInfoType->KeyName.characters, iso20_dc_KeyName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < KeyInfoType->KeyName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(KeyInfoType->KeyName.characters[i]))
+                                        {
+                                            KeyInfoType->KeyName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, KeyInfoType->KeyName.characters);
                                 }
                                 else
@@ -4832,6 +4953,12 @@ static int decode_iso20_dc_KeyInfoType(exi_bitstream_t* stream, struct iso20_dc_
                                     KeyInfoType->MgmtData.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->MgmtData.charactersLen, KeyInfoType->MgmtData.characters, iso20_dc_MgmtData_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < KeyInfoType->MgmtData.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(KeyInfoType->MgmtData.characters[i]))
+                                        {
+                                            KeyInfoType->MgmtData.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, KeyInfoType->MgmtData.characters);
                                 }
                                 else
@@ -4947,6 +5074,12 @@ static int decode_iso20_dc_KeyInfoType(exi_bitstream_t* stream, struct iso20_dc_
                                     KeyInfoType->KeyName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->KeyName.charactersLen, KeyInfoType->KeyName.characters, iso20_dc_KeyName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < KeyInfoType->KeyName.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(KeyInfoType->KeyName.characters[i]))
+                                        {
+                                            KeyInfoType->KeyName.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, KeyInfoType->KeyName.characters);
                                 }
                                 else
@@ -5126,6 +5259,12 @@ static int decode_iso20_dc_KeyInfoType(exi_bitstream_t* stream, struct iso20_dc_
                                     KeyInfoType->MgmtData.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->MgmtData.charactersLen, KeyInfoType->MgmtData.characters, iso20_dc_MgmtData_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < KeyInfoType->MgmtData.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(KeyInfoType->MgmtData.characters[i]))
+                                        {
+                                            KeyInfoType->MgmtData.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, KeyInfoType->MgmtData.characters);
                                 }
                                 else
@@ -5281,6 +5420,12 @@ static int decode_iso20_dc_ObjectType(exi_bitstream_t* stream, struct iso20_dc_O
                             ObjectType->Encoding.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Encoding.charactersLen, ObjectType->Encoding.characters, iso20_dc_Encoding_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->Encoding.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->Encoding.characters[i]))
+                                {
+                                    ObjectType->Encoding.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->Encoding.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -5310,6 +5455,12 @@ static int decode_iso20_dc_ObjectType(exi_bitstream_t* stream, struct iso20_dc_O
                             ObjectType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Id.charactersLen, ObjectType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->Id.characters[i]))
+                                {
+                                    ObjectType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -5339,6 +5490,12 @@ static int decode_iso20_dc_ObjectType(exi_bitstream_t* stream, struct iso20_dc_O
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_dc_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->MimeType.characters[i]))
+                                {
+                                    ObjectType->MimeType.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->MimeType.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -5433,6 +5590,12 @@ static int decode_iso20_dc_ObjectType(exi_bitstream_t* stream, struct iso20_dc_O
                             ObjectType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Id.charactersLen, ObjectType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->Id.characters[i]))
+                                {
+                                    ObjectType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -5462,6 +5625,12 @@ static int decode_iso20_dc_ObjectType(exi_bitstream_t* stream, struct iso20_dc_O
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_dc_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->MimeType.characters[i]))
+                                {
+                                    ObjectType->MimeType.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->MimeType.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -5556,6 +5725,12 @@ static int decode_iso20_dc_ObjectType(exi_bitstream_t* stream, struct iso20_dc_O
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_dc_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ObjectType->MimeType.characters[i]))
+                                {
+                                    ObjectType->MimeType.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ObjectType->MimeType.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -6040,6 +6215,12 @@ static int decode_iso20_dc_SignatureType(exi_bitstream_t* stream, struct iso20_d
                             SignatureType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureType->Id.charactersLen, SignatureType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignatureType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignatureType->Id.characters[i]))
+                                {
+                                    SignatureType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignatureType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -6714,6 +6895,12 @@ static int decode_iso20_dc_SignaturePropertyType(exi_bitstream_t* stream, struct
                             SignaturePropertyType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Id.charactersLen, SignaturePropertyType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignaturePropertyType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignaturePropertyType->Id.characters[i]))
+                                {
+                                    SignaturePropertyType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignaturePropertyType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -6743,6 +6930,12 @@ static int decode_iso20_dc_SignaturePropertyType(exi_bitstream_t* stream, struct
                             SignaturePropertyType->Target.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Target.charactersLen, SignaturePropertyType->Target.characters, iso20_dc_Target_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignaturePropertyType->Target.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignaturePropertyType->Target.characters[i]))
+                                {
+                                    SignaturePropertyType->Target.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignaturePropertyType->Target.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -6784,6 +6977,12 @@ static int decode_iso20_dc_SignaturePropertyType(exi_bitstream_t* stream, struct
                             SignaturePropertyType->Target.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Target.charactersLen, SignaturePropertyType->Target.characters, iso20_dc_Target_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignaturePropertyType->Target.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignaturePropertyType->Target.characters[i]))
+                                {
+                                    SignaturePropertyType->Target.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignaturePropertyType->Target.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -10204,6 +10403,12 @@ static int decode_iso20_dc_MeterInfoType(exi_bitstream_t* stream, struct iso20_d
                                     MeterInfoType->MeterID.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, MeterInfoType->MeterID.charactersLen, MeterInfoType->MeterID.characters, iso20_dc_MeterID_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < MeterInfoType->MeterID.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(MeterInfoType->MeterID.characters[i]))
+                                        {
+                                            MeterInfoType->MeterID.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, MeterInfoType->MeterID.characters);
                                 }
                                 else
@@ -21635,6 +21840,8 @@ static int decode_iso20_dc_DC_ChargeLoopReqType(exi_bitstream_t* stream, struct 
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
                     strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:DC}BPT_Dynamic_DC_CLReqControlMode>");
+
+                    grammar_id = 2; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
                     }
                     break;
                 case 1:
@@ -21658,6 +21865,8 @@ static int decode_iso20_dc_DC_ChargeLoopReqType(exi_bitstream_t* stream, struct 
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
                     strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:DC}BPT_Scheduled_DC_CLReqControlMode>");
+
+                    grammar_id = 2; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
                     }
                     break;
                 case 2:
@@ -21671,9 +21880,6 @@ static int decode_iso20_dc_DC_ChargeLoopReqType(exi_bitstream_t* stream, struct 
                         grammar_id = 2;
                     }
 
-
-                    done = 1; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
-                    grammar_id = -1; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
                     }
                     break;
                 case 3:
@@ -21746,9 +21952,6 @@ static int decode_iso20_dc_DC_ChargeLoopReqType(exi_bitstream_t* stream, struct 
                         grammar_id = 2;
                     }
 
-
-                    done = 1; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
-                    grammar_id = -1; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
                     }
                     break;
                 case 1:
@@ -23378,6 +23581,8 @@ static int decode_iso20_dc_DC_ChargeLoopResType(exi_bitstream_t* stream, struct 
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
                     strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:DC}BPT_Dynamic_DC_CLResControlMode>");
+
+                    grammar_id = 2; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
                     }
                     break;
                 case 1:
@@ -23401,6 +23606,8 @@ static int decode_iso20_dc_DC_ChargeLoopResType(exi_bitstream_t* stream, struct 
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
                     strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:DC}BPT_Scheduled_DC_CLResControlMode>");
+
+                    grammar_id = 2; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
                     }
                     break;
                 case 2:
@@ -23414,9 +23621,6 @@ static int decode_iso20_dc_DC_ChargeLoopResType(exi_bitstream_t* stream, struct 
                         grammar_id = 2;
                     }
 
-
-                    done = 1; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
-                    grammar_id = -1; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
                     }
                     break;
                 case 3:
@@ -23489,9 +23693,6 @@ static int decode_iso20_dc_DC_ChargeLoopResType(exi_bitstream_t* stream, struct 
                         grammar_id = 2;
                     }
 
-
-                    done = 1; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
-                    grammar_id = -1; // dirty hack to fix CLRe*ControlMode. Remove me after fix of issue #52
                     }
                     break;
                 case 1:
@@ -23616,6 +23817,12 @@ static int decode_iso20_dc_ManifestType(exi_bitstream_t* stream, struct iso20_dc
                             ManifestType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ManifestType->Id.charactersLen, ManifestType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < ManifestType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(ManifestType->Id.characters[i]))
+                                {
+                                    ManifestType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, ManifestType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
@@ -24139,6 +24346,12 @@ static int decode_iso20_dc_SignaturePropertiesType(exi_bitstream_t* stream, stru
                             SignaturePropertiesType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertiesType->Id.charactersLen, SignaturePropertiesType->Id.characters, iso20_dc_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            for(int i = 0; i < SignaturePropertiesType->Id.charactersLen; i++) { // check for unprintable characters
+                                if(!isprint(SignaturePropertiesType->Id.characters[i]))
+                                {
+                                    SignaturePropertiesType->Id.characters[i]   = '?';
+                                }
+                            }
                             strcat(xmlOut, SignaturePropertiesType->Id.characters);
                             strcat(xmlOut, "\"");
                         }
