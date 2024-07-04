@@ -20,6 +20,7 @@
   **/
 #include <stdint.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -82,6 +83,12 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                                     AppProtocolType->ProtocolNamespace.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, AppProtocolType->ProtocolNamespace.charactersLen, AppProtocolType->ProtocolNamespace.characters, appHand_ProtocolNamespace_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    for(int i = 0; i < AppProtocolType->ProtocolNamespace.charactersLen; i++) { // check for unprintable characters
+                                        if(!isprint(AppProtocolType->ProtocolNamespace.characters[i]))
+                                        {
+                                            AppProtocolType->ProtocolNamespace.characters[i]   = '?';
+                                        }
+                                    }
                                     strcat(xmlOut, AppProtocolType->ProtocolNamespace.characters);
                                 }
                                 else

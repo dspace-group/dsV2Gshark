@@ -65,6 +65,13 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
     - No installer, see [Installation Notes](#installation-notes). Make sure you have read permissions for all files.
     - Filter buttons and color filters must be added manually
     - I/O graph must be configured manually
+    - The libraries you find in [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/) are built for Lua 5.2. However, some Linux distributions (e.g. Fedora 39 and below) still use Lua 5.1. In that case, you will need to built the libaries yourself using the following commands:
+        ```
+        export LUAFLAGS="-I$(pkg-config --variable=includedir lua51)"
+        cd V2G_Libraries
+        ./build_all_linux.sh
+        ```
+       The built libraries can then be found in  `V2G_Libraries\CertificateInfos\bin` and `V2G_Libraries\V2GDecoder\bin`.
 
 ## Support
 - If you encounter any problems, feel free to open an issue or contact us at support@dSPACE.de
