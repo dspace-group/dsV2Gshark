@@ -1,6 +1,11 @@
-CC	 = g++
+CC = g++
 MKDIR = mkdir -p
 RM = rm -rf
+
+
+
+IFLAGS_LUA ?= -I"../Third_Party/lua/lua-54/include"
+BINARY_OUT_NAME ?= v2gLib.so
 
 SRC_DIR = src
 OBJ_DIR = obj
@@ -11,14 +16,13 @@ OBJECTS = $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SOURCE))
 DEPS = $(patsubst %.h,$(OBJ_DIR)/%.d,$(HEADER))
 
 BINARY_DIR_OUT = bin
-BINARY_FILE	= "v2gLuaDecoder.so"
-BINARY=$(BINARY_DIR_OUT)/$(BINARY_FILE)
+BINARY_OUT = $(BINARY_DIR_OUT)/$(BINARY_OUT_NAME)
 
 FLAGS_COMMON = -Wall -O3 -MP -MD -fPIC
-FLAGS_LIB	 = -shared -static-libstdc++ -static-libgcc
+FLAGS_LIB = -shared -static-libstdc++ -static-libgcc
 
-LUAFLAGS ?= -I"../Third_Party/lua/lua-5.2.4/include"
-IFLAGS = ${LUAFLAGS} -I"../Third_Party/zlib/include" -I"../Third_Party/libxml2/include/libxml2"
+IFLAGS = $(IFLAGS_LUA) -I"../Third_Party/zlib/include" -I"../Third_Party/libxml2/include/libxml2" -I"../Third_Party/GnuTLS/include"
+
 
 # CBV2G
 PATH_CBV2G = ../Third_Party/cbv2g
@@ -26,14 +30,17 @@ OBJECTS_CBV2G = $(wildcard $(PATH_CBV2G)/$(OBJ_DIR)/*/*.o)
 INCLUDES_CBV2G = $(wildcard $(PATH_CBV2G)/*/.)
 IFLAGS_CBV2G = $(foreach d, $(INCLUDES_CBV2G), -I"$(d)")
 
-dll:$(BINARY)
+all: $(BINARY_OUT)
 
-$(BINARY): prepare_dirs cbv2g $(OBJECTS)
-	$(CC) $(FLAGS_COMMON) $(FLAGS_LIB) $(OBJECTS) $(OBJECTS_CBV2G) -o $(BINARY_DIR_OUT)/$(BINARY_FILE) $(IFLAGS)
+$(BINARY_OUT): prepare_dirs cbv2g $(OBJECTS)
+	$(CC) $(FLAGS_COMMON) $(FLAGS_LIB) $(OBJECTS) $(OBJECTS_CBV2G) -o $(BINARY_OUT) $(IFLAGS)
 
 $(OBJ_DIR)/%.o: %.cpp
 	$(MKDIR) $(dir $@)
 	$(CC) -c $(FLAGS_COMMON) $< -o $@ $(IFLAGS) $(IFLAGS_CBV2G)
+	
+	
+	
 
 cbv2g:
 	make -C $(PATH_CBV2G) build
@@ -41,9 +48,12 @@ cbv2g:
 prepare_dirs:
 	$(MKDIR) $(BINARY_DIR_OUT)
 
-clean:
-	$(RM) $(OBJ_DIR) $(BINARY_DIR_OUT) $(BIN)
+clean: clean-obj
+	$(RM) $(BINARY_DIR_OUT)
 	make -C $(PATH_CBV2G) clean
 
-.PHONY: dll cbv2g prepare_dirs clean
+clean-obj:
+	$(RM) $(OBJ_DIR) res.o
+
+.PHONY: $(BINARY_OUT) resource cbv2g prepare_dirs clean
 -include $(DEPS)

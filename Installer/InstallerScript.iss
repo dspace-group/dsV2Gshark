@@ -1,5 +1,5 @@
 // DO NOT CHANGE VERSION HERE! Run update_version.bat
-#define AppVer "1.4.1"
+#define AppVer "1.4.2"
 #define AppId "dsV2Gshark"
 
 [Setup]
@@ -63,6 +63,8 @@ Source: "..\OSSAcknowledgements.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_OS
 Source: "dsV2Gshark_README.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_README.txt"; Flags: ignoreversion;
 
 [InstallDelete]
+Type: filesandordirs; Name: "{app}\v2gLuaDecoder.dll"
+Type: filesandordirs; Name: "{app}\v2gX509CertInfos.dll"
 Type: filesandordirs; Name: "{app}\luaV2Gdecoder.dll"
 Type: filesandordirs; Name: "{app}\X509CertInfos.dll"
 Type: filesandordirs; Name: "{app}\plugins\v2gmsg_generic.lua"

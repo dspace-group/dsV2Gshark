@@ -22,10 +22,7 @@ local p_v2gmsg_info = {
 }
 set_plugin_info(p_v2gmsg_info)
 
--- Load C-Decoder
-local v2g_decoder = require("v2gLuaDecoder")
-v2g_decoder.initValidator()
-local cert_info_extractor = require("v2gX509CertInfos")
+local v2g_lib = v2gcommon.load_v2gLib()
 
 -- Buffer for all decoded messages. Maps packetID -> xml string (or nil)
 local xml_buffer = {}
@@ -115,10 +112,10 @@ local function decode_v2g_message(schema, exi_string, packet_number)
     local xml_out, xml_schema, errn
 
     decoded_with_auto_schema_detection[packet_number] = false
-    xml_out, xml_schema, errn = v2g_decoder.decodeV2GExi(schema, exi_string)
+    xml_out, xml_schema, errn = v2g_lib.decodeV2GExi(schema, exi_string)
     if errn ~= 0 then -- on error use autoprotocol mode
         local xml_out_auto, xml_schema_auto
-        xml_out_auto, xml_schema_auto, errn_auto = v2g_decoder.decodeV2GAuto(exi_string)
+        xml_out_auto, xml_schema_auto, errn_auto = v2g_lib.decodeV2GAuto(exi_string)
         if xml_out_auto ~= nil then
             decoded_with_auto_schema_detection[packet_number] = true
             xml_out = xml_out_auto
@@ -169,7 +166,7 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
                 v3_key_usage,
                 v3_key_usage_crit,
                 v3_sk_ID,
-                v3_sk_ID_crit = cert_info_extractor.getX509Infos(xml_table.value)
+                v3_sk_ID_crit = v2g_lib.getX509Infos(xml_table.value)
             if valid then
                 cert_element:add(dissector_field, subj):set_text("Subject: " .. subj)
                 cert_element:add(dissector_field, issuer):set_text("Issuer: " .. issuer)
@@ -361,6 +358,13 @@ end
 
 -- Dissection function
 function p_v2gmsg.dissector(buf, pinfo, root)
+    if not v2g_lib then
+        -- initialization failed
+        local subtree = root:add(p_v2gmsg, buf(0))
+        subtree:add(f_entry, ""):set_text("WARNING: Failed to load v2gLib. Please check your dsV2Gshark installation")
+        return 0
+    end
+
     pinfo.cols.protocol = "V2GMSG"
     pinfo.cols.info = "V2GMESSAGE FAILURE: Unknown error occured" -- default 'INFO'-field
 
@@ -423,7 +427,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                 if error_msg == nil then
                     -- msg not validated yet
                     local is_valid
-                    is_valid, error_msg = v2g_decoder.validateXml(xml_data, decoded_schema)
+                    is_valid, error_msg = v2g_lib.validateXml(xml_data, decoded_schema)
                     if not is_valid then
                         validation_buffer[pinfo.number] = error_msg
                     end

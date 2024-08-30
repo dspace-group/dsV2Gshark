@@ -23,6 +23,40 @@ extern "C"
 #include "XmlValidator.h"
 #include "Utils.h"
 #include "Decoder.h"
+#include "CertHelper.h"
+
+static int l_getX509Infos(lua_State *L)
+{
+    size_t certSize;
+    const char *cert = luaL_checklstring(L, 1, &certSize);
+
+    std::string fullcert = "-----BEGIN CERTIFICATE-----\n";
+    fullcert.append(cert);
+    fullcert.append("\n-----END CERTIFICATE-----");
+
+    X509CertInfos cInfo = get_cert_info(fullcert);
+
+    lua_pushboolean(L, cInfo.valid);
+    lua_pushstring(L, cInfo.subject.c_str());
+    lua_pushstring(L, cInfo.issuer.c_str());
+    lua_pushnumber(L, cInfo.version);
+    lua_pushstring(L, cInfo.serial_number.c_str());
+    lua_pushstring(L, cInfo.time_not_before.c_str());
+    lua_pushstring(L, cInfo.time_not_after.c_str());
+    lua_pushstring(L, cInfo.sig_algorithm.c_str());
+    lua_pushstring(L, cInfo.sig_value.c_str());
+    lua_pushstring(L, cInfo.pubkey_algorithm.c_str());
+    lua_pushstring(L, cInfo.spk_NIST_curve.c_str());
+    lua_pushstring(L, cInfo.spk_pub.c_str());
+    lua_pushstring(L, cInfo.v3ext_basic_constraint.c_str());
+    lua_pushstring(L, cInfo.v3ext_basic_constraint_CA.c_str());
+    lua_pushstring(L, cInfo.v3ext_key_usage.c_str());
+    lua_pushstring(L, cInfo.v3ext_key_usage_critical.c_str());
+    lua_pushstring(L, cInfo.v3ext_subjkey_id.c_str());
+    lua_pushstring(L, cInfo.v3ext_subjkey_id_critical.c_str());
+
+    return 18; // Note: the lua stack has only (at least) 20 free slots!
+}
 
 Decoder v2g_message_decoder;
 XmlValidator v2g_message_validator;
@@ -138,7 +172,7 @@ static int l_decodeV2GExi(lua_State *L)
 
 extern "C"
 {
-    int luaopen_v2gLuaDecoder(lua_State *L)
+    int luaopen_v2gLib(lua_State *L)
     {
         static const struct luaL_Reg LuaDecoderLib[] =
             {
@@ -148,6 +182,7 @@ extern "C"
                 {"validateXml", l_validate},
                 {"initValidator", l_validate_init},
                 {"cleanupValidator", l_validate_cleanup},
+                {"getX509Infos", l_getX509Infos},
                 {NULL, NULL}};
 #if LUA_VERSION_NUM > 501
         luaL_newlib(L, LuaDecoderLib);

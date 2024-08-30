@@ -3,12 +3,28 @@
     "tasks": [
         {
             "label": "Build All",
+            "dependsOn": ["Build v2gLib (single)", "Build Installer"],
+            "dependsOrder": "sequence"
+        },
+        {
+            "label": "Build Installer",
             "detail": "",
             "type": "shell",
             "command": "./Build_Installer.bat",
             "problemMatcher": [],
             "options": {
                 "cwd": "Installer",
+                "kind": "build",
+            },
+        },
+        {
+            "label": "Build v2gLib (single)",
+            "detail": "",
+            "type": "shell",
+            "command": "./build_for_ws.bat \"C:\\Program Files\\Wireshark\"",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "V2G_Libraries",
                 "kind": "build",
             },
         },
@@ -34,7 +50,7 @@
             },
         },
         {
-            "label": "WSL: Build Linux",
+            "label": "WSL: Build for Linux",
             "detail": "",
             "type": "shell",
             "command": "wsl sh ./build_all_linux.sh",
@@ -45,30 +61,13 @@
             },
         },
         {
-            "label": "Clean All",
-            "dependsOn": ["Clean Decoder", "Clean CertInfos"],
-            "group": {
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Clean Decoder",
+            "label": "Clean v2gLib",
             "detail": "",
             "type": "shell",
             "command": "make",
             "args": ["clean"],
             "options": {
-                "cwd": "V2G_Libraries/V2GDecoder",
-            },
-        },
-        {
-            "label": "Clean CertInfos",
-            "detail": "",
-            "type": "shell",
-            "command": "make",
-            "args": ["clean"],
-            "options": {
-                "cwd": "V2G_Libraries/CertificateInfos",
+                "cwd": "V2G_Libraries/v2gLib",
             },
         },
         {
