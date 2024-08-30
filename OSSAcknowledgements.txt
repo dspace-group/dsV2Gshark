@@ -141,7 +141,7 @@ cbExiGen
 
 The license text of the 'Apache License Version 2.0' can be found in APPENDIX A.
 
-Wireshark 4.2.5
+Wireshark 4.4.0
   Copyright:
     Copyright 1998-2024 Gerald Combs <gerald@wireshark.org> and contributors
   Repository: https://gitlab.com/wireshark/wireshark
@@ -186,7 +186,7 @@ The license text of the 'GNU LESSER GENERAL PUBLIC LICENSE v2.1' can be found in
 Components
 ==========
 
-Libxml2 2.11.5
+Libxml2 2.11.7
   Copyright: 
     Copyright (C) 1998-2012 Daniel Veillard.  All Rights Reserved.
   Repository: https://github.com/GNOME/libxml2
@@ -219,7 +219,7 @@ THE SOFTWARE.
 Components
 ==========
 
-zlib 1.3.0
+zlib 1.3.1
   Copyright: 
     Copyright (C) 1995-2023 Jean-loup Gailly and Mark Adler
   URL: https://www.zlib.net/
@@ -228,7 +228,7 @@ zlib 1.3.0
 # ====================================================================
 # libxml2 License
 # --------------------------------------------------------------------
-  Copyright (C) 1995-2023 Jean-loup Gailly and Mark Adler
+  Copyright (C) 1995-2024 Jean-loup Gailly and Mark Adler
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
