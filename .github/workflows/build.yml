@@ -11,10 +11,28 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Dependencies
-      run: choco install wireshark
+    - name: Install Wireshark 4.2.6
+      run: |
+        choco install wireshark --version=4.2.6 -y
 
-    - name: Build All
+    - name: Build v2gLibs for Wireshark 4.2.6
+      shell: cmd 
+      working-directory: ./V2G_Libraries
+      run: |
+        build_for_ws.bat "C:\Program Files\Wireshark"
+
+    - name: Install Wireshark latest
+      run: |
+        choco uninstall wireshark -y
+        choco install wireshark -y
+
+    - name: Build v2gLibs for Wireshark latest
+      shell: cmd 
+      working-directory: ./V2G_Libraries
+      run: |
+        build_for_ws.bat "C:\Program Files\Wireshark"
+
+    - name: Build Installer
       run: Build_Installer.bat
       shell: cmd 
       working-directory: ./Installer
@@ -29,8 +47,7 @@ jobs:
     - name: Prepare Artifact Directory
       run: |
           mkdir artifact_dir
-          cp ./V2G_Libraries/CertificateInfos/bin/* ./artifact_dir/
-          cp ./V2G_Libraries/V2GDecoder/bin/* ./artifact_dir/
+          cp ./V2G_Libraries/v2gLib/bin/* ./artifact_dir/
           mkdir artifact_dir/plugins
           cp ./Wireshark/plugins/* ./artifact_dir/plugins/
           cp ./LICENSE ./artifact_dir/dsV2Gshark_LICENSE.txt
@@ -56,8 +73,7 @@ jobs:
     - name: Prepare Artifact Directory
       run: |
           mkdir artifact_dir
-          cp ./V2G_Libraries/CertificateInfos/bin/* ./artifact_dir/
-          cp ./V2G_Libraries/V2GDecoder/bin/* ./artifact_dir/
+          cp ./V2G_Libraries/v2gLib/bin/* ./artifact_dir/
           mkdir artifact_dir/plugins
           cp ./Wireshark/plugins/* ./artifact_dir/plugins/
           cp ./LICENSE ./artifact_dir/dsV2Gshark_LICENSE.txt

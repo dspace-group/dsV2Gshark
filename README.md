@@ -2,6 +2,8 @@
 [![Release](https://img.shields.io/github/v/release/dspace-group/dsV2Gshark?label=release)](https://github.com/dspace-group/dsV2Gshark/releases)
 [![dSPACE](https://img.shields.io/badge/-OpenSource%20powered%20by%20dSPACE-blue)](https://www.dspace.com/)
 
+## ❗Wireshark 4.4+ requires dsV2Gshark 1.4.2 or higher❗
+
 ## Overview
 This Wireshark plugin allows to analyze and decode packets between electric vehicles (EV) and charging stations (EVSE), also known as V2G messages.  
 
@@ -65,13 +67,6 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
     - No installer, see [Installation Notes](#installation-notes). Make sure you have read permissions for all files.
     - Filter buttons and color filters must be added manually
     - I/O graph must be configured manually
-    - The libraries you find in [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/) are built for Lua 5.2. However, some Linux distributions (e.g. Fedora 39 and below) still use Lua 5.1. In that case, you will need to built the libaries yourself using the following commands:
-        ```
-        export LUAFLAGS="-I$(pkg-config --variable=includedir lua51)"
-        cd V2G_Libraries
-        ./build_all_linux.sh
-        ```
-       The built libraries can then be found in  `V2G_Libraries\CertificateInfos\bin` and `V2G_Libraries\V2GDecoder\bin`.
 
 ## Support
 - If you encounter any problems, feel free to open an issue or contact us at support@dSPACE.de
@@ -80,7 +75,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ## Further notes
 - When sniffing V2G communication, lost packets may occur, which cause corrupted TCP/TLS sessions. In that case, it may help to activate the option to ignore Message Authentication Code (MAC) check failures in the Wireshark TLS protocol settings.  
     This option can be found under Wireshark Preferences - Protocols - TLS
-- This plugin was built and tested with Wireshark 4.2.5
+- This plugin was built and tested with Wireshark 4.4.0 and 4.2.6
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 

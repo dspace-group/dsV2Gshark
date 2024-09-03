@@ -1,2 +1,2 @@
-v2gLuaDecoder.dll
-v2gX509CertInfos.dll
+v2gLib*.dll
+v2gLib*.so
