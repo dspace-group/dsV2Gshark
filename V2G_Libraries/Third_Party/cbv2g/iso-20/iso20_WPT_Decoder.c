@@ -18,6 +18,7 @@
   * @brief Description goes here
   *
   **/
+#include <inttypes.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
@@ -9389,7 +9390,7 @@ static int decode_iso20_wpt_MessageHeaderType(exi_bitstream_t* stream, struct is
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MessageHeaderType->TimeStamp);
+                        sprintf(append, "%" PRIu64, MessageHeaderType->TimeStamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         grammar_id = 109;
@@ -13842,7 +13843,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->ChargedEnergyReadingWh);
+                        sprintf(append, "%" PRIu64, MeterInfoType->ChargedEnergyReadingWh);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         grammar_id = 143;
@@ -13880,7 +13881,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->BPT_DischargedEnergyReadingWh);
+                        sprintf(append, "%" PRIu64, MeterInfoType->BPT_DischargedEnergyReadingWh);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->BPT_DischargedEnergyReadingWh_isUsed = 1u;
@@ -13906,7 +13907,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->CapacitiveEnergyReadingVARh);
+                        sprintf(append, "%" PRIu64, MeterInfoType->CapacitiveEnergyReadingVARh);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->CapacitiveEnergyReadingVARh_isUsed = 1u;
@@ -13932,7 +13933,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->BPT_InductiveEnergyReadingVARh);
+                        sprintf(append, "%" PRIu64, MeterInfoType->BPT_InductiveEnergyReadingVARh);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->BPT_InductiveEnergyReadingVARh_isUsed = 1u;
@@ -14035,7 +14036,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->MeterTimestamp);
+                        sprintf(append, "%" PRIu64, MeterInfoType->MeterTimestamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->MeterTimestamp_isUsed = 1u;
@@ -14081,7 +14082,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->CapacitiveEnergyReadingVARh);
+                        sprintf(append, "%" PRIu64, MeterInfoType->CapacitiveEnergyReadingVARh);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->CapacitiveEnergyReadingVARh_isUsed = 1u;
@@ -14107,7 +14108,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->BPT_InductiveEnergyReadingVARh);
+                        sprintf(append, "%" PRIu64, MeterInfoType->BPT_InductiveEnergyReadingVARh);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->BPT_InductiveEnergyReadingVARh_isUsed = 1u;
@@ -14210,7 +14211,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->MeterTimestamp);
+                        sprintf(append, "%" PRIu64, MeterInfoType->MeterTimestamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->MeterTimestamp_isUsed = 1u;
@@ -14256,7 +14257,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->BPT_InductiveEnergyReadingVARh);
+                        sprintf(append, "%" PRIu64, MeterInfoType->BPT_InductiveEnergyReadingVARh);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->BPT_InductiveEnergyReadingVARh_isUsed = 1u;
@@ -14359,7 +14360,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->MeterTimestamp);
+                        sprintf(append, "%" PRIu64, MeterInfoType->MeterTimestamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->MeterTimestamp_isUsed = 1u;
@@ -14482,7 +14483,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->MeterTimestamp);
+                        sprintf(append, "%" PRIu64, MeterInfoType->MeterTimestamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->MeterTimestamp_isUsed = 1u;
@@ -14557,7 +14558,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->MeterTimestamp);
+                        sprintf(append, "%" PRIu64, MeterInfoType->MeterTimestamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->MeterTimestamp_isUsed = 1u;
@@ -14603,7 +14604,7 @@ static int decode_iso20_wpt_MeterInfoType(exi_bitstream_t* stream, struct iso20_
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->MeterTimestamp);
+                        sprintf(append, "%" PRIu64, MeterInfoType->MeterTimestamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->MeterTimestamp_isUsed = 1u;
@@ -15947,7 +15948,7 @@ static int decode_iso20_wpt_ReceiptType(exi_bitstream_t* stream, struct iso20_wp
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", ReceiptType->TimeAnchor);
+                        sprintf(append, "%" PRIu64, ReceiptType->TimeAnchor);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         grammar_id = 168;

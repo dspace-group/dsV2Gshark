@@ -18,6 +18,7 @@
   * @brief Description goes here
   *
   **/
+#include <inttypes.h>
 #include <stdint.h>
 #include <string.h>
 #include <ctype.h>
@@ -18414,7 +18415,7 @@ static int decode_iso2_MeterInfoType(exi_bitstream_t* stream, struct iso2_MeterI
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MeterInfoType->MeterReading);
+                        sprintf(append, "%" PRIu64, MeterInfoType->MeterReading);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->MeterReading_isUsed = 1u;
@@ -18517,7 +18518,7 @@ static int decode_iso2_MeterInfoType(exi_bitstream_t* stream, struct iso2_MeterI
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", MeterInfoType->TMeter);
+                        sprintf(append, "%" PRIi64, MeterInfoType->TMeter);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->TMeter_isUsed = 1u;
@@ -18640,7 +18641,7 @@ static int decode_iso2_MeterInfoType(exi_bitstream_t* stream, struct iso2_MeterI
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", MeterInfoType->TMeter);
+                        sprintf(append, "%" PRIi64, MeterInfoType->TMeter);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->TMeter_isUsed = 1u;
@@ -18715,7 +18716,7 @@ static int decode_iso2_MeterInfoType(exi_bitstream_t* stream, struct iso2_MeterI
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", MeterInfoType->TMeter);
+                        sprintf(append, "%" PRIi64, MeterInfoType->TMeter);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->TMeter_isUsed = 1u;
@@ -18761,7 +18762,7 @@ static int decode_iso2_MeterInfoType(exi_bitstream_t* stream, struct iso2_MeterI
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", MeterInfoType->TMeter);
+                        sprintf(append, "%" PRIi64, MeterInfoType->TMeter);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->TMeter_isUsed = 1u;
@@ -24647,7 +24648,7 @@ static int decode_iso2_PaymentDetailsResType(exi_bitstream_t* stream, struct iso
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", PaymentDetailsResType->EVSETimeStamp);
+                        sprintf(append, "%" PRIi64, PaymentDetailsResType->EVSETimeStamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         grammar_id = 3;
@@ -26938,7 +26939,7 @@ static int decode_iso2_SessionSetupResType(exi_bitstream_t* stream, struct iso2_
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", SessionSetupResType->EVSETimeStamp);
+                        sprintf(append, "%" PRIi64, SessionSetupResType->EVSETimeStamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         SessionSetupResType->EVSETimeStamp_isUsed = 1u;

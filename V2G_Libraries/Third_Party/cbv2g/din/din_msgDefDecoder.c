@@ -18,6 +18,7 @@
   * @brief Description goes here
   *
   **/
+#include <inttypes.h>
 #include <stdint.h>
 #include <string.h>
 #include <ctype.h>
@@ -14723,7 +14724,7 @@ static int decode_din_MeterInfoType(exi_bitstream_t* stream, struct din_MeterInf
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", MeterInfoType->TMeter);
+                        sprintf(append, "%" PRIi64, MeterInfoType->TMeter);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->TMeter_isUsed = 1u;
@@ -14846,7 +14847,7 @@ static int decode_din_MeterInfoType(exi_bitstream_t* stream, struct din_MeterInf
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", MeterInfoType->TMeter);
+                        sprintf(append, "%" PRIi64, MeterInfoType->TMeter);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->TMeter_isUsed = 1u;
@@ -14921,7 +14922,7 @@ static int decode_din_MeterInfoType(exi_bitstream_t* stream, struct din_MeterInf
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", MeterInfoType->TMeter);
+                        sprintf(append, "%" PRIi64, MeterInfoType->TMeter);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->TMeter_isUsed = 1u;
@@ -14967,7 +14968,7 @@ static int decode_din_MeterInfoType(exi_bitstream_t* stream, struct din_MeterInf
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", MeterInfoType->TMeter);
+                        sprintf(append, "%" PRIi64, MeterInfoType->TMeter);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         MeterInfoType->TMeter_isUsed = 1u;
@@ -17718,7 +17719,7 @@ static int decode_din_SessionSetupResType(exi_bitstream_t* stream, struct din_Se
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", SessionSetupResType->DateTimeNow);
+                        sprintf(append, "%" PRIi64, SessionSetupResType->DateTimeNow);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         SessionSetupResType->DateTimeNow_isUsed = 1u;
@@ -19699,7 +19700,7 @@ static int decode_din_PaymentDetailsResType(exi_bitstream_t* stream, struct din_
                     if (error == 0)
                     {
                         char append[21]; // max length: 19 digits + 1 sign + 1 zero terminator
-                        sprintf(append, "%lld", PaymentDetailsResType->DateTimeNow);
+                        sprintf(append, "%" PRIi64, PaymentDetailsResType->DateTimeNow);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         grammar_id = 3;

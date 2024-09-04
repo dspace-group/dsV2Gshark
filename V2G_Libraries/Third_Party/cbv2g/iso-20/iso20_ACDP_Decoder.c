@@ -18,6 +18,7 @@
   * @brief Description goes here
   *
   **/
+#include <inttypes.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
@@ -6504,7 +6505,7 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%llu", MessageHeaderType->TimeStamp);
+                        sprintf(append, "%" PRIu64, MessageHeaderType->TimeStamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         grammar_id = 69;
