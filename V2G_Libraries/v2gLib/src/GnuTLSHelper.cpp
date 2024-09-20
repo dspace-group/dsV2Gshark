@@ -25,47 +25,54 @@
 
 constexpr int MAX_STRING_LEN = 512;
 
+std::string get_error_description(int error_code)
+{
+    return std::string(gnutls_strerror(error_code));
+}
+
 X509CertInfos get_cert_info(std::string x509_content)
 {
     X509CertInfos cert_info{};
 
     gnutls_x509_crt_t cert;
 
-    if (gnutls_x509_crt_init(&cert) < 0)
+    cert_info.result = gnutls_x509_crt_init(&cert);
+    if (cert_info.result < 0)
     {
         fprintf(stderr, "dsV2G CertInfo error in initialization\n");
-        cert_info.valid = false;
         return cert_info;
     }
 
     char buffer[MAX_STRING_LEN];
     size_t size = sizeof(buffer);
 
-    cert_info.valid = true;
-
     gnutls_datum_t cert_in;
     cert_in.data = new unsigned char[x509_content.length()];
-    strcpy((char *)cert_in.data, x509_content.c_str());
+    strncpy((char *)cert_in.data, x509_content.c_str(), x509_content.length());
     cert_in.size = x509_content.length();
-    if (gnutls_x509_crt_import(cert, &cert_in, GNUTLS_X509_FMT_PEM) < 0)
+    cert_info.result = gnutls_x509_crt_import(cert, &cert_in, GNUTLS_X509_FMT_PEM);
+    if (cert_info.result < 0)
     {
         fprintf(stderr, "dsV2G CertInfo error parsing certificate\n");
-        cert_info.valid = false;
         delete[] cert_in.data;
         gnutls_x509_crt_deinit(cert);
         return cert_info;
     }
 
     size = sizeof(buffer);
-    if (gnutls_x509_crt_get_serial(cert, buffer, &size) != GNUTLS_E_SUCCESS)
+    int errn = gnutls_x509_crt_get_serial(cert, buffer, &size);
+    if (errn != GNUTLS_E_SUCCESS)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_serial\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = errn;
+        }
         cert_info.serial_number = "ERROR";
     }
     else
     {
-        cert_info.serial_number = uint8_to_hex_string((uint8_t *)buffer, size);
+        cert_info.serial_number = "0x" + uint8_to_hex_string((uint8_t *)buffer, size);
     }
 
     time_t expiration_time, activation_time;
@@ -73,25 +80,31 @@ X509CertInfos get_cert_info(std::string x509_content)
     if (expiration_time == -1)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_expiration_time\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = expiration_time;
+        }
         cert_info.time_not_after = "ERROR";
     }
     else
     {
         cert_info.time_not_after = ctime(&expiration_time);
-        cert_info.time_not_after.pop_back(); // remove linebreak
+        cert_info.time_not_after.pop_back();  // remove linebreak
     }
     activation_time = gnutls_x509_crt_get_activation_time(cert);
     if (activation_time == -1)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_activation_time\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = activation_time;
+        }
         cert_info.time_not_before = "ERROR";
     }
     else
     {
         cert_info.time_not_before = ctime(&activation_time);
-        cert_info.time_not_before.pop_back(); // remove linebreak
+        cert_info.time_not_before.pop_back();  // remove linebreak
     }
 
     int sig_algorithm = gnutls_x509_crt_get_signature_algorithm(cert);
@@ -101,14 +114,21 @@ X509CertInfos get_cert_info(std::string x509_content)
     if (cert_info.version < 0)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_version\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = cert_info.version;
+        }
     }
 
     size = sizeof(buffer);
-    if (gnutls_x509_crt_get_dn(cert, buffer, &size) != GNUTLS_E_SUCCESS)
+    errn = gnutls_x509_crt_get_dn(cert, buffer, &size);
+    if (errn != GNUTLS_E_SUCCESS)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_dn\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = errn;
+        }
         cert_info.subject = "ERROR";
     }
     else
@@ -117,10 +137,14 @@ X509CertInfos get_cert_info(std::string x509_content)
     }
 
     size = sizeof(buffer);
-    if (gnutls_x509_crt_get_issuer_dn(cert, buffer, &size) != GNUTLS_E_SUCCESS)
+    errn = gnutls_x509_crt_get_issuer_dn(cert, buffer, &size);
+    if (errn != GNUTLS_E_SUCCESS)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_issuer_dn\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = errn;
+        }
         cert_info.issuer = "ERROR";
     }
     else
@@ -129,10 +153,14 @@ X509CertInfos get_cert_info(std::string x509_content)
     }
 
     size = sizeof(buffer);
-    if (gnutls_x509_crt_get_signature(cert, buffer, &size) != GNUTLS_E_SUCCESS)
+    errn = gnutls_x509_crt_get_signature(cert, buffer, &size);
+    if (errn != GNUTLS_E_SUCCESS)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_signature\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = errn;
+        }
         cert_info.sig_value = "ERROR";
     }
     else
@@ -145,7 +173,10 @@ X509CertInfos get_cert_info(std::string x509_content)
     if (pk_algo < 0)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_pk_algorithm\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = pk_algo;
+        }
         cert_info.pubkey_algorithm = "ERROR";
     }
     else
@@ -164,7 +195,10 @@ X509CertInfos get_cert_info(std::string x509_content)
     else if (basic_constraints_ret < GNUTLS_E_SUCCESS)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_basic_constraints %d\n", basic_constraints_ret);
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = basic_constraints_ret;
+        }
         cert_info.v3ext_basic_constraint = "ERROR";
         cert_info.v3ext_basic_constraint_CA = "ERROR";
     }
@@ -208,7 +242,10 @@ X509CertInfos get_cert_info(std::string x509_content)
     else if (key_usage_ret != GNUTLS_E_SUCCESS)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_key_usage\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = key_usage_ret;
+        }
         cert_info.v3ext_key_usage = "ERROR";
         cert_info.v3ext_key_usage_critical = "ERROR";
     }
@@ -263,7 +300,10 @@ X509CertInfos get_cert_info(std::string x509_content)
     else if (keyIdRet != GNUTLS_E_SUCCESS)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_subject_key_id\n");
-        cert_info.valid = false;
+        if (cert_info.result == GNUTLS_E_SUCCESS)
+        {
+            cert_info.result = keyIdRet;
+        }
         cert_info.v3ext_subjkey_id = "ERROR";
         cert_info.v3ext_subjkey_id_critical = "ERROR";
     }
@@ -289,7 +329,7 @@ X509CertInfos get_cert_info(std::string x509_content)
     if (gnutls_x509_crt_get_pk_ecc_raw(cert, &curve, &coord_x, &coord_y) != GNUTLS_E_SUCCESS)
     {
         fprintf(stderr, "dsV2G CertInfo error gnutls_x509_crt_get_pk_ecc_raw\n");
-        // cInfo.valid = false; // keep valid in case this is not ecc pk
+        // cert_info.result - keep previous result in case this is not ecc pk
         cert_info.spk_NIST_curve = "ERROR";
         cert_info.spk_pub = "ERROR";
     }

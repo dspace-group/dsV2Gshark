@@ -25,6 +25,15 @@ extern "C"
 #include "Decoder.h"
 #include "CertHelper.h"
 
+static int l_getGnuTlsErrorDescription(lua_State *L)
+{
+    int error_code = luaL_checkinteger(L, 0);
+
+    lua_pushstring(L, get_error_description(error_code).c_str());
+
+    return 1;
+}
+
 static int l_getX509Infos(lua_State *L)
 {
     size_t certSize;
@@ -36,10 +45,10 @@ static int l_getX509Infos(lua_State *L)
 
     X509CertInfos cInfo = get_cert_info(fullcert);
 
-    lua_pushboolean(L, cInfo.valid);
+    lua_pushinteger(L, cInfo.result);
     lua_pushstring(L, cInfo.subject.c_str());
     lua_pushstring(L, cInfo.issuer.c_str());
-    lua_pushnumber(L, cInfo.version);
+    lua_pushinteger(L, cInfo.version);
     lua_pushstring(L, cInfo.serial_number.c_str());
     lua_pushstring(L, cInfo.time_not_before.c_str());
     lua_pushstring(L, cInfo.time_not_after.c_str());
@@ -55,7 +64,7 @@ static int l_getX509Infos(lua_State *L)
     lua_pushstring(L, cInfo.v3ext_subjkey_id.c_str());
     lua_pushstring(L, cInfo.v3ext_subjkey_id_critical.c_str());
 
-    return 18; // Note: the lua stack has only (at least) 20 free slots!
+    return 18;  // Note: the lua stack has only (at least) 20 free slots!
 }
 
 Decoder v2g_message_decoder;
@@ -183,6 +192,7 @@ extern "C"
                 {"initValidator", l_validate_init},
                 {"cleanupValidator", l_validate_cleanup},
                 {"getX509Infos", l_getX509Infos},
+                {"getGnuTLSErrorDescr", l_getGnuTlsErrorDescription},
                 {NULL, NULL}};
 #if LUA_VERSION_NUM > 501
         luaL_newlib(L, LuaDecoderLib);

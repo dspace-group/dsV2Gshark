@@ -17,12 +17,12 @@
 
 struct X509CertInfos
 {
-    bool valid = false;
+    int result = -1;  // GnuTLS error code. Note: GNUTLS_E_SUCCESS == 0
     std::string subject = "ERROR";
     std::string issuer = "ERROR";
-    int version = -1; // Note: this is defined by standards to be one less than
-                      // the certificate version. E.g., version 3 certificate will return 2
-    std::string serial_number = "ERROR"; // hex-string
+    int version = -1;  // Note: this is defined by standards to be one less than
+                       // the certificate version. E.g., version 3 certificate will return 2
+    std::string serial_number = "ERROR";  // hex-string
     std::string sig_algorithm = "ERROR";
     std::string sig_value = "ERROR";
     std::string time_not_after = "ERROR";
@@ -40,3 +40,4 @@ struct X509CertInfos
 };
 
 X509CertInfos get_cert_info(std::string x509_content);
+std::string get_error_description(int error_code);
