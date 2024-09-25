@@ -1312,7 +1312,7 @@ static int decode_iso20_X509IssuerSerialType(exi_bitstream_t* stream, struct iso
                             uint8_t realInteger[21] = {0}; // max length: 20 + 1 zero terminator
                             size_t realInteger_size = 0;
                             int result = exi_basetypes_convert_bytes_from_unsigned(&(X509IssuerSerialType->X509SerialNumber.data), &realInteger[0], &realInteger_size, 21);
-                            if (result != 0)
+                            if (result == 0)
                             {
                                 // reverse array
                                 uint8_t temp;
@@ -2122,7 +2122,7 @@ static int decode_iso20_SignatureMethodType(exi_bitstream_t* stream, struct iso2
                             uint8_t realInteger[21] = {0}; // max length: 20 + 1 zero terminator
                             size_t realInteger_size = 0;
                             int result = exi_basetypes_convert_bytes_from_unsigned(&(SignatureMethodType->HMACOutputLength.data), &realInteger[0], &realInteger_size, 21);
-                            if (result != 0)
+                            if (result == 0)
                             {
                                 // reverse array
                                 uint8_t temp;

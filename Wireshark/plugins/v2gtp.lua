@@ -30,6 +30,10 @@ p_v2gtp.prefs["versioninfo"] = Pref.statictext("Version " .. v2gcommon.DS_V2GSHA
 
 local V2GTP_HDR_LENGTH = 8
 
+local function get_v2gtp_length(buf, pktinfo, offset)
+    return buf(offset + 4,4):uint() + V2GTP_HDR_LENGTH
+end
+
 local f_pv = ProtoField.uint8("v2gtp.protoversion", "Protocol Version", base.HEX)
 local f_ipv = ProtoField.uint8("v2gtp.inverseprotoversion", "Inverse Protocol Version", base.HEX)
 local f_pt = ProtoField.uint16("v2gtp.payloadtype", "Payload Type", base.HEX)
@@ -77,10 +81,6 @@ p_v2gtp.fields = {f_pv, f_ipv, f_pt, f_len}
 
 -- PDU dissection function
 local function v2gtp_pdu_dissect(buf, pinfo, root)
-    if tostring(buf(0, 2)) ~= "01fe" then
-        return 0
-    end
-
     local p_type_num = buf(2, 2):uint()
     local prev_proto = tostring(pinfo.cols.protocol)
 
@@ -171,7 +171,17 @@ end
 
 -- main dissection function
 function p_v2gtp.dissector(buf, pinfo, root)
-    return v2gtp_pdu_dissect(buf, pinfo, root)
+    -- plausibility checks
+    if buf:len() < V2GTP_HDR_LENGTH then return 0 end
+    if tostring(buf(0, 2)) ~= "01fe" then return 0 end
+
+    -- if above TCP we need to assemble the PDU
+    if pinfo.port_type == 2 then
+        dissect_tcp_pdus(buf, root, V2GTP_HDR_LENGTH, get_v2gtp_length, v2gtp_pdu_dissect)
+        return buf:len()
+    else
+        return v2gtp_pdu_dissect(buf, pinfo, root)
+    end
 end
 
 -- initialization routine

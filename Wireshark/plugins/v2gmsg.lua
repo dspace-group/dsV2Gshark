@@ -137,63 +137,76 @@ local function add_expert_info(message, tree, pinfo, expertinfo)
     end
 end
 
+local function add_certificate_subtree(xml_table, cert_element, dissector_field, pinfo)
+    
+    if string.len(xml_table.value) > 150 then -- cut too long strings
+        cert_element:set_text(xml_table.name .. ": " .. xml_table.value:sub(0, 150) .. "(...)")
+    else
+        cert_element:set_text(xml_table.name .. ": " .. xml_table.value)
+    end
+
+    local result_code,
+        subj,
+        issuer,
+        version,
+        serial,
+        not_before,
+        not_after,
+        sig_algo,
+        sig_value,
+        pk_algo,
+        spk_curve,
+        spk_pub,
+        v3_constraint,
+        v3_constraint_CA,
+        v3_key_usage,
+        v3_key_usage_crit,
+        v3_sk_ID,
+        v3_sk_ID_crit = v2g_lib.getX509Infos(xml_table.value)
+    if result_code < 0 then
+        local cert_err_tree = cert_element:add(dissector_field, math.floor(result_code))
+        local err_description = v2g_lib.getGnuTLSErrorDescr(math.floor(result_code))
+        cert_err_tree:set_text("GnuTLS error code: " .. math.floor(result_code) .. " (" .. err_description .. ")")
+        add_expert_info("A GnuTLS error (" .. math.floor(result_code) .. ") was encountered while trying to process this certificate.", cert_err_tree, pinfo, ef_warning_generic)
+    end
+    cert_element:add(dissector_field, subj):set_text("Subject: " .. subj)
+    cert_element:add(dissector_field, issuer):set_text("Issuer: " .. issuer)
+    if version < 0 then
+        cert_element:add(dissector_field, version):set_text(
+            "Version: ERROR"
+        )
+    else
+        cert_element:add(dissector_field, version):set_text(
+            "Version: v" .. (version + 1) .. " (" .. version .. ")"
+        ) -- certificate version is always +1 according to the standard
+    end
+    cert_element:add(dissector_field, serial):set_text("Serial Number: " .. serial)
+    cert_element:add(dissector_field, not_before):set_text("Not Valid Before: " .. not_before)
+    cert_element:add(dissector_field, not_after):set_text("Not Valid After: " .. not_after)
+    cert_element:add(dissector_field, sig_algo):set_text("Signature Algorithm: " .. sig_algo)
+    cert_element:add(dissector_field, sig_value):set_text("Signature Value: " .. sig_value)
+    cert_element:add(dissector_field, pk_algo):set_text("Public Key Algorithm: " .. pk_algo)
+    cert_element:add(dissector_field, spk_curve):set_text("Subject Public Key - Curve: " .. spk_curve)
+    cert_element:add(dissector_field, spk_pub):set_text("Subject Public Key - RAW: " .. spk_pub)
+    local x509_v3_element = cert_element:add(dissector_field, "X509v3")
+    x509_v3_element:set_text("X509v3")
+    x509_v3_element:add(dissector_field, v3_constraint):set_text("Basic Constraint: " .. v3_constraint)
+    x509_v3_element:add(dissector_field, v3_constraint_CA):set_text(
+        "Basic Constraint CA: " .. v3_constraint_CA
+    )
+    x509_v3_element:add(dissector_field, v3_key_usage_crit):set_text("Key Usage: " .. v3_key_usage_crit)
+    x509_v3_element:add(dissector_field, v3_key_usage):set_text("Key Usage: " .. v3_key_usage)
+    x509_v3_element:add(dissector_field, v3_sk_ID_crit):set_text("Subject Key ID: " .. v3_sk_ID_crit)
+    x509_v3_element:add(dissector_field, v3_sk_ID):set_text("Subject Key ID: " .. v3_sk_ID)
+end
+
 local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo)
     local new_element
     if xml_table.value ~= "" then
         -- special handling for certificates
         if xml_table.name == "Certificate" or xml_table.name == "OEMProvisioningCert" then
             local cert_element = tree_out:add(dissector_field, xml_table.value)
-            if string.len(xml_table.value) > 150 then -- cut too long strings
-                cert_element:set_text(xml_table.name .. ": " .. xml_table.value:sub(0, 150) .. "(...)")
-            else
-                cert_element:set_text(xml_table.name .. ": " .. xml_table.value)
-            end
-
-            local valid,
-                subj,
-                issuer,
-                version,
-                serial,
-                not_before,
-                not_after,
-                sig_algo,
-                sig_value,
-                pk_algo,
-                spk_curve,
-                spk_pub,
-                v3_constraint,
-                v3_constraint_CA,
-                v3_key_usage,
-                v3_key_usage_crit,
-                v3_sk_ID,
-                v3_sk_ID_crit = v2g_lib.getX509Infos(xml_table.value)
-            if valid then
-                cert_element:add(dissector_field, subj):set_text("Subject: " .. subj)
-                cert_element:add(dissector_field, issuer):set_text("Issuer: " .. issuer)
-                cert_element:add(dissector_field, version):set_text(
-                    "Version: v" .. (version + 1) .. " (" .. version .. ")"
-                ) -- certificate version is always +1 according to the standard
-                cert_element:add(dissector_field, serial):set_text("Serial Number: 0x" .. serial)
-                cert_element:add(dissector_field, not_before):set_text("Not Valid Before: " .. not_before)
-                cert_element:add(dissector_field, not_after):set_text("Not Valid After: " .. not_after)
-                cert_element:add(dissector_field, sig_algo):set_text("Signature Algorithm: " .. sig_algo)
-                cert_element:add(dissector_field, sig_value):set_text("Signature Value: " .. sig_value)
-                cert_element:add(dissector_field, pk_algo):set_text("Public Key Algorithm: " .. pk_algo)
-                cert_element:add(dissector_field, spk_curve):set_text("Subject Public Key - Curve: " .. spk_curve)
-                cert_element:add(dissector_field, spk_pub):set_text("Subject Public Key - RAW: " .. spk_pub)
-                local x509_v3_element = cert_element:add(dissector_field, "X509v3")
-                x509_v3_element:set_text("X509v3")
-                x509_v3_element:add(dissector_field, v3_constraint):set_text("Basic Constraint: " .. v3_constraint)
-                x509_v3_element:add(dissector_field, v3_constraint_CA):set_text(
-                    "Basic Constraint CA: " .. v3_constraint_CA
-                )
-                x509_v3_element:add(dissector_field, v3_key_usage_crit):set_text("Key Usage: " .. v3_key_usage_crit)
-                x509_v3_element:add(dissector_field, v3_key_usage):set_text("Key Usage: " .. v3_key_usage)
-                x509_v3_element:add(dissector_field, v3_sk_ID_crit):set_text("Subject Key ID: " .. v3_sk_ID_crit)
-                x509_v3_element:add(dissector_field, v3_sk_ID):set_text("Subject Key ID: " .. v3_sk_ID)
-            else
-                add_expert_info("INVALID CERTIFICATE", cert_element, pinfo, ef_warning_generic)
-            end
+            add_certificate_subtree(xml_table, cert_element, dissector_field, pinfo)
         else
             new_element = tree_out:add(dissector_field, xml_table.value)
             new_element:set_text(xml_table.name .. ": " .. xml_table.value)
