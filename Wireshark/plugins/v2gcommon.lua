@@ -63,6 +63,23 @@ function v2gcommon.load_v2gLib()
     end
 end
 
+-- verify tshark/wireshark version is compatible
+function v2gcommon.check_version(required_version)
+    local major_req, minor_req, micro_req = required_version:match("(%d+)%.(%d+)%.(%d+)")
+    local major, minor, micro = get_version():match("(%d+)%.(%d+)%.(%d+)")
+
+    if
+        (tonumber(major) < tonumber(major_req)) or
+            ((tonumber(major) == tonumber(major_req)) and (tonumber(minor) < tonumber(minor_req))) or
+            ((tonumber(major) == tonumber(major_req)) and (tonumber(minor) == tonumber(minor_req)) and
+                (tonumber(micro) < tonumber(micro_req)))
+     then
+        return false
+    else
+        return true
+    end
+end
+
 v2gcommon.DS_V2GSHARK_VERSION = "1.4.3" -- DO NOT CHANGE
 
 -- extend path (where to load .lua files)
