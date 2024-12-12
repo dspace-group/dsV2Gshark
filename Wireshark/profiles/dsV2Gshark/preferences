@@ -1,0 +1,12 @@
+gui.recent_files_count.max: 25
+gui.window_title: dsV2Gshark
+gui.column.format: 
+	"No.", "%m",
+	"Time", "%t",
+	"Time (delta)", "%Gt",
+	"Source", "%rhs",
+	"Destination", "%rhd",
+	"Protocol", "%p",
+	"Length", "%L",
+	"Info", "%i"
+gui.show_file_load_time.enabled: TRUE

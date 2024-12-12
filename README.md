@@ -57,22 +57,21 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 
 ## Installation notes
 - The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest)
-- To use the plugin without installer, download the zipped files from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest) and copy its content manually into your Wireshark installation or into your personal plugin directory (Windows: %appdata%/wireshark/, Linux: ~/.local/lib/wireshark/). The filter buttons, color filter and I/O Graph configuration must be added manually in this case.
-- When updating Wireshark, please reinstall the plugin to avoid any warnings
+- To use the plugin without installer, download the zipped files from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest) and copy its content manually into your Wireshark installation or into your personal plugin directory (Windows: %appdata%/wireshark/, Linux: ~/.local/lib/wireshark/). To activate the filter buttons, color filter and I/O Graph in this case, you have to import and activate the dsV2Gshark_profile.zip as Wireshark profile.
+- If Wireshark auto-update is enabled, it is recommended to install the plugin in local install mode without admin privileges.
 - Not compatible with other V2G dissector plugins. Please uninstall these plugins before installing dsV2Gshark.
 - Not compatible with 32 bit versions of Wireshark.
 - Updates of the plugin can be performed directly without uninstalling the old version.
-- Installation size is about 10 MB
+- Installation size is about 13 MB
 - Supports normal and portable version of Wireshark
-- Filter buttons and color filters will be installed for the current user only. In multi-user environments, the plugin must be installed for each user to enable these two optional features.
+- A Wireshark Profile will be added which handles the filter buttons, color filters and I/O Graph. This profile is automatically activated after installation. You can change the current profile in the bottom right corner (shortcut: Ctrl + Shift + A).
 
 ## Limitations
 - ISO 15118-20 is not fully supported yet
     - please let us know if you encounter incorrectly decoded packets
 - Linux
     - No installer, see [Installation Notes](#installation-notes). Make sure you have read permissions for all files.
-    - Filter buttons and color filters must be added manually
-    - I/O graph must be configured manually
+    - dsV2Gshark profile (Filter buttons, color filters, I/O graph) must be added manually
 
 ## Support
 - If you encounter any problems, feel free to open an issue or contact us at support@dSPACE.de
@@ -81,7 +80,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ## Further notes
 - When sniffing V2G communication, lost packets may occur, which cause corrupted TCP/TLS sessions. In that case, it may help to activate the option to ignore Message Authentication Code (MAC) check failures in the Wireshark TLS protocol settings.  
     This option can be found under Wireshark Preferences - Protocols - TLS
-- This plugin was built and tested with Wireshark 4.4.0 and 4.2.6
+- This plugin was built and tested with Wireshark 4.4.0 and 4.4.2
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 

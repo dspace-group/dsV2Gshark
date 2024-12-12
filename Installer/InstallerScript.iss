@@ -1,6 +1,7 @@
 // DO NOT CHANGE VERSION HERE! Run update_version.bat
 #define AppVer "1.4.3"
 #define AppId "dsV2Gshark"
+#define Timestamp GetDateTimeString('yymmdd_hhnnss', '', '')
 
 [Setup]
 AppId={#AppId}
@@ -11,11 +12,12 @@ VersionInfoVersion={#AppVer}
 AppPublisher=dSPACE GmbH
 AppCopyright=Copyright 2024, dSPACE GmbH. All rights reserved.
 WizardStyle=modern
-DefaultDirName=C:\Program Files\Wireshark
+DefaultDirName={code:GetDefaultDirName}
 Compression=lzma2
 SolidCompression=yes
 ChangesEnvironment=no  
 DisableDirPage=no
+PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 UsePreviousPrivileges=no
 OutputBaseFilename=dsV2Gshark_{#AppVer}_Win64_Setup
@@ -46,9 +48,11 @@ Name: "plugin/decoder/iso20"; Description: "ISO 15118-20 support (experimental)"
 Name: "plugin/autoschema"; Description: "Automatic schema detection"; Types: full custom; Flags: fixed
 Name: "plugin/autodecrypt"; Description: "Live TLS decryption with disclosed master secret from UDP packet"; Types: full custom;
 Name: "plugin/llc_diagnostic"; Description: "Additional dissector for CP-State related Homeplug AV packets"; Types: full custom;
-Name: "buttons"; Description: "Add filter buttons to Wireshark (current user only)"; Types: full
-Name: "colorfilters"; Description: "Highlight V2G messages in Wireshark (current user only)"; Types: full
-Name: "iograph"; Description: "Prepare Wireshark I/O Graphs for V2G messages{cm:Linebreak}(current user only, may override I/O Graph preferences)"; Types: full
+Name: "profile"; Description: "Add dsV2Gshark profile to Wireshark"; Types: full
+Name: "profile/activate"; Description: "Activate dsV2Gshark profile after installation"; Types: full
+Name: "profile/buttons"; Description: "Add filter buttons"; Types: full
+Name: "profile/colorfilters"; Description: "Highlight V2G messages"; Types: full
+Name: "profile/iograph"; Description: "Wireshark I/O Graphs for V2G messages"; Types: full
 
 [Files]
 Source: "..\Wireshark\plugins\v2gcommon.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
@@ -58,6 +62,11 @@ Source: "..\Wireshark\plugins\v2gsdp.lua"; DestDir: "{app}\plugins"; Flags: igno
 Source: "..\Wireshark\plugins\v2gtlssecret.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/autodecrypt
 Source: "..\Wireshark\plugins\v2gllc.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/llc_diagnostic
 Source: "..\Wireshark\*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/decoder
+Source: "..\Wireshark\profiles\dsV2Gshark\preferences"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile
+Source: "..\Wireshark\profiles\dsV2Gshark\recent"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile
+Source: "..\Wireshark\profiles\dsV2Gshark\dfilter_buttons"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile/buttons
+Source: "..\Wireshark\profiles\dsV2Gshark\io_graphs"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile/iograph
+Source: "..\Wireshark\profiles\dsV2Gshark\colorfilters"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile/colorfilters
 Source: "..\LICENSE"; DestDir: "{app}"; DestName: "dsV2Gshark_LICENSE.txt"; Flags: ignoreversion;
 Source: "..\OSSAcknowledgements.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_OSSAcknowledgements.txt"; Flags: ignoreversion recursesubdirs;
 Source: "dsV2Gshark_README.txt"; DestDir: "{app}"; DestName: "dsV2Gshark_README.txt"; Flags: ignoreversion;
@@ -71,6 +80,25 @@ Type: filesandordirs; Name: "{app}\plugins\v2gmsg_generic.lua"
 Type: filesandordirs; Name: "{app}\plugins\v2gshared.lua"
 
 [Code]
+function GetDefaultDirName(Param: String): String;
+begin
+  if IsAdmin then
+    Result := 'C:\Program Files\Wireshark'
+  else
+    Result := ExpandConstant('{userappdata}\Wireshark');
+end;
+
+function EndsWith(const Str, SubStr: string): Boolean;
+begin
+  Result := (Length(Str) >= Length(SubStr)) and
+            (Copy(Str, Length(Str) - Length(SubStr) + 1, Length(SubStr)) = SubStr);
+end;
+
+function InstallInAppData: Boolean;
+begin
+  Result := EndsWith(ExpandConstant('{app}'), '\AppData\Roaming\Wireshark');
+end;
+
 function HasWriteAccessToApp: Boolean;
 var
   FileName: string;
@@ -101,86 +129,30 @@ begin
     CreateDir(Result);
 end;
 
-function RemoveFromFile(FileName: string; LinesToRemove: array of string): Boolean;
+procedure CopyDirectory(SourceDir, DestDir: string);
 var
-  LinesFile: TArrayOfString;
-  i, j: Integer;
+  FindRec: TFindRec;
 begin
-  if LoadStringsFromFile(FileName, LinesFile) then
+  if FindFirst(SourceDir + '\*', FindRec) then
   begin
-    for i := GetArrayLength(LinesFile) -  1 downto  0 do
-    begin
-      for j := GetArrayLength(LinesToRemove) -  1 downto  0 do
-      begin
-        if Pos(LinesToRemove[j], LinesFile[i]) >  0 then
-          LinesFile[i] := '';
-      end;
-    end;
-     
-    if SaveStringsToFile(FileName, LinesFile, False) then
-    begin
-      Result := True;
-    end
-    else
-      Result := False;
-  end
-  else
-  begin
-    Result := False;
-  end;
-end;
-
-function PrependStringsToFile(const FileName: string; const Strings: TArrayOfString): boolean;
-var
-  Lines: TArrayOfString;
-  Count, NewLinesCount, i: Integer;
-begin
-  Result := True;
-  if LoadStringsFromFile(FileName, Lines) then
-  begin
-    Count := GetArrayLength(Lines);
-    NewLinesCount := GetArrayLength(Strings);
-    SetArrayLength(Lines, Count + NewLinesCount);
-    for i := Count -  1 downto  0 do
-      Lines[i + NewLinesCount] := Lines[i];
-    for i :=  0 to NewLinesCount -  1 do
-      Lines[i] := Strings[i];
-    if not SaveStringsToFile(FileName, Lines, False) then
-      Result := False;
-  end
-  else
-    Result := False;
-end;
-
-function CheckLines(const FileName: string; const LinesToCheck: TArrayOfString): TArrayOfString;
-var
-  FileLines: TStringList;
-  MissingLines: TStringList;
-  i: Integer;
-begin
-  if not FileExists(FileName) then
-  begin
-    Result := LinesToCheck;
-  end
-  else
-  begin
-    FileLines := TStringList.Create;
-    MissingLines := TStringList.Create;
     try
-      FileLines.LoadFromFile(FileName);
-
-      for i :=  0 to High(LinesToCheck) do
-      begin
-        if not FileLines.IndexOf(LinesToCheck[i]) >=  0 then
-          MissingLines.Add(LinesToCheck[i]);
-      end;
-
-      SetLength(Result, MissingLines.Count);
-      for i :=  0 to MissingLines.Count -  1 do
-        Result[i] := MissingLines[i];
+      repeat
+        if (FindRec.Name <> '.') and (FindRec.Name <> '..') then
+        begin
+          if FindRec.Attributes and FILE_ATTRIBUTE_DIRECTORY <> 0 then
+          begin
+            if not DirExists(DestDir + '\' + FindRec.Name) then
+              CreateDir(DestDir + '\' + FindRec.Name);
+            CopyDirectory(SourceDir + '\' + FindRec.Name, DestDir + '\' + FindRec.Name);
+          end
+          else
+          begin
+            FileCopy(SourceDir + '\' + FindRec.Name, DestDir + '\' + FindRec.Name, False);
+          end;
+        end;
+      until not FindNext(FindRec);
     finally
-      FileLines.Free;
-      MissingLines.Free;
+      FindClose(FindRec);
     end;
   end;
 end;
@@ -188,24 +160,35 @@ end;
 function NextButtonClick(PageId: Integer): Boolean;
 begin
   Result := True;
-  if (PageId = wpSelectDir) and not DirExists(ExpandConstant('{app}')) then
+  if (PageId = wpSelectDir) then
+  begin
+    if InstallInAppData then
     begin
-      MsgBox('The selected directory does not exist!', mbError, MB_OK);
-      Result := False;
+      // no more checks needed
       exit;
     end;
-  if (PageId = wpSelectDir) and not HasWriteAccessToApp then
+  
+    if not HasWriteAccessToApp then
     begin
       MsgBox('You do not have write access to this directory. Please run the installer as admin or select another directory!', mbError, MB_OK);
       Result := False;
       exit;
     end;
-  if (PageId = wpSelectDir) and not FileExists(ExpandConstant('{app}\Wireshark.exe')) then
-  begin
-      MsgBox('Wireshark does not seem to be installed in the selected folder. Note: For Wireshark Portable, select (...)\WiresharkPortable64\App\Wireshark\', mbError, MB_OK);
+
+    if not DirExists(ExpandConstant('{app}')) then
+    begin
+      MsgBox('The selected directory does not exist!', mbError, MB_OK);
       Result := False;
       exit;
-  end;
+    end;
+
+    if not FileExists(ExpandConstant('{app}\Wireshark.exe')) then
+    begin
+        MsgBox('Wireshark does not seem to be installed in the selected folder. Note: For Wireshark Portable, select (...)\WiresharkPortable64\App\Wireshark\', mbError, MB_OK);
+        Result := False;
+        exit;
+    end;
+  end
 end;
 
 function InitializeSetup(): boolean;
@@ -242,129 +225,35 @@ begin
   Result := True;
 end;
 
-procedure CleanupConfigs;
-var
-  LinesToRemove: TArrayOfString;
-  FileName: string;
-begin
-  // remove colorfilters
-  FileName := GetWiresharkConfigPath + 'colorfilters';
-  LinesToRemove := ['@Homeplug@homeplug-av@[26214,26214,26214][65535,65535,65535]',
-                    '@V2G Warning@v2gtp and _ws.expert@[52685,65535,51657][54484,0,0]',
-                    '@V2G Default@v2gtp@[52685,65535,51657][0,0,0]',
-                    '@V2G TLS Secret@v2gtlssecret@[0,29555,2056][65535,65535,65535]'];
-  RemoveFromFile(FileName, LinesToRemove);
-
-  // remove buttons
-  FileName := GetWiresharkConfigPath + 'dfilter_buttons';
-  LinesToRemove := [
-                    // v1.0.0 buttons
-                    '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ",""',
-                    '"TRUE","[V2G]","v2gtp or v2gtlssecret",""',
-
-                    // v1.4.0 buttons
-                    '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","Filter V2G messages, SLAC messages and additional TCP packets"',
-
-                    // current buttons
-                    '"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"',
-                    '"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av or homeplug-llc ","Filter V2G messages, SLAC messages and additional TCP packets"'];
-  RemoveFromFile(FileName, LinesToRemove);
-
-  FileName := GetWiresharkConfigPath + 'io_graphs'
-  LinesToRemove := ['v2gtp', 'v2gmsg', 'CP State']
-  RemoveFromFile(FileName, LinesToRemove);
-end;
-
-procedure CurStepChanged(CurStep: TSetupStep);
+procedure CurStepChanged(CurStep: TSetupStep); 
 var
   FileName: string;
-  Lines: TArrayOfString;
-  StringsToCheck, StringsToAdd, StringsToRemove: TArrayOfString;
+  ProfilePath: string;
 begin
-  // add wireshark filter buttons after installation
-  if (CurStep = ssPostInstall) then               
+  if (CurStep = ssInstall) and WizardIsComponentSelected('profile') then
   begin
-    CleanupConfigs; // cleanup old configs on update
-    if WizardIsComponentSelected('buttons') then
+    // create backup of old profile
+    ProfilePath := GetWiresharkConfigPath + 'profiles\dsV2Gshark'
+    if DirExists(ProfilePath) then
     begin
-      FileName := GetWiresharkConfigPath + 'dfilter_buttons'
-      StringsToCheck := ['"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av or homeplug-llc ","Filter V2G messages, SLAC messages and additional TCP packets"',
-                         '"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"']
-      StringsToAdd := CheckLines(FileName, StringsToCheck)
-      if Length(StringsToAdd) > 0 then
-        if not SaveStringsToFile(FileName, StringsToAdd, True) then
-          MsgBox('Failed to add buttons to Wireshark', mbError, MB_OK);
+      RenameFile(ProfilePath, ProfilePath + ExpandConstant('_backup_{#Timestamp}'))
     end;
-
-    if WizardIsComponentSelected('colorfilters') then
+  end
+  else if (CurStep = ssPostInstall) and WizardIsComponentSelected('profile/activate') then               
+  begin
+    // set active profile to dsV2Gshark
+    FileName := GetWiresharkConfigPath + 'recent_common'
+    if not SaveStringToFile(FileName, #13#10 + 'gui.last_used_profile: dsV2Gshark', True) then
     begin
-      // add wireshark colorfilters after installation
-      FileName := GetWiresharkConfigPath + 'colorfilters'
-      StringsToCheck := [ '@Homeplug@homeplug-av@[26214,26214,26214][65535,65535,65535]',
-                          '@V2G Warning@v2gtp and _ws.expert@[52685,65535,51657][54484,0,0]',
-                          '@V2G Default@v2gtp@[52685,65535,51657][0,0,0]',
-                          '@V2G TLS Secret@v2gtlssecret@[0,29555,2056][65535,65535,65535]'];
-      StringsToAdd := CheckLines(FileName, StringsToCheck)
-      if not FileExists(FileName) then
-      begin
-        // copy standard colorfilters to $FileName
-        if not LoadStringsFromFile(ExpandConstant('{app}\colorfilters'), Lines) then
-        begin
-          MsgBox('Failed to add colorfilters to Wireshark. Default filter settings not found!', mbError, MB_OK);
-        end
-        else
-        begin
-          SaveStringsToFile(FileName, Lines, True);
-        end;
-      end;
-      if Length(StringsToAdd) > 0 then
-        if not PrependStringsToFile(FileName, StringsToAdd) then
-          MsgBox('Failed to add colorfilters to Wireshark!', mbError, MB_OK);
-    end;
-
-    if WizardIsComponentSelected('iograph') then
+      MsgBox('Failed to activate dsV2Gshark profile. You may have to switch the profile manually!', mbError, MB_OK);
+    end
+    else if not InstallInAppData then
     begin
-      // add graph io presets after installation
-      FileName := GetWiresharkConfigPath + 'io_graphs'
-      StringsToAdd := [ '"Enabled","#V2G-Packets/Interval","v2gtp","#D3D3D3","Square","Packets","v2gtp","None","1"',
-                        '"Enabled","Target Voltage EV","","#AA0000","Cross","AVG(Y Field)","v2gmsg.xml.iograph.EVTargetVoltage","None","1"',
-                        '"Enabled","Present Voltage EVSE","","#AA0000","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEPresentVoltage","None","1"',
-                        '"Enabled","[ISO20] Present Voltage EV","","#AA6262","Circle","AVG(Y Field)","v2gmsg.xml.iograph.EVPresentVoltage","None","1"',
-                        '"Enabled","Target Current EV","","#0000FF","Cross","AVG(Y Field)","v2gmsg.xml.iograph.EVTargetCurrent","None","1"',
-                        '"Enabled","Present Current EVSE","","#0000FF","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEPresentCurrent","None","1"',
-                        '"Enabled","[ISO20] Present SOC","","#AAFF00","Line","AVG(Y Field)","v2gmsg.xml.iograph.PresentSOC","None","1"',
-                        '"Enabled","[DIN/ISO2] Present SOC","","#AAFF00","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVRESSSOC","None","1"',
-                        '"Disabled","[DIN/ISO2] Max Voltage EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumVoltageLimit","None","1"',
-                        '"Disabled","[DIN/ISO2] Max Voltage EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumVoltageLimit","None","1"',
-                        '"Disabled","[DIN/ISO2] Max Current EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumCurrentLimit","None","1"',
-                        '"Disabled","[DIN/ISO2] Max Current EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumCurrentLimit","None","1"',
-                        '"Disabled","[ISO20] Max Voltage EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumVoltage","None","1"',
-                        '"Disabled","[ISO20] Min Voltage EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMinimumVoltage","None","1"',
-                        '"Disabled","[ISO20] Max Current EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumChargeCurrent","None","1"',
-                        '"Disabled","[ISO20] Max Voltage EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumVoltage","None","1"',
-                        '"Disabled","[ISO20] Max Current EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumChargeCurrent","None","1"',
-                        '"Disabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug-av-llc.cpstate","None","20"',
-                        '"Disabled","(disabled_filter_button1)","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av ","#FFFFFF","Line","Packets","","None","1"',
-                        '"Disabled","(disabled_filter_button2)","v2gtp or v2gtlssecret","#FFFFFF","Line","Packets","","None","1"'];
-      StringsToRemove := ['"Disabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug_av.st_iotecha.cpstate.state","None","20"'];
-      if FileExists(FileName) then
-      begin
-        RemoveFromFile(FileName, StringsToRemove);
-        if not PrependStringsToFile(FileName, StringsToAdd) then
-          MsgBox('Failed to add I/O Graph presets to Wireshark!', mbError, MB_OK);
-      end
-      else
-      begin
-        if not SaveStringsToFile(FileName, StringsToAdd, True) then
-        begin
-          MsgBox('Failed to add I/O Graph presets to Wireshark!', mbError, MB_OK);
-        end;
-      end;
+      // The dsV2Gshark profile must be located in %appdata% in order to get activated this way
+      // Otherwise, Wireshark would (re-)set the active profile to 'default' first and copy our profile afterwards
+      CreateDir(GetWiresharkConfigPath + 'profiles');
+      CreateDir(GetWiresharkConfigPath + 'profiles\dsV2Gshark');
+      CopyDirectory(ExpandConstant('{app}\profiles\dsV2Gshark'), GetWiresharkConfigPath + 'profiles\dsV2Gshark');
     end;
-  end;
-end;
-
-procedure DeinitializeUninstall;
-begin
-  CleanupConfigs;
+  end
 end;
