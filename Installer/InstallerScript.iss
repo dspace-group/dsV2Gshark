@@ -3,6 +3,9 @@
 #define AppId "dsV2Gshark"
 #define Timestamp GetDateTimeString('yymmdd_hhnnss', '', '')
 
+// plugin uninstaller is started if installed version is below this
+#define MinUpdateVersion '1.5.0'  
+
 [Setup]
 AppId={#AppId}
 AppName=dSPACE V2Gshark Wireshark Plugin
@@ -80,6 +83,10 @@ Type: filesandordirs; Name: "{app}\plugins\v2gmsg_generic.lua"
 Type: filesandordirs; Name: "{app}\plugins\v2gshared.lua"
 
 [Code]
+const
+  RegistryPath1 = 'Software\Microsoft\Windows\CurrentVersion\Uninstall\dsV2Gshark_is1';
+  RegistryPath2 = 'Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\dsV2Gshark_is1';
+
 function GetDefaultDirName(Param: String): String;
 begin
   if IsAdmin then
@@ -97,6 +104,42 @@ end;
 function InstallInAppData: Boolean;
 begin
   Result := EndsWith(ExpandConstant('{app}'), '\AppData\Roaming\Wireshark');
+end;
+
+function GetInstalledVersion: String;
+var
+  InstalledVersion: String;
+begin
+
+  if RegQueryStringValue(HKLM, RegistryPath1, 'DisplayVersion', InstalledVersion) then
+    Result := InstalledVersion
+  else if RegQueryStringValue(HKLM, RegistryPath2, 'DisplayVersion', InstalledVersion) then
+    Result := InstalledVersion
+  else if RegQueryStringValue(HKCU, RegistryPath1, 'DisplayVersion', InstalledVersion) then
+    Result := InstalledVersion
+  else if RegQueryStringValue(HKCU, RegistryPath2, 'DisplayVersion', InstalledVersion) then
+    Result := InstalledVersion
+  else
+    Result := '';
+end;
+
+procedure RunUninstaller;
+var
+  UninstallString: String;
+  ResultCode: Integer;
+begin
+  if not RegQueryStringValue(HKLM, RegistryPath1, 'UninstallString', UninstallString) then
+    if not RegQueryStringValue(HKLM, RegistryPath2, 'UninstallString', UninstallString) then
+      if not RegQueryStringValue(HKCU, RegistryPath1, 'UninstallString', UninstallString) then
+        if not RegQueryStringValue(HKCU, RegistryPath2, 'UninstallString', UninstallString) then
+        begin
+          MsgBox('Uninstaller not found! Please uninstall the plugin manually before continuing.', mbError, MB_OK);
+          Exit
+        end;
+  
+    ShellExec('', UninstallString, '/SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
+    if ResultCode <> 0 then
+      MsgBox('Failed to uninstall old version! Please uninstall the plugin manually before continuing.', mbError, MB_OK);
 end;
 
 function HasWriteAccessToApp: Boolean;
@@ -198,7 +241,16 @@ var
   StartPos, endPos: Integer;
   Lines: TArrayOfString;
   i: Integer;
+  InstalledVersion: String;
 begin
+  // check for previously installed version
+  InstalledVersion := GetInstalledVersion;
+  if (InstalledVersion <> '') and (CompareStr(InstalledVersion, ExpandConstant('{#MinUpdateVersion}')) < 0) then
+  begin
+    MsgBox('To update the plugin, the previous version needs to be uninstalled. Will now start uninstaller!', mbInformation, MB_OK);
+    RunUninstaller;
+  end;
+
   // check version of lua files
   StringVersionPrefix := 'v2gcommon.DS_V2GSHARK_VERSION = "';
   stringVersionSuffix := '" -- DO NOT CHANGE';
