@@ -1,0 +1,2 @@
+"TRUE","[V2G ext]","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av or homeplug-llc ","Filter V2G messages, SLAC messages and additional TCP packets"
+"TRUE","[V2G]","v2gtp or v2gtlssecret","Filter V2G messages"

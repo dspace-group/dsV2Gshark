@@ -68,9 +68,9 @@ PrivilegesRequiredOverrideTitle=Select Setup Install Mode
 PrivilegesRequiredOverrideInstruction=Select install mode
 PrivilegesRequiredOverrideText1=%1 can be installed for all users (requires administrative privileges), or for you only.
 PrivilegesRequiredOverrideText2=%1 can be installed for you only, or for all users (requires administrative privileges).
-PrivilegesRequiredOverrideAllUsers=Install for &all users
-PrivilegesRequiredOverrideAllUsersRecommended=Install for &all users (recommended)
-PrivilegesRequiredOverrideCurrentUser=Install for &me only, e.g., for Wireshark Portable
+PrivilegesRequiredOverrideAllUsers=Install for &all users (Wireshark auto-updates may cause problems)
+PrivilegesRequiredOverrideAllUsersRecommended=Install for &all users (Wireshark auto-updates may cause problems)
+PrivilegesRequiredOverrideCurrentUser=Install for &me only
 PrivilegesRequiredOverrideCurrentUserRecommended=Install for &me only (recommended)
 
 ; *** Misc. errors
