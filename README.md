@@ -80,7 +80,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ## Further notes
 - When sniffing V2G communication, lost packets may occur, which cause corrupted TCP/TLS sessions. In that case, it may help to activate the option to ignore Message Authentication Code (MAC) check failures in the Wireshark TLS protocol settings.  
     This option can be found under Wireshark Preferences - Protocols - TLS
-- This plugin was built and tested with Wireshark 4.4.0 and 4.4.2
+- This plugin was built with Wireshark 4.4.0 and 4.4.2
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 
