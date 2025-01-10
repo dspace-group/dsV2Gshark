@@ -6,7 +6,10 @@
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
-local HPAV_PACKET_SIZE = 60
+local ETHERNET_LAYER_SIZE = 14
+local VLAN_8021Q_SIZE = 4
+local HPAV_LAYER_SIZE = 46
+local VLAN_ETHERNET_TYPE = 0x8100
 local HPAV_ETHERNET_TYPE = 0x88e1
 
 local v2gcommon = require("v2gcommon")
@@ -118,40 +121,29 @@ local function cp_state_to_int(cp_state)
     return 0
 end
 
-local heuristic_hpav_dissector = function(buf, pinfo, root)
-    -- check size
-    if buf:len() ~= HPAV_PACKET_SIZE then
-        return 0
-    end
-
-    -- check eth type
-    if buf(12, 2):uint() ~= HPAV_ETHERNET_TYPE then
-        return 0
-    end
-
-    buf = buf(14):tvb() -- skip eth header
-
-    -- check hpav message type
+local function is_spidcom_cp_packet(buf)
+    -- packet format by SPIDCOM Technologies SA
     local mac_mme_type = buf(1, 2):le_uint()
     local mme_vendor = buf(5, 3):uint()
+    return mme_vendor == 0x0013D7 and mac_mme_type == 0xA10E
+end
+
+local function is_iotecha_cp_packet(buf)
+    -- packet format by ST/IoTecha
+    local mac_mme_type = buf(1, 2):le_uint()
+    local mme_vendor = buf(5, 3):uint()
+    return mme_vendor == 0x0080E1 and mac_mme_type == 0xA22E
+end
+
+local function dissect_hpav_llc(buf, pinfo, root)
+    -- check hpav message type
     local freq, dutycycle, voltage, result
-    if mme_vendor == 0x0013D7 and mac_mme_type == 0xA10E then -- Vendor OUI: SPIDCOM Technologies SA
+    if is_spidcom_cp_packet(buf) then
         freq, dutycycle, voltage, result = extract_infos_spidcom(buf)
-    elseif mme_vendor == 0x0080E1 and mac_mme_type == 0xA22E then -- Vendor OUI: ST/IoTecha
+    elseif is_iotecha_cp_packet(buf) then
         freq, dutycycle, voltage, result = extract_infos_iotecha(buf)
     else
         return 0
-    end
-
-    root:add(
-        "Ethernet II,",
-        "dissection skipped for this packet! If you want to inspect this layer, please deactivate homeplug-llc"
-    )
-
-    -- call default hpav dissector to add additional information
-    local hpav_dissector = Dissector.get("homeplug-av")
-    if hpav_dissector ~= nil then
-        hpav_dissector:call(buf, pinfo, root)
     end
 
     pinfo.cols.protocol = "HomePlug AV LLC"
@@ -188,8 +180,78 @@ local heuristic_hpav_dissector = function(buf, pinfo, root)
     else
         pinfo.cols.info = "CP State: " .. cp_state
     end
-    return HPAV_PACKET_SIZE
+    return HPAV_LAYER_SIZE
 end
 
--- use heuristic dissection on ethernet layer to support older wireshark versions
-p_hpav_llc:register_heuristic("eth", heuristic_hpav_dissector)
+function p_hpav_llc.dissector(buf, pinfo, root)
+    local processed_data = 0
+
+    -- call default hpav dissector to add additional information
+    local hpav_dissector = Dissector.get("homeplug-av")
+    if hpav_dissector ~= nil then
+        processed_data = hpav_dissector:call(buf, pinfo, root)
+    end
+
+    return processed_data + dissect_hpav_llc(buf, pinfo, root)
+end
+
+local heuristic_hpav_dissector = function(buf, pinfo, root)
+    -- heuristic dissector on ethernet level. We need to check
+    -- whether this is a correct HPAV LLC packet or not. Only used in
+    -- Wireshark < 4.0.0
+
+    -- check size
+    local size_eth_hpav = ETHERNET_LAYER_SIZE + HPAV_LAYER_SIZE
+    local size_eth_vlan_hpav = size_eth_hpav + VLAN_8021Q_SIZE
+    if buf:len() ~= size_eth_hpav and buf:len() ~= size_eth_vlan_hpav then
+        return 0
+    end
+
+    -- check eth type
+    local vlan_id = nil
+    local bytes_to_skip = 0
+    local eth_type = buf(12, 2):uint()
+    if eth_type == VLAN_ETHERNET_TYPE then -- handle VLAN layer
+        bytes_to_skip = bytes_to_skip + VLAN_8021Q_SIZE
+        vlan_id = buf(14, 2):uint()
+        eth_type = buf(16, 2):uint()
+    end
+    if eth_type == HPAV_ETHERNET_TYPE then
+        bytes_to_skip = bytes_to_skip + ETHERNET_LAYER_SIZE
+    else
+        return 0  -- not a HPAV packet
+    end
+
+    buf = buf(bytes_to_skip):tvb() -- skip eth header
+
+    if not is_iotecha_cp_packet(buf) and not is_spidcom_cp_packet(buf) then
+        -- this will trigger default dissection (eth + hpav)
+        return 0
+    end
+
+    -- fake Eth layer
+    eth_tree = root:add(
+        "Ethernet II,",
+        "Src: " .. tostring(pinfo.src) .. ", Dst: " .. tostring(pinfo.dst)
+    )
+	eth_tree:add("Destination:", tostring(pinfo.dst))
+	eth_tree:add("Source:", tostring(pinfo.src))
+	eth_tree:add("Type:", "Homeplug AV (0x88e1)")
+    eth_tree:add("[ Note:", "Default Ethernet dissection skipped for this packet! For more details, update to Wireshark 4.x or deactivate homeplug-llc (Ctrl+Shift+E) ]")
+
+    -- fake optional VLAN layer
+    if vlan_id ~= nil then
+        vlan_tree = root:add("802.1Q Virtual LAN, (...), ID:", vlan_id)
+        vlan_tree:add("[ Note:", "Default VLAN dissection skipped for this packet! For more details, update to Wireshark 4.x or deactivate homeplug-llc (Ctrl+Shift+E) ]")
+    end
+
+    return dissect_hpav_llc(buf, pinfo, root)
+end
+
+if v2gcommon.check_version("4.0.0") then
+    DissectorTable.get("ethertype"):add(0x88e1, p_hpav_llc)
+else
+    -- Use heuristic dissector for old wireshark versions.
+    -- Otherwise, the HPAV dissector for non-LLC packets is overridden.
+    p_hpav_llc:register_heuristic("eth", heuristic_hpav_dissector)
+end
