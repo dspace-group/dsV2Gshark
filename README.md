@@ -64,7 +64,8 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - Updates of the plugin can be performed directly without uninstalling the old version.
 - Installation size is about 13 MB
 - Supports normal and portable version of Wireshark
-- A Wireshark Profile will be added which handles the filter buttons, color filters and I/O Graph. This profile is automatically activated after installation. You can change the current profile in the bottom right corner (shortcut: Ctrl + Shift + A).
+- Optionally, a Wireshark Profile will be added which handles the filter buttons, color filters and I/O Graph. This profile is automatically activated after installation. You can change the current profile in the bottom right corner (shortcut: Ctrl + Shift + A).
+
 
 ## Limitations
 - ISO 15118-20 is not fully supported yet
