@@ -55,23 +55,6 @@ local frame_numbers = {} -- save the numbers of the frames including TLS secrets
 p_v2gtlssecret.fields = {f_cr}
 p_v2gtlssecret.experts = {ef_io_error, ef_bad_version}
 
--- verify tshark/wireshark version is compatible
-local function check_version(required_version)
-    local major_req, minor_req, micro_req = required_version:match("(%d+)%.(%d+)%.(%d+)")
-    local major, minor, micro = get_version():match("(%d+)%.(%d+)%.(%d+)")
-
-    if
-        (tonumber(major) < tonumber(major_req)) or
-            ((tonumber(major) == tonumber(major_req)) and (tonumber(minor) < tonumber(minor_req))) or
-            ((tonumber(major) == tonumber(major_req)) and (tonumber(minor) == tonumber(minor_req)) and
-                (tonumber(micro) < tonumber(micro_req)))
-     then
-        return false
-    else
-        return true
-    end
-end
-
 local function split_string(str)
     local parts = {}
     for part in str:gmatch "[^ \r\n]+" do
@@ -131,7 +114,7 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
     -- set info column
     pinfo.cols.info = "TLS disclosure message for " .. table.concat(info_strings, ", ")
 
-    if check_version(min_wireshark_version) == false then
+    if v2gcommon.check_version(min_wireshark_version) == false then
         subtree:add_proto_expert_info(ef_bad_version)
         pinfo.cols.info = "[ERROR]" .. tostring(pinfo.cols.info)
         return buf:len()

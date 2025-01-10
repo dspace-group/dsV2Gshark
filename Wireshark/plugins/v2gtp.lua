@@ -81,6 +81,8 @@ p_v2gtp.fields = {f_pv, f_ipv, f_pt, f_len}
 
 -- PDU dissection function
 local function v2gtp_pdu_dissect(buf, pinfo, root)
+    if buf(V2GTP_HDR_LENGTH):len() ~= buf(4,4):uint() then return 0 end
+
     local p_type_num = buf(2, 2):uint()
     local prev_proto = tostring(pinfo.cols.protocol)
 
@@ -164,6 +166,7 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
             return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         else
+			pinfo.cols.info = "Unknown V2GTP message. Type 0x" .. buf(2, 2)
             return 0
         end
     end
