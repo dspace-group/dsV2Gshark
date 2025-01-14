@@ -10,3 +10,10 @@ gui.column.format:
 	"Length", "%L",
 	"Info", "%i"
 gui.show_file_load_time.enabled: TRUE
+
+json.compact_form: TRUE
+json.raw_form: FALSE
+json.auto_hide: TRUE
+json.ignore_leading_bytes: TRUE
+json.hide_extended_path_based_filtering: TRUE
+json.unescape_strings: FALSE
