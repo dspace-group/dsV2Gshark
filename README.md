@@ -24,7 +24,8 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
     - Validation of V2G messages according to XSD specification
     - Certificate information details for Plug & Charge (PnC)
     - Live TLS decryption <small>(requires secret disclosure)</small>
-    - LLC diagnostics via HomePlug AV packets for sniffer and debug packets
+    - Extended charging diagnostics via HomePlug AV packets for sniffer and debug packets
+        - support of dSPACE SCS diagnostic packets
 - Automatic schema detection
     - Detect schema automatically in case of missing SDP or SAP
 - Color filter for V2G packets
@@ -73,6 +74,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - Linux
     - No installer, see [Installation Notes](#installation-notes). Make sure you have read permissions for all files.
     - dsV2Gshark profile (Filter buttons, color filters, I/O graph) must be added manually
+    - released libraries have been built with Ubuntu 22.04
 
 ## Support
 - If you encounter any problems, feel free to open an issue or contact us at support@dSPACE.de
@@ -81,7 +83,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ## Further notes
 - When sniffing V2G communication, lost packets may occur, which cause corrupted TCP/TLS sessions. In that case, it may help to activate the option to ignore Message Authentication Code (MAC) check failures in the Wireshark TLS protocol settings.  
     This option can be found under Wireshark Preferences - Protocols - TLS
-- This plugin was built with Wireshark 4.4.0 and 4.4.2
+- This plugin was built with Wireshark 4.4.0 and 4.4.3
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 
@@ -102,5 +104,5 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ![Plugin Preferences](Images/WS_Preferences.png)
 ### Wireshark I/O Graph
 ![I/O Graph](Images/IO_Graph.png)
-### HomePlug AV LLC Diagnostics
+### HomePlug AV Low-Level Communication Sniffer Dissection
 ![I/O Graph](Images/HPAV_LLC_AC.png)

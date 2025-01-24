@@ -16,6 +16,6 @@
 "Disabled","[ISO20] Max Current EV","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVMaximumChargeCurrent","None","1"
 "Disabled","[ISO20] Max Voltage EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumVoltage","None","1"
 "Disabled","[ISO20] Max Current EVSE","","#2E3436","Line","AVG(Y Field)","v2gmsg.xml.iograph.EVSEMaximumChargeCurrent","None","1"
-"Enabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug-av-llc.cpstate","None","20"
-"Disabled","(disabled_filter_button1)","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av or homeplug-llc ","#FFFFFF","Line","Packets","","None","1"
+"Enabled","CP State","","#2E3436","Dot","AVG(Y Field)","homeplug-scs.cpstate","None","20"
+"Disabled","(disabled_filter_button1)","v2gtp or v2gtlssecret or tls.handshake or tls.alert_message or tls.change_cipher_spec or tcp.flags.syn == 1 or tcp.flags.fin == 1 or homeplug or homeplug-av or homeplug-scs ","#FFFFFF","Line","Packets","","None","1"
 "Disabled","(disabled_filter_button2)","v2gtp or v2gtlssecret","#FFFFFF","Line","Packets","","None","1"

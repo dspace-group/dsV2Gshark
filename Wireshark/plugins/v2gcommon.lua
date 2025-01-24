@@ -80,7 +80,7 @@ function v2gcommon.check_version(required_version)
     end
 end
 
-v2gcommon.DS_V2GSHARK_VERSION = "1.4.3" -- DO NOT CHANGE
+v2gcommon.DS_V2GSHARK_VERSION = "1.5.0" -- DO NOT CHANGE
 
 -- extend path (where to load .lua files)
 if not string.find(v2gcommon.get_plugins_file_path(), package.path) then

@@ -1,5 +1,5 @@
 // DO NOT CHANGE VERSION HERE! Run update_version.bat
-#define AppVer "1.4.3"
+#define AppVer "1.5.0"
 #define AppId "dsV2Gshark"
 #define Timestamp GetDateTimeString('yymmdd_hhnnss', '', '')
 
@@ -50,7 +50,7 @@ Name: "plugin/decoder/iso2"; Description: "ISO 15118-2 support"; Types: full cus
 Name: "plugin/decoder/iso20"; Description: "ISO 15118-20 support (experimental)"; Types: full custom; Flags: fixed
 Name: "plugin/autoschema"; Description: "Automatic schema detection"; Types: full custom; Flags: fixed
 Name: "plugin/autodecrypt"; Description: "Live TLS decryption with disclosed master secret from UDP packet"; Types: full custom;
-Name: "plugin/llc_diagnostic"; Description: "Additional dissector for CP-State related Homeplug AV packets"; Types: full custom;
+Name: "plugin/hpav_v2g_diagnostic"; Description: "Additional dissector for V2G related Homeplug AV packets"; Types: full custom;
 Name: "profile"; Description: "Add dsV2Gshark profile to Wireshark"; Types: full
 Name: "profile/activate"; Description: "Activate dsV2Gshark profile after installation"; Types: full
 Name: "profile/buttons"; Description: "Add filter buttons"; Types: full
@@ -63,7 +63,7 @@ Source: "..\Wireshark\plugins\v2gmsg.lua"; DestDir: "{app}\plugins"; Flags: igno
 Source: "..\Wireshark\plugins\v2gtp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gsdp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gtlssecret.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/autodecrypt
-Source: "..\Wireshark\plugins\v2gllc.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/llc_diagnostic
+Source: "..\Wireshark\plugins\v2ghpscs.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/hpav_v2g_diagnostic
 Source: "..\Wireshark\*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/decoder
 Source: "..\Wireshark\profiles\dsV2Gshark\preferences"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile
 Source: "..\Wireshark\profiles\dsV2Gshark\recent"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile
@@ -81,6 +81,7 @@ Type: filesandordirs; Name: "{app}\luaV2Gdecoder.dll"
 Type: filesandordirs; Name: "{app}\X509CertInfos.dll"
 Type: filesandordirs; Name: "{app}\plugins\v2gmsg_generic.lua"
 Type: filesandordirs; Name: "{app}\plugins\v2gshared.lua"
+Type: filesandordirs; Name: "{app}\plugins\v2gllc.lua"
 
 [Code]
 const
@@ -139,7 +140,7 @@ begin
   
     ShellExec('', UninstallString, '/SILENT', '', SW_SHOWNORMAL, ewWaitUntilTerminated, ResultCode);
     if ResultCode <> 0 then
-      MsgBox('Failed to uninstall old version! Please uninstall the plugin manually before continuing.', mbError, MB_OK);
+      MsgBox('Failed to uninstall old version! Please uninstall the plugin manually before continuing.' + #13#10#13#10 + 'Note: This may happen if Wireshark has been updated automatically. In this case, simply continue with this installer.', mbError, MB_OK);
 end;
 
 function HasWriteAccessToApp: Boolean;
@@ -242,13 +243,24 @@ var
   Lines: TArrayOfString;
   i: Integer;
   InstalledVersion: String;
+  ResultCode: Integer;
 begin
   // check for previously installed version
   InstalledVersion := GetInstalledVersion;
   if (InstalledVersion <> '') and (CompareStr(InstalledVersion, ExpandConstant('{#MinUpdateVersion}')) < 0) then
   begin
-    MsgBox('To update the plugin, the previous version needs to be uninstalled. Will now start uninstaller!', mbInformation, MB_OK);
-    RunUninstaller;
+    ResultCode := MsgBox('To update the plugin, the previous version needs to be uninstalled. Should the uninstaller be started now?', mbInformation, MB_YESNOCANCEL);
+    case ResultCode of
+      IDYES:
+        begin
+          RunUninstaller;
+        end;
+      IDCANCEL:
+        begin
+          Result := False;
+          Exit;
+        end;
+    end;
   end;
 
   // check version of lua files
