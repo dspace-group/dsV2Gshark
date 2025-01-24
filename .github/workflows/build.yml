@@ -88,10 +88,10 @@ jobs:
     - name: Zip dsV2Gshark Wireshark Profile
       run: |
           mkdir artifact_dir_profile
-          zip -qq -r artifact_dir_profile/wireshark_profile_dsV2Gshark.zip ./Wireshark/profiles/dsV2Gshark/
+          zip -qq -r artifact_dir_profile/dsV2Gshark_profile.zip ./Wireshark/profiles/dsV2Gshark/
 
     - name: Upload WS Profile
       uses: actions/upload-artifact@v4
       with:
         name: WS_profile_dsV2Gshark
-        path: artifact_dir_profile/wireshark_profile_dsV2Gshark.zip
+        path: artifact_dir_profile/dsV2Gshark_profile.zip
