@@ -74,6 +74,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - Linux
     - No installer, see [Installation Notes](#installation-notes). Make sure you have read permissions for all files.
     - dsV2Gshark profile (Filter buttons, color filters, I/O graph) must be added manually
+    - released libraries have been built with Ubuntu 22.04
 
 ## Support
 - If you encounter any problems, feel free to open an issue or contact us at support@dSPACE.de
