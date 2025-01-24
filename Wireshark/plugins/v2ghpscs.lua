@@ -234,7 +234,7 @@ local function dissect_dSPACE_scs_diag(buf_without_hpav, pinfo, root)
         return 0
     end
 
-    scs_diag_tree = subtree:add(f_version, tonumber(version))
+    local scs_diag_tree = subtree:add(f_version, tonumber(version))
 
     if tonumber(version) > SCS_DIAG_VERSION  then
         pinfo.cols.info = "Unsupported SCS diagnostic packet. Please update dsV2Gshark!"
@@ -242,12 +242,7 @@ local function dissect_dSPACE_scs_diag(buf_without_hpav, pinfo, root)
         return 0
     end
 
-    local pos_json_start = string.find(buf_without_hpav():string(), "{")
-    if not pos_json_start or pos_json_start > buf_without_hpav:len() then
-        -- should never happen, otherwise the check above would have failed
-        return 0
-    end
-    pos_json_start = pos_json_start - 1
+    local pos_json_start = string.len(prefix) + string.len(tool) + string.len(version) + string.len(info) + 5 -- 4 separators, 1 'v'
     local json_dissector = Dissector.get("json")
     if json_dissector ~= nil then
         local consumed = json_dissector:call(buf_without_hpav(pos_json_start):tvb(), pinfo, scs_diag_tree)
