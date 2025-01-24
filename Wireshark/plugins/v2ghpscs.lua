@@ -227,9 +227,9 @@ end
 local function dissect_dSPACE_scs_diag(buf_without_hpav, pinfo, root)
     local subtree = root:add(p_hpav_scs, buf_without_hpav(0))
     -- packet format: "dSPACE SCS Diag|dsV2Gshark|v<version>|<info>|<json>"
-    local prefix, tool, version, info, json_str = string.match(buf_without_hpav():string(), "([^|]+)|([^|]+)|v([0-9]+)|([^|]+)|({.+})$")
+    local prefix, tool, version, info, json_str = string.match(buf_without_hpav():string(), "^([^|]+)|([^|]+)|v([0-9]+)|([^|]+)|({.+})$")
     if not (prefix and tool and info and json_str and version) or (prefix ~= "dSPACE SCS Diag") or (tool ~= "dsV2Gshark") then
-        pinfo.cols.info = "Invalid SCS Diag Packet"
+        pinfo.cols.info = "Invalid SCS diagnostic packet"
         subtree:add(f_info, "The format of this packet is errorneous. Is dsV2Gshark up to date?")
         return 0
     end
@@ -237,7 +237,7 @@ local function dissect_dSPACE_scs_diag(buf_without_hpav, pinfo, root)
     scs_diag_tree = subtree:add(f_version, tonumber(version))
 
     if tonumber(version) > SCS_DIAG_VERSION  then
-        pinfo.cols.info = "Unsupported SCS Diag Packet. Please update dsV2Gshark!"
+        pinfo.cols.info = "Unsupported SCS diagnostic packet. Please update dsV2Gshark!"
         subtree:add(f_info, "Please update your dSPACE V2Gshark Wireshark Plugin")
         return 0
     end
