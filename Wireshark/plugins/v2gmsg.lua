@@ -57,16 +57,30 @@ local values_to_plot = {
     "EVRESSSOC",
     "EVMaximumVoltageLimit",
     "EVMaximumCurrentLimit",
+    "EVMaximumPowerLimit",
+    "RemainingTimeToFullSoC",
+    "RemainingTimeToBulkSoC",
     "EVSEMaximumVoltageLimit",
     "EVSEMaximumCurrentLimit",
+    "EVSEMaximumPowerLimit",
     -- ISO20
     "EVPresentVoltage",
     "PresentSOC",
+    "EVMaximumChargePower",
+    "EVMinimumChargePower",
+    "EVMaximumChargeCurrent",
+    "EVMinimumChargeCurrent",
     "EVMaximumVoltage",
     "EVMinimumVoltage",
-    "EVMaximumChargeCurrent",
+    "EVSEMaximumChargePower",
+    "EVSEMinimumChargePower",
+    "EVSEMaximumChargeCurrent",
+    "EVSEMinimumChargeCurrent",
     "EVSEMaximumVoltage",
-    "EVSEMaximumChargeCurrent"
+    "EVSEMinimumVoltage",
+    "RemainingTimeToMinimumSOC",
+    "RemainingTimeToTargetSOC",
+    "RemainingTimeToMaximumSOC",
 }
 local f_plot_fields = {} -- maps value name to iograph-field
 for _, value in pairs(values_to_plot) do
@@ -202,6 +216,11 @@ end
 
 local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo)
     local new_element
+    if xml_table == nil then
+        add_expert_info("Decoded XML could not be parsed!", tree_out, pinfo, ef_warning_generic)
+        return
+    end
+
     if xml_table.value ~= "" then
         -- special handling for certificates
         if xml_table.name == "Certificate" or xml_table.name == "OEMProvisioningCert" then

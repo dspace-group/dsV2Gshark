@@ -71,7 +71,7 @@ int exi_basetypes_encoder_bytes(exi_bitstream_t* stream, size_t bytes_len, const
         return EXI_ERROR__BYTE_BUFFER_TOO_SMALL;
     }
 
-    uint8_t* current_byte = (uint8_t*)bytes;
+    const uint8_t* current_byte = bytes;
 
     for (size_t n = 0; n < bytes_len; n++)
     {
@@ -156,7 +156,17 @@ int exi_basetypes_encoder_uint_64(exi_bitstream_t* stream, uint64_t value)
 
 int exi_basetypes_encoder_unsigned(exi_bitstream_t* stream, const exi_unsigned_t* value)
 {
-    return exi_basetypes_encoder_write_unsigned(stream, value);
+    int error;
+    exi_unsigned_t raw_exi_unsigned;
+
+    // convert integer API bytes to EXI coded 7/8 byte stream
+    error = exi_basetypes_convert_bytes_to_unsigned(&raw_exi_unsigned, value->octets, value->octets_count);
+    if (error != EXI_ERROR__NO_ERROR)
+    {
+        return error;
+    }
+
+    return exi_basetypes_encoder_write_unsigned(stream, &raw_exi_unsigned);
 }
 
 /*****************************************************************************
@@ -248,9 +258,7 @@ int exi_basetypes_encoder_integer_64(exi_bitstream_t* stream, int64_t value)
 
 int exi_basetypes_encoder_signed(exi_bitstream_t* stream, const exi_signed_t* value)
 {
-    int error;
-
-    error = exi_basetypes_encoder_bool(stream, value->is_negative);
+    int error = exi_basetypes_encoder_bool(stream, value->is_negative);
     if (error != EXI_ERROR__NO_ERROR)
     {
         return error;
@@ -271,7 +279,7 @@ int exi_basetypes_encoder_characters(exi_bitstream_t* stream, size_t characters_
         return EXI_ERROR__CHARACTER_BUFFER_TOO_SMALL;
     }
 
-    uint8_t* current_char = (uint8_t*)characters;
+    const uint8_t* current_char = (const uint8_t*)characters;
 
     for (size_t n = 0; n < characters_len; n++)
     {

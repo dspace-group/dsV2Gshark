@@ -309,17 +309,22 @@ int exi_basetypes_decoder_integer_64(exi_bitstream_t* stream, int64_t* value)
 
 int exi_basetypes_decoder_signed(exi_bitstream_t* stream, exi_signed_t* value)
 {
-    int sign;
-    int error;
+    int sign = 0;
 
-    error = exi_basetypes_decoder_bool(stream, &sign);
+    int error = exi_basetypes_decoder_bool(stream, &sign);
     if (error != EXI_ERROR__NO_ERROR)
     {
         return error;
     }
     value->is_negative = (sign == 0) ? 0 : 1;
 
-    error = exi_basetypes_decoder_unsigned(stream, &value->data);
+    exi_unsigned_t raw_value;
+    error = exi_basetypes_decoder_unsigned(stream, &raw_value);
+    if (error != EXI_ERROR__NO_ERROR)
+    {
+        return error;
+    }
+    error = exi_basetypes_convert_bytes_from_unsigned(&raw_value, value->data.octets, &value->data.octets_count, sizeof(raw_value.octets));
     return error;
 }
 

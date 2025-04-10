@@ -166,7 +166,7 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
             return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         else
-			pinfo.cols.info = "Unknown V2GTP message. Type 0x" .. buf(2, 2)
+			pinfo.cols.info = "Unknown or unsupported V2GTP message. Type 0x" .. buf(2, 2)
             return 0
         end
     end

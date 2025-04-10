@@ -452,7 +452,7 @@ struct iso20_TransformType {
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Transforms; type={http://www.w3.org/2000/09/xmldsig#}TransformsType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Transform, TransformType (1, 1);
+// Particle: Transform, TransformType (1, 1) (original max unbounded);
 struct iso20_TransformsType {
     // Transform, TransformType
     struct iso20_TransformType Transform;
@@ -461,7 +461,7 @@ struct iso20_TransformsType {
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}DSAKeyValue; type={http://www.w3.org/2000/09/xmldsig#}DSAKeyValueType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: P, CryptoBinary (0, 1)(was 1, 1)(seq. ['P', 'Q']); Q, CryptoBinary (0, 1)(was 1, 1)(seq. ['P', 'Q']); G, CryptoBinary (0, 1); Y, CryptoBinary (1, 1); J, CryptoBinary (0, 1); Seed, CryptoBinary (0, 1)(was 1, 1)(seq. ['Seed', 'PgenCounter']); PgenCounter, CryptoBinary (0, 1)(was 1, 1)(seq. ['Seed', 'PgenCounter']);
+// Particle: P, CryptoBinary (0, 1) (was 1, 1) (seq. ['P', 'Q']); Q, CryptoBinary (0, 1) (was 1, 1) (seq. ['P', 'Q']); G, CryptoBinary (0, 1); Y, CryptoBinary (1, 1); J, CryptoBinary (0, 1); Seed, CryptoBinary (0, 1) (was 1, 1) (seq. ['Seed', 'PgenCounter']); PgenCounter, CryptoBinary (0, 1) (was 1, 1) (seq. ['Seed', 'PgenCounter']);
 struct iso20_DSAKeyValueType {
     // P, CryptoBinary (base: base64Binary)
     struct {
@@ -1026,7 +1026,7 @@ struct iso20_SPKIDataType {
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}SignedInfo; type={http://www.w3.org/2000/09/xmldsig#}SignedInfoType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Id, ID (0, 1); CanonicalizationMethod, CanonicalizationMethodType (1, 1); SignatureMethod, SignatureMethodType (1, 1); Reference, ReferenceType (1, 4);
+// Particle: Id, ID (0, 1); CanonicalizationMethod, CanonicalizationMethodType (1, 1); SignatureMethod, SignatureMethodType (1, 1); Reference, ReferenceType (1, 4) (original max unbounded);
 struct iso20_SignedInfoType {
     // Attribute: Id, ID (base: NCName)
     struct {
@@ -1204,7 +1204,7 @@ struct iso20_KeyInfoType {
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Object; type={http://www.w3.org/2000/09/xmldsig#}ObjectType; base type=; content type=mixed;
 //          abstract=False; final=False;
-// Particle: Encoding, anyURI (0, 1); Id, ID (0, 1); MimeType, string (0, 1); ANY, anyType (0, 1)(old 1, 1);
+// Particle: Encoding, anyURI (0, 1); Id, ID (0, 1); MimeType, string (0, 1); ANY, anyType (0, 1) (old 1, 1);
 struct iso20_ObjectType {
     // Attribute: Encoding, anyURI
     struct {
@@ -1269,7 +1269,7 @@ struct iso20_TaxRuleListType {
 
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:CommonMessages}PriceRuleStacks; type={urn:iso:std:iso:15118:-20:CommonMessages}PriceRuleStackListType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: PriceRuleStack, PriceRuleStackType (1, 64);
+// Particle: PriceRuleStack, PriceRuleStackType (1, 64) (original max 1024);
 struct iso20_PriceRuleStackListType {
     // PriceRuleStack, PriceRuleStackType
     struct {
@@ -1319,7 +1319,7 @@ struct iso20_ServiceType {
 
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:CommonMessages}ParameterSet; type={urn:iso:std:iso:15118:-20:CommonMessages}ParameterSetType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: ParameterSetID, serviceIDType (1, 1); Parameter, ParameterType (1, 21);
+// Particle: ParameterSetID, serviceIDType (1, 1); Parameter, ParameterType (1, 21) (original max 32);
 struct iso20_ParameterSetType {
     // ParameterSetID, serviceIDType (base: unsignedShort)
     uint16_t ParameterSetID;
@@ -1404,7 +1404,7 @@ struct iso20_MeterInfoType {
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Signature; type={http://www.w3.org/2000/09/xmldsig#}SignatureType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Id, ID (0, 1); SignedInfo, SignedInfoType (1, 1); SignatureValue, SignatureValueType (1, 1); KeyInfo, KeyInfoType (0, 1); Object, ObjectType (0, 1);
+// Particle: Id, ID (0, 1); SignedInfo, SignedInfoType (1, 1); SignatureValue, SignatureValueType (1, 1); KeyInfo, KeyInfoType (0, 1); Object, ObjectType (0, 1) (original max unbounded);
 struct iso20_SignatureType {
     // Attribute: Id, ID (base: NCName)
     struct {
@@ -1826,7 +1826,7 @@ struct iso20_ServiceListType {
 
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:CommonMessages}ServiceParameterList; type={urn:iso:std:iso:15118:-20:CommonMessages}ServiceParameterListType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: ParameterSet, ParameterSetType (1, 21);
+// Particle: ParameterSet, ParameterSetType (1, 21) (original max 32);
 struct iso20_ServiceParameterListType {
     // ParameterSet, ParameterSetType
     struct {
@@ -2425,7 +2425,7 @@ struct iso20_CLResControlModeType {
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Manifest; type={http://www.w3.org/2000/09/xmldsig#}ManifestType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Id, ID (0, 1); Reference, ReferenceType (1, 4);
+// Particle: Id, ID (0, 1); Reference, ReferenceType (1, 4) (original max unbounded);
 struct iso20_ManifestType {
     // Attribute: Id, ID (base: NCName)
     struct {
@@ -2442,7 +2442,7 @@ struct iso20_ManifestType {
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}SignatureProperties; type={http://www.w3.org/2000/09/xmldsig#}SignaturePropertiesType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Id, ID (0, 1); SignatureProperty, SignaturePropertyType (1, 1);
+// Particle: Id, ID (0, 1); SignatureProperty, SignaturePropertyType (1, 1) (original max unbounded);
 struct iso20_SignaturePropertiesType {
     // Attribute: Id, ID (base: NCName)
     struct {

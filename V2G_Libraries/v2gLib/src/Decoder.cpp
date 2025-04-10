@@ -52,12 +52,14 @@ exi_bitstream_t Decoder::init_exi_bitstream(const uint8_t *buffer, size_t len)
 
 template <typename T>
 int Decoder::decode_exi(const uint8_t *buffer,
-                        size_t len, char *xmlOut,
-                        int (*decodeFunction)(exi_bitstream_t *, T *, char *))
+                        size_t len,
+                        char *xmlOut,
+                        size_t xmlOut_size,
+                        int (*decodeFunction)(exi_bitstream_t *, T *, char *, size_t))
 {
     T exi;
     exi_bitstream_t input_stream = init_exi_bitstream(buffer, len);
-    return decodeFunction(&input_stream, &exi, xmlOut);
+    return decodeFunction(&input_stream, &exi, xmlOut, xmlOut_size);
 }
 
 result_decode Decoder::decode_message(const std::string &exiIn, const std::string &schemaIn)
@@ -65,40 +67,48 @@ result_decode Decoder::decode_message(const std::string &exiIn, const std::strin
     result_decode result;
 
     const uint8_t *buffer = hex_str_to_uint8(exiIn.c_str());
-    size_t len = strlen(exiIn.c_str()) / 2;
-    xml_buffer[0] = 0; // reset buffer
+    xml_buffer[0] = 0;  // reset buffer
+
+    if (!buffer)
+    {
+        result.decoded_xml = std::string("Invalid input!");
+        result.used_schema = schemaIn;
+        return result;
+    }
+    
+    size_t len = exiIn.size() / 2;
 
     if (schemaIn == NAMESPACE_SAP)
     {
-        result.errn = decode_exi<appHand_exiDocument>(buffer, len, xml_buffer, decode_appHand_exiDocument);
+        result.errn = decode_exi<appHand_exiDocument>(buffer, len, xml_buffer, MAX_MESSAGE_SIZE, decode_appHand_exiDocument);
     }
     else if (schemaIn == NAMESPACE_ISO_2)
     {
-        result.errn = decode_exi<iso2_exiDocument>(buffer, len, xml_buffer, decode_iso2_exiDocument);
+        result.errn = decode_exi<iso2_exiDocument>(buffer, len, xml_buffer, MAX_MESSAGE_SIZE, decode_iso2_exiDocument);
     }
     else if (schemaIn == NAMESPACE_DIN)
     {
-        result.errn = decode_exi<din_exiDocument>(buffer, len, xml_buffer, decode_din_exiDocument);
+        result.errn = decode_exi<din_exiDocument>(buffer, len, xml_buffer, MAX_MESSAGE_SIZE, decode_din_exiDocument);
     }
     else if (schemaIn == NAMESPACE_ISO_20_DC)
     {
-        result.errn = decode_exi<iso20_dc_exiDocument>(buffer, len, xml_buffer, decode_iso20_dc_exiDocument);
+        result.errn = decode_exi<iso20_dc_exiDocument>(buffer, len, xml_buffer, MAX_MESSAGE_SIZE, decode_iso20_dc_exiDocument);
     }
     else if (schemaIn == NAMESPACE_ISO_20_CM)
     {
-        result.errn = decode_exi<iso20_exiDocument>(buffer, len, xml_buffer, decode_iso20_exiDocument);
+        result.errn = decode_exi<iso20_exiDocument>(buffer, len, xml_buffer, MAX_MESSAGE_SIZE, decode_iso20_exiDocument);
     }
     else if (schemaIn == NAMESPACE_ISO_20_AC)
     {
-        result.errn = decode_exi<iso20_ac_exiDocument>(buffer, len, xml_buffer, decode_iso20_ac_exiDocument);
+        result.errn = decode_exi<iso20_ac_exiDocument>(buffer, len, xml_buffer, MAX_MESSAGE_SIZE, decode_iso20_ac_exiDocument);
     }
     else if (schemaIn == NAMESPACE_ISO_20_ACDP)
     {
-        result.errn = decode_exi<iso20_acdp_exiDocument>(buffer, len, xml_buffer, decode_iso20_acdp_exiDocument);
+        result.errn = decode_exi<iso20_acdp_exiDocument>(buffer, len, xml_buffer, MAX_MESSAGE_SIZE, decode_iso20_acdp_exiDocument);
     }
     else if (schemaIn == NAMESPACE_ISO_20_WPT)
     {
-        result.errn = decode_exi<iso20_wpt_exiDocument>(buffer, len, xml_buffer, decode_iso20_wpt_exiDocument);
+        result.errn = decode_exi<iso20_wpt_exiDocument>(buffer, len, xml_buffer, MAX_MESSAGE_SIZE, decode_iso20_wpt_exiDocument);
     }
     else
     {

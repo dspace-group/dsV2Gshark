@@ -32,11 +32,11 @@ extern "C" {
 
 
 // main function for decoding
-int decode_iso20_ac_exiDocument(exi_bitstream_t* stream, struct iso20_ac_exiDocument* exiDoc, char* xmlOut);
+int decode_iso20_ac_exiDocument(exi_bitstream_t* stream, struct iso20_ac_exiDocument* exiDoc, char* xmlOut, size_t xmlOut_size);
 // decoding function for fragment
-int decode_iso20_ac_exiFragment(exi_bitstream_t* stream, struct iso20_ac_exiFragment* exiFrag, char* xmlOut);
+int decode_iso20_ac_exiFragment(exi_bitstream_t* stream, struct iso20_ac_exiFragment* exiFrag, char* xmlOut, size_t xmlOut_size);
 // decoding function for xmldsig fragment
-int decode_iso20_ac_xmldsigFragment(exi_bitstream_t* stream, struct iso20_ac_xmldsigFragment* xmldsigFrag, char* xmlOut);
+int decode_iso20_ac_xmldsigFragment(exi_bitstream_t* stream, struct iso20_ac_xmldsigFragment* xmldsigFrag, char* xmlOut, size_t xmlOut_size);
 
 #ifdef __cplusplus
 }

@@ -32,7 +32,7 @@ extern "C" {
 
 
 // main function for decoding
-int decode_din_exiDocument(exi_bitstream_t* stream, struct din_exiDocument* exiDoc, char* xmlOut);
+int decode_din_exiDocument(exi_bitstream_t* stream, struct din_exiDocument* exiDoc, char* xmlOut, size_t xmlOut_size);
 
 #ifdef __cplusplus
 }

@@ -18,7 +18,7 @@
 
 #include "Utils.h"
 
-constexpr int MAX_MESSAGE_SIZE = 524288; // 512kb
+constexpr size_t MAX_MESSAGE_SIZE = 524288; // 512kb
 
 struct result_decode
 {
@@ -39,7 +39,8 @@ class Decoder
     int decode_exi(const uint8_t *buffer,
                    size_t len,
                    char *xmlOut,
-                   int (*decodeFunction)(exi_bitstream_t *, T *, char *));
+                   size_t xmlOut_size,
+                   int (*decodeFunction)(exi_bitstream_t *, T *, char *, size_t));
 
     const std::string AUTODECODER_NAMESPACES[8] = {
         NAMESPACE_SAP,

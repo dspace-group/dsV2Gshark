@@ -42,7 +42,9 @@ extern "C" {
 #define EXI_STRING_MAX_LEN 256
 #define EXI_BYTE_ARRAY_MAX_LEN 350
 
-#define EXI_BASETYPES_MAX_OCTETS_SUPPORTED 20
+// To support EXI integer 8/7 coding, this needs to be 8/7 of the desired
+// size of 25 for EXI representation
+#define EXI_BASETYPES_MAX_OCTETS_SUPPORTED 29
 
 #define EXI_BASETYPES_OCTET_SEQ_FLAG_MASK 0x80
 #define EXI_BASETYPES_OCTET_SEQ_VALUE_MASK 0x7F

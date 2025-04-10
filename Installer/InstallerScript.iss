@@ -1,5 +1,5 @@
 // DO NOT CHANGE VERSION HERE! Run update_version.bat
-#define AppVer "1.5.0"
+#define AppVer "1.5.1"
 #define AppId "dsV2Gshark"
 #define Timestamp GetDateTimeString('yymmdd_hhnnss', '', '')
 

@@ -31,17 +31,18 @@
 #include "exi_header.h"
 #include "exi_types_decoder.h"
 #include "appHand_Datatypes.h"
+#include "appHand_Decoder.h"
 
 
 
-static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHand_AppProtocolType* AppProtocolType, char* xmlOut);
-static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struct appHand_supportedAppProtocolReq* supportedAppProtocolReq, char* xmlOut);
-static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struct appHand_supportedAppProtocolRes* supportedAppProtocolRes, char* xmlOut);
+static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHand_AppProtocolType* AppProtocolType, char* xmlOut, size_t xmlOut_size);
+static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struct appHand_supportedAppProtocolReq* supportedAppProtocolReq, char* xmlOut, size_t xmlOut_size);
+static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struct appHand_supportedAppProtocolRes* supportedAppProtocolRes, char* xmlOut, size_t xmlOut_size);
 
 // Element: definition=complex; name=AppProtocol; type={urn:iso:15118:2:2010:AppProtocol}AppProtocolType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: ProtocolNamespace, protocolNamespaceType (1, 1); VersionNumberMajor, unsignedInt (1, 1); VersionNumberMinor, unsignedInt (1, 1); SchemaID, idType (1, 1); Priority, priorityType (1, 1);
-static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHand_AppProtocolType* AppProtocolType, char* xmlOut) {
+static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHand_AppProtocolType* AppProtocolType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 0;
     int done = 0;
     uint32_t eventCode;
@@ -49,21 +50,21 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
 
     init_appHand_AppProtocolType(AppProtocolType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 0:
             // Grammar: ID=0; read/write bits=1; START (ProtocolNamespace)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (ProtocolNamespace, protocolNamespaceType (anyURI)); next=1
-
+                    if(strlen(xmlOut) + 17 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<ProtocolNamespace");
@@ -83,6 +84,7 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                                     AppProtocolType->ProtocolNamespace.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, AppProtocolType->ProtocolNamespace.charactersLen, AppProtocolType->ProtocolNamespace.characters, appHand_ProtocolNamespace_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    if(strlen(xmlOut) + AppProtocolType->ProtocolNamespace.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                     for(int i = 0; i < AppProtocolType->ProtocolNamespace.charactersLen; i++) { // check for unprintable characters
                                         if(!isprint(AppProtocolType->ProtocolNamespace.characters[i]))
                                         {
@@ -123,6 +125,7 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                         }
                     }
 
+                    if(strlen(xmlOut) + 17 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -140,12 +143,12 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (VersionNumberMajor, unsignedInt (unsignedLong)); next=2
-
+                    if(strlen(xmlOut) + 18 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<VersionNumberMajor");
@@ -155,12 +158,14 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                     if (error == 0)
                     {
                         char append[11]; // max length: 10 digits + 0 sign + 1 zero terminator
+                        if(strlen(xmlOut) + 11 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                         sprintf(append, "%u", AppProtocolType->VersionNumberMajor);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         grammar_id = 2;
                     }
 
+                    if(strlen(xmlOut) + 18 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -178,12 +183,12 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (VersionNumberMinor, unsignedInt (unsignedLong)); next=3
-
+                    if(strlen(xmlOut) + 18 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<VersionNumberMinor");
@@ -193,12 +198,14 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                     if (error == 0)
                     {
                         char append[11]; // max length: 10 digits + 0 sign + 1 zero terminator
+                        if(strlen(xmlOut) + 11 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                         sprintf(append, "%u", AppProtocolType->VersionNumberMinor);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
                         grammar_id = 3;
                     }
 
+                    if(strlen(xmlOut) + 18 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -216,12 +223,12 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (SchemaID, idType (unsignedByte)); next=4
-
+                    if(strlen(xmlOut) + 8 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<SchemaID");
@@ -237,6 +244,7 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                             if (error == 0)
                             {
                                 AppProtocolType->SchemaID = (uint8_t)value;
+                                if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
                                 sprintf(append, "%d", AppProtocolType->SchemaID);
                                 strcat(xmlOut, ">");
@@ -268,6 +276,7 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                         }
                     }
 
+                    if(strlen(xmlOut) + 8 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -285,12 +294,12 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Priority, priorityType (unsignedByte)); next=5
-
+                    if(strlen(xmlOut) + 8 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<Priority");
@@ -307,6 +316,7 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                             {
                                 // type has min_value = 1
                                 AppProtocolType->Priority = (uint8_t)(value + 1);
+                                if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
                                 sprintf(append, "%d", AppProtocolType->Priority);
                                 strcat(xmlOut, ">");
@@ -338,6 +348,7 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
                         }
                     }
 
+                    if(strlen(xmlOut) + 8 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -355,7 +366,7 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -385,8 +396,8 @@ static int decode_appHand_AppProtocolType(exi_bitstream_t* stream, struct appHan
 
 // Element: definition=complex; name={urn:iso:15118:2:2010:AppProtocol}supportedAppProtocolReq; type=AnonymousType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: AppProtocol, AppProtocolType (1, 5);
-static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struct appHand_supportedAppProtocolReq* supportedAppProtocolReq, char* xmlOut) {
+// Particle: AppProtocol, AppProtocolType (1, 5) (original max 20);
+static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struct appHand_supportedAppProtocolReq* supportedAppProtocolReq, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 7;
     int done = 0;
     uint32_t eventCode;
@@ -394,21 +405,21 @@ static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struc
 
     init_appHand_supportedAppProtocolReq(supportedAppProtocolReq);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 7:
             // Grammar: ID=7; read/write bits=1; START (AppProtocol)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (AppProtocol, AppProtocolType (AppProtocolType)); next=8
-
+                    if(strlen(xmlOut) + 11 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<AppProtocol");
@@ -417,14 +428,16 @@ static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struc
                     if (supportedAppProtocolReq->AppProtocol.arrayLen < appHand_AppProtocolType_5_ARRAY_SIZE)
                     {
 
-                        error = decode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[supportedAppProtocolReq->AppProtocol.arrayLen++], xmlOut);
+                        error = decode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[supportedAppProtocolReq->AppProtocol.arrayLen++], xmlOut, xmlOut_size);
                     }
                     else
                     {
+                        // static array not large enough, only appHand_AppProtocolType_5_ARRAY_SIZE elements
                         error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
                     }
                     grammar_id = 8;
 
+                    if(strlen(xmlOut) + 11 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -438,16 +451,16 @@ static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struc
             }
             break;
         case 8:
-            // Grammar: ID=8; read/write bits=2; START (AppProtocol), END Element
+            // Grammar: ID=8; read/write bits=2; LOOP (AppProtocol), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (AppProtocol, AppProtocolType (AppProtocolType)); next=9
-
+                    // Event: LOOP (AppProtocol, AppProtocolType (AppProtocolType)); next=8
+                    if(strlen(xmlOut) + 11 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<AppProtocol");
@@ -456,198 +469,24 @@ static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struc
                     if (supportedAppProtocolReq->AppProtocol.arrayLen < appHand_AppProtocolType_5_ARRAY_SIZE)
                     {
 
-                        error = decode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[supportedAppProtocolReq->AppProtocol.arrayLen++], xmlOut);
+                        error = decode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[supportedAppProtocolReq->AppProtocol.arrayLen++], xmlOut, xmlOut_size);
                     }
                     else
                     {
+                        // static array not large enough, only appHand_AppProtocolType_5_ARRAY_SIZE elements
                         error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
                     }
-                    grammar_id = 9;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</AppProtocol>");
-                    }
-                    break;
-                case 1:
+                    // LOOP breakout code for schema given maximum, regardless of ARRAY_SIZE definition
+                    if (supportedAppProtocolReq->AppProtocol.arrayLen < 20)
                     {
-                    // Event: END Element; next=6
-                    done = 1;
-                    grammar_id = 6;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 9:
-            // Grammar: ID=9; read/write bits=2; START (AppProtocol), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (AppProtocol, AppProtocolType (AppProtocolType)); next=10
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<AppProtocol");
-                    xmlPos += strlen("<AppProtocol");
-                    // decode: element array
-                    if (supportedAppProtocolReq->AppProtocol.arrayLen < appHand_AppProtocolType_5_ARRAY_SIZE)
-                    {
-
-                        error = decode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[supportedAppProtocolReq->AppProtocol.arrayLen++], xmlOut);
+                        grammar_id = 8;
                     }
                     else
                     {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
+                        grammar_id = 5;
                     }
-                    grammar_id = 10;
 
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</AppProtocol>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=6
-                    done = 1;
-                    grammar_id = 6;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 10:
-            // Grammar: ID=10; read/write bits=2; START (AppProtocol), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (AppProtocol, AppProtocolType (AppProtocolType)); next=11
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<AppProtocol");
-                    xmlPos += strlen("<AppProtocol");
-                    // decode: element array
-                    if (supportedAppProtocolReq->AppProtocol.arrayLen < appHand_AppProtocolType_5_ARRAY_SIZE)
-                    {
-
-                        error = decode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[supportedAppProtocolReq->AppProtocol.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 11;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</AppProtocol>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=6
-                    done = 1;
-                    grammar_id = 6;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 11:
-            // Grammar: ID=11; read/write bits=2; START (AppProtocol), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (AppProtocol, AppProtocolType (AppProtocolType)); next=12
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<AppProtocol");
-                    xmlPos += strlen("<AppProtocol");
-                    // decode: element array
-                    if (supportedAppProtocolReq->AppProtocol.arrayLen < appHand_AppProtocolType_5_ARRAY_SIZE)
-                    {
-
-                        error = decode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[supportedAppProtocolReq->AppProtocol.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 12;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</AppProtocol>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=6
-                    done = 1;
-                    grammar_id = 6;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 12:
-            // Grammar: ID=12; read/write bits=2; START (AppProtocol), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (AppProtocol, AppProtocolType (AppProtocolType)); next=5
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<AppProtocol");
-                    xmlPos += strlen("<AppProtocol");
-                    // decode: element array
-                    if (supportedAppProtocolReq->AppProtocol.arrayLen < appHand_AppProtocolType_5_ARRAY_SIZE)
-                    {
-
-                        error = decode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[supportedAppProtocolReq->AppProtocol.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 5;
-
+                    if(strlen(xmlOut) + 11 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -672,7 +511,7 @@ static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struc
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -703,29 +542,29 @@ static int decode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, struc
 // Element: definition=complex; name={urn:iso:15118:2:2010:AppProtocol}supportedAppProtocolRes; type=AnonymousType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: ResponseCode, responseCodeType (1, 1); SchemaID, idType (0, 1);
-static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struct appHand_supportedAppProtocolRes* supportedAppProtocolRes, char* xmlOut) {
-    int grammar_id = 13;
+static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struct appHand_supportedAppProtocolRes* supportedAppProtocolRes, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 9;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_appHand_supportedAppProtocolRes(supportedAppProtocolRes);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 13:
-            // Grammar: ID=13; read/write bits=1; START (ResponseCode)
+        case 9:
+            // Grammar: ID=9; read/write bits=1; START (ResponseCode)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (ResponseCode, responseCodeType (string)); next=14
-
+                    // Event: START (ResponseCode, responseCodeType (string)); next=10
+                    if(strlen(xmlOut) + 12 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<ResponseCode");
@@ -741,6 +580,7 @@ static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struc
                             if (error == 0)
                             {
                                 supportedAppProtocolRes->ResponseCode = (appHand_responseCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_appHand_responseCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_appHand_responseCodeType_reverse(value));
                             }
@@ -761,7 +601,7 @@ static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struc
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 14;
+                                grammar_id = 10;
                             }
                             else
                             {
@@ -770,6 +610,7 @@ static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struc
                         }
                     }
 
+                    if(strlen(xmlOut) + 12 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -782,17 +623,17 @@ static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struc
                 }
             }
             break;
-        case 14:
-            // Grammar: ID=14; read/write bits=2; START (SchemaID), END Element
+        case 10:
+            // Grammar: ID=10; read/write bits=2; START (SchemaID), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (SchemaID, idType (unsignedByte)); next=5
-
+                    if(strlen(xmlOut) + 8 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<SchemaID");
@@ -808,6 +649,7 @@ static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struc
                             if (error == 0)
                             {
                                 supportedAppProtocolRes->SchemaID = (uint8_t)value;
+                                if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
                                 sprintf(append, "%d", supportedAppProtocolRes->SchemaID);
                                 strcat(xmlOut, ">");
@@ -840,6 +682,7 @@ static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struc
                         }
                     }
 
+                    if(strlen(xmlOut) + 8 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -864,7 +707,7 @@ static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struc
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -894,31 +737,34 @@ static int decode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, struc
 
 
 // main function for decoding
-int decode_appHand_exiDocument(exi_bitstream_t* stream, struct appHand_exiDocument* exiDoc, char* xmlOut) {
+int decode_appHand_exiDocument(exi_bitstream_t* stream, struct appHand_exiDocument* exiDoc, char* xmlOut, size_t xmlOut_size) {
     uint32_t eventCode;
     int error = exi_header_read_and_check(stream);
 
     if (error == 0)
     {
         init_appHand_exiDocument(exiDoc);
+        if(strlen(xmlOut) + 38 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
         strcat(xmlOut, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
         error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
         if (error == 0)
         {
-            switch(eventCode)
+            switch (eventCode)
             {
             case 0:
                 
+        if(strlen(xmlOut) + 57 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:15118:2:2010:AppProtocol}supportedAppProtocolReq>");
-                error = decode_appHand_supportedAppProtocolReq(stream, &exiDoc->supportedAppProtocolReq, xmlOut);
+                error = decode_appHand_supportedAppProtocolReq(stream, &exiDoc->supportedAppProtocolReq, xmlOut, xmlOut_size);
                 exiDoc->supportedAppProtocolReq_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:15118:2:2010:AppProtocol}supportedAppProtocolReq>");
                 break;
             case 1:
                 
+        if(strlen(xmlOut) + 57 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:15118:2:2010:AppProtocol}supportedAppProtocolRes>");
-                error = decode_appHand_supportedAppProtocolRes(stream, &exiDoc->supportedAppProtocolRes, xmlOut);
+                error = decode_appHand_supportedAppProtocolRes(stream, &exiDoc->supportedAppProtocolRes, xmlOut, xmlOut_size);
                 exiDoc->supportedAppProtocolRes_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:15118:2:2010:AppProtocol}supportedAppProtocolRes>");
                 break;
@@ -942,6 +788,7 @@ int decode_appHand_exiDocument(exi_bitstream_t* stream, struct appHand_exiDocume
     while( (posOfPrefixStart = strcspn(currentXmlPtr, "{")) != strlen(currentXmlPtr) ) {
         currentXmlPtr += posOfPrefixStart + 1;
         prefixSize = strcspn(currentXmlPtr, "}");
+        if(prefixSize > FQN_FULL_LENGTH - 1) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
         
         bool hit = false;
         // check if prefix already in list
@@ -957,8 +804,9 @@ int decode_appHand_exiDocument(exi_bitstream_t* stream, struct appHand_exiDocume
             prefixList[prefixCount][1] = malloc(sizeof(*prefixList[prefixCount]) * FQN_FULL_LENGTH);
             strncpy(prefixList[prefixCount][1], currentXmlPtr, prefixSize);
             prefixList[prefixCount][1][prefixSize] = 0;
-                sprintf(prefixList[prefixCount][0], "ns%d", prefixCount + 1);
-                    prefixCount ++;
+            sprintf(prefixList[prefixCount][0], "ns%d", prefixCount + 1);
+            prefixCount ++;
+            if (prefixCount >= 10) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
         }
         currentXmlPtr += prefixSize;
     }
@@ -1011,6 +859,7 @@ int decode_appHand_exiDocument(exi_bitstream_t* stream, struct appHand_exiDocume
         }
     }
     xmlOut[xmlOutLength] = 0;
+    free(xmlDup);
     
     // clean up
     for(int i = 0; i < prefixCount; i++)
@@ -1018,7 +867,6 @@ int decode_appHand_exiDocument(exi_bitstream_t* stream, struct appHand_exiDocume
         free(prefixList[i][0]);
         free(prefixList[i][1]);
     }
-    free(xmlDup);
 
     return error;
 }
