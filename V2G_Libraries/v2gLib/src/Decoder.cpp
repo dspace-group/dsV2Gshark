@@ -69,7 +69,7 @@ result_decode Decoder::decode_message(const std::string &exiIn, const std::strin
     const uint8_t *buffer = hex_str_to_uint8(exiIn.c_str());
     xml_buffer[0] = 0;  // reset buffer
 
-    if (exiIn.size() % 2 != 0)
+    if (!buffer)
     {
         result.decoded_xml = std::string("Invalid input!");
         result.used_schema = schemaIn;
