@@ -24,6 +24,7 @@
 #include "exi_error_codes.h"
 #include "exi_header.h"
 #include "appHand_Datatypes.h"
+#include "appHand_Encoder.h"
 
 
 
@@ -39,9 +40,9 @@ static int encode_appHand_AppProtocolType(exi_bitstream_t* stream, const struct 
     int done = 0;
     int error = 0;
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 0:
             // Grammar: ID=0; read/write bits=1; START (ProtocolNamespace)
@@ -184,16 +185,16 @@ static int encode_appHand_AppProtocolType(exi_bitstream_t* stream, const struct 
 
 // Element: definition=complex; name={urn:iso:15118:2:2010:AppProtocol}supportedAppProtocolReq; type=AnonymousType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: AppProtocol, AppProtocolType (1, 5);
+// Particle: AppProtocol, AppProtocolType (1, 5) (original max 20);
 static int encode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, const struct appHand_supportedAppProtocolReq* supportedAppProtocolReq) {
     int grammar_id = 7;
     int done = 0;
     int error = 0;
     uint16_t AppProtocol_currentIndex = 0;
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 7:
             // Grammar: ID=7; read/write bits=1; START (AppProtocol)
@@ -216,121 +217,17 @@ static int encode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, const
             }
             break;
         case 8:
-            // Grammar: ID=8; read/write bits=2; START (AppProtocol), END Element
+            // Grammar: ID=8; read/write bits=2; LOOP (AppProtocol), END Element
             if (AppProtocol_currentIndex < supportedAppProtocolReq->AppProtocol.arrayLen)
             {
                 error = exi_basetypes_encoder_nbit_uint(stream, 2, 0);
                 if (error == EXI_ERROR__NO_ERROR)
                 {
-                    // Event: START (AppProtocolType); next=9
+                    // Event: LOOP (AppProtocolType); next=8
                     error = encode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[AppProtocol_currentIndex++]);
                     if (error == EXI_ERROR__NO_ERROR)
                     {
-                        grammar_id = 9;
-                    }
-                }
-            }
-            else
-            {
-                error = exi_basetypes_encoder_nbit_uint(stream, 2, 1);
-                if (error == EXI_ERROR__NO_ERROR)
-                {
-                    // Event: END Element; next=6
-                    done = 1;
-                    grammar_id = 6;
-                }
-            }
-            break;
-        case 9:
-            // Grammar: ID=9; read/write bits=2; START (AppProtocol), END Element
-            if (AppProtocol_currentIndex < supportedAppProtocolReq->AppProtocol.arrayLen)
-            {
-                error = exi_basetypes_encoder_nbit_uint(stream, 2, 0);
-                if (error == EXI_ERROR__NO_ERROR)
-                {
-                    // Event: START (AppProtocolType); next=10
-                    error = encode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[AppProtocol_currentIndex++]);
-                    if (error == EXI_ERROR__NO_ERROR)
-                    {
-                        grammar_id = 10;
-                    }
-                }
-            }
-            else
-            {
-                error = exi_basetypes_encoder_nbit_uint(stream, 2, 1);
-                if (error == EXI_ERROR__NO_ERROR)
-                {
-                    // Event: END Element; next=6
-                    done = 1;
-                    grammar_id = 6;
-                }
-            }
-            break;
-        case 10:
-            // Grammar: ID=10; read/write bits=2; START (AppProtocol), END Element
-            if (AppProtocol_currentIndex < supportedAppProtocolReq->AppProtocol.arrayLen)
-            {
-                error = exi_basetypes_encoder_nbit_uint(stream, 2, 0);
-                if (error == EXI_ERROR__NO_ERROR)
-                {
-                    // Event: START (AppProtocolType); next=11
-                    error = encode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[AppProtocol_currentIndex++]);
-                    if (error == EXI_ERROR__NO_ERROR)
-                    {
-                        grammar_id = 11;
-                    }
-                }
-            }
-            else
-            {
-                error = exi_basetypes_encoder_nbit_uint(stream, 2, 1);
-                if (error == EXI_ERROR__NO_ERROR)
-                {
-                    // Event: END Element; next=6
-                    done = 1;
-                    grammar_id = 6;
-                }
-            }
-            break;
-        case 11:
-            // Grammar: ID=11; read/write bits=2; START (AppProtocol), END Element
-            if (AppProtocol_currentIndex < supportedAppProtocolReq->AppProtocol.arrayLen)
-            {
-                error = exi_basetypes_encoder_nbit_uint(stream, 2, 0);
-                if (error == EXI_ERROR__NO_ERROR)
-                {
-                    // Event: START (AppProtocolType); next=12
-                    error = encode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[AppProtocol_currentIndex++]);
-                    if (error == EXI_ERROR__NO_ERROR)
-                    {
-                        grammar_id = 12;
-                    }
-                }
-            }
-            else
-            {
-                error = exi_basetypes_encoder_nbit_uint(stream, 2, 1);
-                if (error == EXI_ERROR__NO_ERROR)
-                {
-                    // Event: END Element; next=6
-                    done = 1;
-                    grammar_id = 6;
-                }
-            }
-            break;
-        case 12:
-            // Grammar: ID=12; read/write bits=2; START (AppProtocol), END Element
-            if (AppProtocol_currentIndex < supportedAppProtocolReq->AppProtocol.arrayLen)
-            {
-                error = exi_basetypes_encoder_nbit_uint(stream, 2, 0);
-                if (error == EXI_ERROR__NO_ERROR)
-                {
-                    // Event: START (AppProtocolType); next=5
-                    error = encode_appHand_AppProtocolType(stream, &supportedAppProtocolReq->AppProtocol.array[AppProtocol_currentIndex++]);
-                    if (error == EXI_ERROR__NO_ERROR)
-                    {
-                        grammar_id = 5;
+                        grammar_id = 8;
                     }
                 }
             }
@@ -372,20 +269,20 @@ static int encode_appHand_supportedAppProtocolReq(exi_bitstream_t* stream, const
 //          abstract=False; final=False;
 // Particle: ResponseCode, responseCodeType (1, 1); SchemaID, idType (0, 1);
 static int encode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, const struct appHand_supportedAppProtocolRes* supportedAppProtocolRes) {
-    int grammar_id = 13;
+    int grammar_id = 9;
     int done = 0;
     int error = 0;
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 13:
-            // Grammar: ID=13; read/write bits=1; START (ResponseCode)
+        case 9:
+            // Grammar: ID=9; read/write bits=1; START (ResponseCode)
             error = exi_basetypes_encoder_nbit_uint(stream, 1, 0);
             if (error == EXI_ERROR__NO_ERROR)
             {
-                // Event: START (string); next=14
+                // Event: START (string); next=10
                 error = exi_basetypes_encoder_nbit_uint(stream, 1, 0);
                 if (error == EXI_ERROR__NO_ERROR)
                 {
@@ -396,14 +293,14 @@ static int encode_appHand_supportedAppProtocolRes(exi_bitstream_t* stream, const
                         error = exi_basetypes_encoder_nbit_uint(stream, 1, 0);
                         if (error == EXI_ERROR__NO_ERROR)
                         {
-                            grammar_id = 14;
+                            grammar_id = 10;
                         }
                     }
                 }
             }
             break;
-        case 14:
-            // Grammar: ID=14; read/write bits=2; START (SchemaID), END Element
+        case 10:
+            // Grammar: ID=10; read/write bits=2; START (SchemaID), END Element
             if (supportedAppProtocolRes->SchemaID_isUsed == 1u)
             {
                 error = exi_basetypes_encoder_nbit_uint(stream, 2, 0);

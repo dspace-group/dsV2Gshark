@@ -33,7 +33,7 @@ extern "C" {
 
 
 // main function for decoding
-int decode_appHand_exiDocument(exi_bitstream_t* stream, struct appHand_exiDocument* exiDoc, char* xmlOut);
+int decode_appHand_exiDocument(exi_bitstream_t* stream, struct appHand_exiDocument* exiDoc, char* xmlOut, size_t xmlOut_size);
 
 #ifdef __cplusplus
 }

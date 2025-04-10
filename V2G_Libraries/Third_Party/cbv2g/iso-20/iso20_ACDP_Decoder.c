@@ -18,14 +18,13 @@
   * @brief Description goes here
   *
   **/
-#include <ctype.h>
 #include <inttypes.h>
 #include <stdint.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <ctype.h>
 
 #include "exi_basetypes.h"
 #include "exi_types_decoder.h"
@@ -37,44 +36,44 @@
 
 
 
-static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20_acdp_TransformType* TransformType, char* xmlOut);
-static int decode_iso20_acdp_TransformsType(exi_bitstream_t* stream, struct iso20_acdp_TransformsType* TransformsType, char* xmlOut);
-static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso20_acdp_DSAKeyValueType* DSAKeyValueType, char* xmlOut);
-static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struct iso20_acdp_X509IssuerSerialType* X509IssuerSerialType, char* xmlOut);
-static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct iso20_acdp_DigestMethodType* DigestMethodType, char* xmlOut);
-static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso20_acdp_RSAKeyValueType* RSAKeyValueType, char* xmlOut);
-static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream, struct iso20_acdp_CanonicalizationMethodType* CanonicalizationMethodType, char* xmlOut);
-static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct iso20_acdp_SignatureMethodType* SignatureMethodType, char* xmlOut);
-static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_acdp_KeyValueType* KeyValueType, char* xmlOut);
-static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20_acdp_ReferenceType* ReferenceType, char* xmlOut);
-static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct iso20_acdp_RetrievalMethodType* RetrievalMethodType, char* xmlOut);
-static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_acdp_X509DataType* X509DataType, char* xmlOut);
-static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_acdp_PGPDataType* PGPDataType, char* xmlOut);
-static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_acdp_SPKIDataType* SPKIDataType, char* xmlOut);
-static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso20_acdp_SignedInfoType* SignedInfoType, char* xmlOut);
-static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct iso20_acdp_SignatureValueType* SignatureValueType, char* xmlOut);
-static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_acdp_KeyInfoType* KeyInfoType, char* xmlOut);
-static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_acdp_ObjectType* ObjectType, char* xmlOut);
-static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20_acdp_SignatureType* SignatureType, char* xmlOut);
-static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct iso20_acdp_RationalNumberType* RationalNumberType, char* xmlOut);
-static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct iso20_acdp_MessageHeaderType* MessageHeaderType, char* xmlOut);
-static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, struct iso20_acdp_SignaturePropertyType* SignaturePropertyType, char* xmlOut);
-static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, struct iso20_acdp_EVTechnicalStatusType* EVTechnicalStatusType, char* xmlOut);
-static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_VehiclePositioningReqType* ACDP_VehiclePositioningReqType, char* xmlOut);
-static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_VehiclePositioningResType* ACDP_VehiclePositioningResType, char* xmlOut);
-static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_ConnectReqType* ACDP_ConnectReqType, char* xmlOut);
-static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_ConnectResType* ACDP_ConnectResType, char* xmlOut);
-static int decode_iso20_acdp_ACDP_SystemStatusReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_SystemStatusReqType* ACDP_SystemStatusReqType, char* xmlOut);
-static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_SystemStatusResType* ACDP_SystemStatusResType, char* xmlOut);
-static int decode_iso20_acdp_CLReqControlModeType(exi_bitstream_t* stream, struct iso20_acdp_CLReqControlModeType* CLReqControlModeType, char* xmlOut);
-static int decode_iso20_acdp_CLResControlModeType(exi_bitstream_t* stream, struct iso20_acdp_CLResControlModeType* CLResControlModeType, char* xmlOut);
-static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_acdp_ManifestType* ManifestType, char* xmlOut);
-static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, struct iso20_acdp_SignaturePropertiesType* SignaturePropertiesType, char* xmlOut);
+static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20_acdp_TransformType* TransformType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_TransformsType(exi_bitstream_t* stream, struct iso20_acdp_TransformsType* TransformsType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso20_acdp_DSAKeyValueType* DSAKeyValueType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struct iso20_acdp_X509IssuerSerialType* X509IssuerSerialType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct iso20_acdp_DigestMethodType* DigestMethodType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso20_acdp_RSAKeyValueType* RSAKeyValueType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream, struct iso20_acdp_CanonicalizationMethodType* CanonicalizationMethodType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct iso20_acdp_SignatureMethodType* SignatureMethodType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_acdp_KeyValueType* KeyValueType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20_acdp_ReferenceType* ReferenceType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct iso20_acdp_RetrievalMethodType* RetrievalMethodType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_acdp_X509DataType* X509DataType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_acdp_PGPDataType* PGPDataType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_acdp_SPKIDataType* SPKIDataType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso20_acdp_SignedInfoType* SignedInfoType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct iso20_acdp_SignatureValueType* SignatureValueType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_acdp_KeyInfoType* KeyInfoType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_acdp_ObjectType* ObjectType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20_acdp_SignatureType* SignatureType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct iso20_acdp_RationalNumberType* RationalNumberType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct iso20_acdp_MessageHeaderType* MessageHeaderType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, struct iso20_acdp_SignaturePropertyType* SignaturePropertyType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, struct iso20_acdp_EVTechnicalStatusType* EVTechnicalStatusType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_VehiclePositioningReqType* ACDP_VehiclePositioningReqType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_VehiclePositioningResType* ACDP_VehiclePositioningResType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_ConnectReqType* ACDP_ConnectReqType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_ConnectResType* ACDP_ConnectResType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ACDP_SystemStatusReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_SystemStatusReqType* ACDP_SystemStatusReqType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_SystemStatusResType* ACDP_SystemStatusResType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_CLReqControlModeType(exi_bitstream_t* stream, struct iso20_acdp_CLReqControlModeType* CLReqControlModeType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_CLResControlModeType(exi_bitstream_t* stream, struct iso20_acdp_CLResControlModeType* CLResControlModeType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_acdp_ManifestType* ManifestType, char* xmlOut, size_t xmlOut_size);
+static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, struct iso20_acdp_SignaturePropertiesType* SignaturePropertiesType, char* xmlOut, size_t xmlOut_size);
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Transform; type={http://www.w3.org/2000/09/xmldsig#}TransformType; base type=; content type=mixed;
 //          abstract=False; final=False; choice=True;
 // Particle: Algorithm, anyURI (1, 1); ANY, anyType (0, 1); XPath, string (0, 1);
-static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20_acdp_TransformType* TransformType, char* xmlOut) {
+static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20_acdp_TransformType* TransformType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 0;
     int done = 0;
     uint32_t eventCode;
@@ -82,21 +81,21 @@ static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20
 
     init_iso20_acdp_TransformType(TransformType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 0:
             // Grammar: ID=0; read/write bits=1; START (Algorithm)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Algorithm, anyURI (anyURI)); next=1
-
+                    if(strlen(xmlOut) + 9 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Algorithm");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &TransformType->Algorithm.charactersLen);
@@ -108,6 +107,7 @@ static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20
                             TransformType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, TransformType->Algorithm.charactersLen, TransformType->Algorithm.characters, iso20_acdp_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + TransformType->Algorithm.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < TransformType->Algorithm.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(TransformType->Algorithm.characters[i]))
                                 {
@@ -138,12 +138,12 @@ static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (XPath, string (string)); next=2
-
+                    if(strlen(xmlOut) + 41 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}XPath");
@@ -163,6 +163,7 @@ static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20
                                     TransformType->XPath.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, TransformType->XPath.charactersLen, TransformType->XPath.characters, iso20_acdp_XPath_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    if(strlen(xmlOut) + TransformType->XPath.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                     for(int i = 0; i < TransformType->XPath.charactersLen; i++) { // check for unprintable characters
                                         if(!isprint(TransformType->XPath.characters[i]))
                                         {
@@ -204,6 +205,7 @@ static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20
                         }
                     }
 
+                    if(strlen(xmlOut) + 41 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -251,6 +253,7 @@ static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20
                         for (int i = 0; i < mod_table[TransformType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -273,7 +276,7 @@ static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -303,8 +306,8 @@ static int decode_iso20_acdp_TransformType(exi_bitstream_t* stream, struct iso20
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Transforms; type={http://www.w3.org/2000/09/xmldsig#}TransformsType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Transform, TransformType (1, 1);
-static int decode_iso20_acdp_TransformsType(exi_bitstream_t* stream, struct iso20_acdp_TransformsType* TransformsType, char* xmlOut) {
+// Particle: Transform, TransformType (1, 1) (original max unbounded);
+static int decode_iso20_acdp_TransformsType(exi_bitstream_t* stream, struct iso20_acdp_TransformsType* TransformsType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 4;
     int done = 0;
     uint32_t eventCode;
@@ -312,33 +315,34 @@ static int decode_iso20_acdp_TransformsType(exi_bitstream_t* stream, struct iso2
 
     init_iso20_acdp_TransformsType(TransformsType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 4:
             // Grammar: ID=4; read/write bits=1; START (Transform)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Transform, TransformType (TransformType)); next=5
-
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transform");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transform");
                     // decode: element
-                    error = decode_iso20_acdp_TransformType(stream, &TransformsType->Transform, xmlOut);
+                    error = decode_iso20_acdp_TransformType(stream, &TransformsType->Transform, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 5;
                     }
 
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -356,24 +360,21 @@ static int decode_iso20_acdp_TransformsType(exi_bitstream_t* stream, struct iso2
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Transform, TransformType (TransformType)); next=2
-
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transform");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transform");
                     // decode: element
-                    error = decode_iso20_acdp_TransformType(stream, &TransformsType->Transform, xmlOut);
-                    if (error == 0)
-                    {
-                        grammar_id = 2;
-                    }
+                    // This element should not occur a further time, its representation was reduced to a single element
+                    error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
 
-
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -398,7 +399,7 @@ static int decode_iso20_acdp_TransformsType(exi_bitstream_t* stream, struct iso2
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -428,8 +429,8 @@ static int decode_iso20_acdp_TransformsType(exi_bitstream_t* stream, struct iso2
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}DSAKeyValue; type={http://www.w3.org/2000/09/xmldsig#}DSAKeyValueType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: P, CryptoBinary (0, 1)(was 1, 1)(seq. ['P', 'Q']); Q, CryptoBinary (0, 1)(was 1, 1)(seq. ['P', 'Q']); G, CryptoBinary (0, 1); Y, CryptoBinary (1, 1); J, CryptoBinary (0, 1); Seed, CryptoBinary (0, 1)(was 1, 1)(seq. ['Seed', 'PgenCounter']); PgenCounter, CryptoBinary (0, 1)(was 1, 1)(seq. ['Seed', 'PgenCounter']);
-static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso20_acdp_DSAKeyValueType* DSAKeyValueType, char* xmlOut) {
+// Particle: P, CryptoBinary (0, 1) (was 1, 1) (seq. ['P', 'Q']); Q, CryptoBinary (0, 1) (was 1, 1) (seq. ['P', 'Q']); G, CryptoBinary (0, 1); Y, CryptoBinary (1, 1); J, CryptoBinary (0, 1); Seed, CryptoBinary (0, 1) (was 1, 1) (seq. ['Seed', 'PgenCounter']); PgenCounter, CryptoBinary (0, 1) (was 1, 1) (seq. ['Seed', 'PgenCounter']);
+static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso20_acdp_DSAKeyValueType* DSAKeyValueType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 6;
     int done = 0;
     uint32_t eventCode;
@@ -437,21 +438,21 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
     init_iso20_acdp_DSAKeyValueType(DSAKeyValueType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 6:
             // Grammar: ID=6; read/write bits=2; START (P), START (G), START (Y)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (P, CryptoBinary (base64Binary)); next=7
-
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}P");
@@ -480,6 +481,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->P.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -490,6 +492,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -499,7 +502,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                 case 1:
                     {
                     // Event: START (G, CryptoBinary (base64Binary)); next=9
-
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}G");
@@ -528,6 +531,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->G.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -538,6 +542,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -547,7 +552,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                 case 2:
                     {
                     // Event: START (Y, CryptoBinary (base64Binary)); next=10
-
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Y");
@@ -576,6 +581,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->Y.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -585,6 +591,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -602,12 +609,12 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Q, CryptoBinary (base64Binary)); next=8
-
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Q");
@@ -636,6 +643,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->Q.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -646,6 +654,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -663,12 +672,12 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (G, CryptoBinary (base64Binary)); next=9
-
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}G");
@@ -697,6 +706,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->G.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -707,6 +717,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -716,7 +727,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                 case 1:
                     {
                     // Event: START (Y, CryptoBinary (base64Binary)); next=10
-
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Y");
@@ -745,6 +756,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->Y.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -754,6 +766,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -771,12 +784,12 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Y, CryptoBinary (base64Binary)); next=10
-
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Y");
@@ -805,6 +818,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->Y.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -814,6 +828,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -831,12 +846,12 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (J, CryptoBinary (base64Binary)); next=11
-
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}J");
@@ -865,6 +880,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->J.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -875,6 +891,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -884,7 +901,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                 case 1:
                     {
                     // Event: START (Seed, CryptoBinary (base64Binary)); next=12
-
+                    if(strlen(xmlOut) + 40 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Seed");
@@ -913,6 +930,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->Seed.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -923,6 +941,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 40 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -947,12 +966,12 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Seed, CryptoBinary (base64Binary)); next=12
-
+                    if(strlen(xmlOut) + 40 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Seed");
@@ -981,6 +1000,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->Seed.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -991,6 +1011,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 40 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -1015,12 +1036,12 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (PgenCounter, CryptoBinary (base64Binary)); next=2
-
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}PgenCounter");
@@ -1049,6 +1070,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[DSAKeyValueType->PgenCounter.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -1059,6 +1081,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -1083,7 +1106,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -1114,7 +1137,7 @@ static int decode_iso20_acdp_DSAKeyValueType(exi_bitstream_t* stream, struct iso
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}X509IssuerSerial; type={http://www.w3.org/2000/09/xmldsig#}X509IssuerSerialType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: X509IssuerName, string (1, 1); X509SerialNumber, integer (1, 1);
-static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struct iso20_acdp_X509IssuerSerialType* X509IssuerSerialType, char* xmlOut) {
+static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struct iso20_acdp_X509IssuerSerialType* X509IssuerSerialType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 13;
     int done = 0;
     uint32_t eventCode;
@@ -1122,21 +1145,21 @@ static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struc
 
     init_iso20_acdp_X509IssuerSerialType(X509IssuerSerialType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 13:
             // Grammar: ID=13; read/write bits=1; START (X509IssuerName)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (X509IssuerName, string (string)); next=14
-
+                    if(strlen(xmlOut) + 50 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509IssuerName");
@@ -1156,6 +1179,7 @@ static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struc
                                     X509IssuerSerialType->X509IssuerName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, X509IssuerSerialType->X509IssuerName.charactersLen, X509IssuerSerialType->X509IssuerName.characters, iso20_acdp_X509IssuerName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    if(strlen(xmlOut) + X509IssuerSerialType->X509IssuerName.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                     for(int i = 0; i < X509IssuerSerialType->X509IssuerName.charactersLen; i++) { // check for unprintable characters
                                         if(!isprint(X509IssuerSerialType->X509IssuerName.characters[i]))
                                         {
@@ -1196,6 +1220,7 @@ static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struc
                         }
                     }
 
+                    if(strlen(xmlOut) + 50 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -1213,12 +1238,12 @@ static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struc
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (X509SerialNumber, integer (decimal)); next=2
-
+                    if(strlen(xmlOut) + 52 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509SerialNumber");
@@ -1230,44 +1255,27 @@ static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struc
                         error = exi_basetypes_decoder_signed(stream, &X509IssuerSerialType->X509SerialNumber);
                         if (error == 0)
                         {
-                            uint8_t realInteger[21] = {0}; // max length: 20 + 1 zero terminator
-                            size_t realInteger_size = 0;
-                            int result = exi_basetypes_convert_bytes_from_unsigned(&(X509IssuerSerialType->X509SerialNumber.data), &realInteger[0], &realInteger_size, 21);
-                            if (result == 0)
-                            {
-                                // reverse array
-                                uint8_t temp;
-                                uint8_t start = 0;
-                                uint8_t end = realInteger_size - 1;
-                                while (start < end) {
-                                    temp = realInteger[start];
-                                    realInteger[start] = realInteger[end];
-                                    realInteger[end] = temp;
-                                    start++;
-                                    end--;
-                                }
-                                char asHex[128] = "";
-                                char* ahPtr = &asHex[0];
-                                uint8_t* contentPtr = &realInteger[0];
-                                if(realInteger_size * 2 + 1 > 128) {  error = -2; strcat(xmlOut, "DECODE_ERROR"); break; }
-                                while(realInteger_size--) {
-                                  sprintf(ahPtr, "%02X", *contentPtr);
-                                  ahPtr += 2;
-                                  ++contentPtr;
-                                }
-                                *ahPtr = 0;
-                                strcat(xmlOut, ">0x");
-                                strcat(xmlOut, asHex);
+                            uint8_t* realInteger = X509IssuerSerialType->X509SerialNumber.data.octets;
+                            size_t realInteger_size = X509IssuerSerialType->X509SerialNumber.data.octets_count;
+                            char asHex[128] = "";
+                            if(strlen(xmlOut) + 128 + 3 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                            char* ahPtr = &asHex[0];
+                            uint8_t* contentPtr = &realInteger[0];
+                            if(realInteger_size * 2 + 1 > 128) {  error = -2; strcat(xmlOut, "DECODE_ERROR"); break; }
+                            while(realInteger_size--) {
+                              sprintf(ahPtr, "%02X", *contentPtr);
+                              ahPtr += 2;
+                              ++contentPtr;
                             }
-                            else
-                            {
-                                strcat(xmlOut, ">ERROR");
-                            }
+                            *ahPtr = 0;
+                            strcat(xmlOut, ">0x");
+                            strcat(xmlOut, asHex);
                             grammar_id = 2;
                         }
                         error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
                     }
 
+                    if(strlen(xmlOut) + 52 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -1285,7 +1293,7 @@ static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struc
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -1316,7 +1324,7 @@ static int decode_iso20_acdp_X509IssuerSerialType(exi_bitstream_t* stream, struc
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}DigestMethod; type={http://www.w3.org/2000/09/xmldsig#}DigestMethodType; base type=; content type=mixed;
 //          abstract=False; final=False;
 // Particle: Algorithm, anyURI (1, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct iso20_acdp_DigestMethodType* DigestMethodType, char* xmlOut) {
+static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct iso20_acdp_DigestMethodType* DigestMethodType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 15;
     int done = 0;
     uint32_t eventCode;
@@ -1324,21 +1332,21 @@ static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct is
 
     init_iso20_acdp_DigestMethodType(DigestMethodType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 15:
             // Grammar: ID=15; read/write bits=1; START (Algorithm)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Algorithm, anyURI (anyURI)); next=16
-
+                    if(strlen(xmlOut) + 9 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Algorithm");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &DigestMethodType->Algorithm.charactersLen);
@@ -1350,6 +1358,7 @@ static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct is
                             DigestMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, DigestMethodType->Algorithm.charactersLen, DigestMethodType->Algorithm.characters, iso20_acdp_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + DigestMethodType->Algorithm.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < DigestMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(DigestMethodType->Algorithm.characters[i]))
                                 {
@@ -1380,7 +1389,7 @@ static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct is
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -1423,6 +1432,7 @@ static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct is
                         for (int i = 0; i < mod_table[DigestMethodType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -1445,7 +1455,7 @@ static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct is
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -1476,7 +1486,7 @@ static int decode_iso20_acdp_DigestMethodType(exi_bitstream_t* stream, struct is
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}RSAKeyValue; type={http://www.w3.org/2000/09/xmldsig#}RSAKeyValueType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: Modulus, CryptoBinary (1, 1); Exponent, CryptoBinary (1, 1);
-static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso20_acdp_RSAKeyValueType* RSAKeyValueType, char* xmlOut) {
+static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso20_acdp_RSAKeyValueType* RSAKeyValueType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 17;
     int done = 0;
     uint32_t eventCode;
@@ -1484,21 +1494,21 @@ static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso
 
     init_iso20_acdp_RSAKeyValueType(RSAKeyValueType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 17:
             // Grammar: ID=17; read/write bits=1; START (Modulus)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Modulus, CryptoBinary (base64Binary)); next=18
-
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Modulus");
@@ -1527,6 +1537,7 @@ static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[RSAKeyValueType->Modulus.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -1536,6 +1547,7 @@ static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -1553,12 +1565,12 @@ static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Exponent, CryptoBinary (base64Binary)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Exponent");
@@ -1587,6 +1599,7 @@ static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso
                         for (int i = 0; i < mod_table[RSAKeyValueType->Exponent.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -1596,6 +1609,7 @@ static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso
 
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -1613,7 +1627,7 @@ static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -1644,7 +1658,7 @@ static int decode_iso20_acdp_RSAKeyValueType(exi_bitstream_t* stream, struct iso
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod; type={http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethodType; base type=; content type=mixed;
 //          abstract=False; final=False;
 // Particle: Algorithm, anyURI (1, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream, struct iso20_acdp_CanonicalizationMethodType* CanonicalizationMethodType, char* xmlOut) {
+static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream, struct iso20_acdp_CanonicalizationMethodType* CanonicalizationMethodType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 19;
     int done = 0;
     uint32_t eventCode;
@@ -1652,21 +1666,21 @@ static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream,
 
     init_iso20_acdp_CanonicalizationMethodType(CanonicalizationMethodType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 19:
             // Grammar: ID=19; read/write bits=1; START (Algorithm)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Algorithm, anyURI (anyURI)); next=20
-
+                    if(strlen(xmlOut) + 9 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Algorithm");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &CanonicalizationMethodType->Algorithm.charactersLen);
@@ -1678,6 +1692,7 @@ static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream,
                             CanonicalizationMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, CanonicalizationMethodType->Algorithm.charactersLen, CanonicalizationMethodType->Algorithm.characters, iso20_acdp_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + CanonicalizationMethodType->Algorithm.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < CanonicalizationMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(CanonicalizationMethodType->Algorithm.characters[i]))
                                 {
@@ -1708,7 +1723,7 @@ static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream,
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -1751,6 +1766,7 @@ static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream,
                         for (int i = 0; i < mod_table[CanonicalizationMethodType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -1773,7 +1789,7 @@ static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream,
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -1804,7 +1820,7 @@ static int decode_iso20_acdp_CanonicalizationMethodType(exi_bitstream_t* stream,
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}SignatureMethod; type={http://www.w3.org/2000/09/xmldsig#}SignatureMethodType; base type=; content type=mixed;
 //          abstract=False; final=False;
 // Particle: Algorithm, anyURI (1, 1); HMACOutputLength, HMACOutputLengthType (0, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct iso20_acdp_SignatureMethodType* SignatureMethodType, char* xmlOut) {
+static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct iso20_acdp_SignatureMethodType* SignatureMethodType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 21;
     int done = 0;
     uint32_t eventCode;
@@ -1812,21 +1828,21 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
 
     init_iso20_acdp_SignatureMethodType(SignatureMethodType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 21:
             // Grammar: ID=21; read/write bits=1; START (Algorithm)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Algorithm, anyURI (anyURI)); next=22
-
+                    if(strlen(xmlOut) + 9 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Algorithm");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &SignatureMethodType->Algorithm.charactersLen);
@@ -1838,6 +1854,7 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
                             SignatureMethodType->Algorithm.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureMethodType->Algorithm.charactersLen, SignatureMethodType->Algorithm.characters, iso20_acdp_Algorithm_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + SignatureMethodType->Algorithm.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < SignatureMethodType->Algorithm.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(SignatureMethodType->Algorithm.characters[i]))
                                 {
@@ -1868,12 +1885,12 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (HMACOutputLength, HMACOutputLengthType (integer)); next=23
-
+                    if(strlen(xmlOut) + 52 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}HMACOutputLength");
@@ -1885,45 +1902,28 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
                         error = exi_basetypes_decoder_signed(stream, &SignatureMethodType->HMACOutputLength);
                         if (error == 0)
                         {
-                            uint8_t realInteger[21] = {0}; // max length: 20 + 1 zero terminator
-                            size_t realInteger_size = 0;
-                            int result = exi_basetypes_convert_bytes_from_unsigned(&(SignatureMethodType->HMACOutputLength.data), &realInteger[0], &realInteger_size, 21);
-                            if (result == 0)
-                            {
-                                // reverse array
-                                uint8_t temp;
-                                uint8_t start = 0;
-                                uint8_t end = realInteger_size - 1;
-                                while (start < end) {
-                                    temp = realInteger[start];
-                                    realInteger[start] = realInteger[end];
-                                    realInteger[end] = temp;
-                                    start++;
-                                    end--;
-                                }
-                                char asHex[128] = "";
-                                char* ahPtr = &asHex[0];
-                                uint8_t* contentPtr = &realInteger[0];
-                                if(realInteger_size * 2 + 1 > 128) {  error = -2; strcat(xmlOut, "DECODE_ERROR"); break; }
-                                while(realInteger_size--) {
-                                  sprintf(ahPtr, "%02X", *contentPtr);
-                                  ahPtr += 2;
-                                  ++contentPtr;
-                                }
-                                *ahPtr = 0;
-                                strcat(xmlOut, ">0x");
-                                strcat(xmlOut, asHex);
+                            uint8_t* realInteger = SignatureMethodType->HMACOutputLength.data.octets;
+                            size_t realInteger_size = SignatureMethodType->HMACOutputLength.data.octets_count;
+                            char asHex[128] = "";
+                            if(strlen(xmlOut) + 128 + 3 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                            char* ahPtr = &asHex[0];
+                            uint8_t* contentPtr = &realInteger[0];
+                            if(realInteger_size * 2 + 1 > 128) {  error = -2; strcat(xmlOut, "DECODE_ERROR"); break; }
+                            while(realInteger_size--) {
+                              sprintf(ahPtr, "%02X", *contentPtr);
+                              ahPtr += 2;
+                              ++contentPtr;
                             }
-                            else
-                            {
-                                strcat(xmlOut, ">ERROR");
-                            }
+                            *ahPtr = 0;
+                            strcat(xmlOut, ">0x");
+                            strcat(xmlOut, asHex);
                             SignatureMethodType->HMACOutputLength_isUsed = 1u;
                             grammar_id = 23;
                         }
                         error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
                     }
 
+                    if(strlen(xmlOut) + 52 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -1971,6 +1971,7 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
                         for (int i = 0; i < mod_table[SignatureMethodType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -1993,7 +1994,7 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -2036,6 +2037,7 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
                         for (int i = 0; i < mod_table[SignatureMethodType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -2058,7 +2060,7 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -2089,7 +2091,7 @@ static int decode_iso20_acdp_SignatureMethodType(exi_bitstream_t* stream, struct
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}KeyValue; type={http://www.w3.org/2000/09/xmldsig#}KeyValueType; base type=; content type=mixed;
 //          abstract=False; final=False; choice=True;
 // Particle: DSAKeyValue, DSAKeyValueType (0, 1); RSAKeyValue, RSAKeyValueType (0, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_acdp_KeyValueType* KeyValueType, char* xmlOut) {
+static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_acdp_KeyValueType* KeyValueType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 24;
     int done = 0;
     uint32_t eventCode;
@@ -2097,27 +2099,27 @@ static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_
 
     init_iso20_acdp_KeyValueType(KeyValueType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 24:
             // Grammar: ID=24; read/write bits=2; START (DSAKeyValue), START (RSAKeyValue), START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (DSAKeyValue, DSAKeyValueType (DSAKeyValueType)); next=2
-
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DSAKeyValue");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}DSAKeyValue");
                     // decode: element
-                    error = decode_iso20_acdp_DSAKeyValueType(stream, &KeyValueType->DSAKeyValue, xmlOut);
+                    error = decode_iso20_acdp_DSAKeyValueType(stream, &KeyValueType->DSAKeyValue, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyValueType->DSAKeyValue_isUsed = 1u;
@@ -2125,6 +2127,7 @@ static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_
                     }
 
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2134,13 +2137,13 @@ static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_
                 case 1:
                     {
                     // Event: START (RSAKeyValue, RSAKeyValueType (RSAKeyValueType)); next=2
-
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}RSAKeyValue");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}RSAKeyValue");
                     // decode: element
-                    error = decode_iso20_acdp_RSAKeyValueType(stream, &KeyValueType->RSAKeyValue, xmlOut);
+                    error = decode_iso20_acdp_RSAKeyValueType(stream, &KeyValueType->RSAKeyValue, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyValueType->RSAKeyValue_isUsed = 1u;
@@ -2148,6 +2151,7 @@ static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_
                     }
 
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2181,6 +2185,7 @@ static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_
                         for (int i = 0; i < mod_table[KeyValueType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -2203,7 +2208,7 @@ static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -2234,7 +2239,7 @@ static int decode_iso20_acdp_KeyValueType(exi_bitstream_t* stream, struct iso20_
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Reference; type={http://www.w3.org/2000/09/xmldsig#}ReferenceType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: Id, ID (0, 1); Type, anyURI (0, 1); URI, anyURI (0, 1); Transforms, TransformsType (0, 1); DigestMethod, DigestMethodType (1, 1); DigestValue, DigestValueType (1, 1);
-static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20_acdp_ReferenceType* ReferenceType, char* xmlOut) {
+static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20_acdp_ReferenceType* ReferenceType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 25;
     int done = 0;
     uint32_t eventCode;
@@ -2242,21 +2247,21 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
 
     init_iso20_acdp_ReferenceType(ReferenceType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 25:
             // Grammar: ID=25; read/write bits=3; START (Id), START (Type), START (URI), START (Transforms), START (DigestMethod)
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Id, ID (NCName)); next=26
-
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ReferenceType->Id.charactersLen);
@@ -2268,6 +2273,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                             ReferenceType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Id.charactersLen, ReferenceType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ReferenceType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ReferenceType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ReferenceType->Id.characters[i]))
                                 {
@@ -2291,7 +2297,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 1:
                     {
                     // Event: START (Type, anyURI (anyURI)); next=27
-
+                    if(strlen(xmlOut) + 4 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Type");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ReferenceType->Type.charactersLen);
@@ -2303,6 +2309,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                             ReferenceType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Type.charactersLen, ReferenceType->Type.characters, iso20_acdp_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ReferenceType->Type.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ReferenceType->Type.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ReferenceType->Type.characters[i]))
                                 {
@@ -2326,7 +2333,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 2:
                     {
                     // Event: START (URI, anyURI (anyURI)); next=28
-
+                    if(strlen(xmlOut) + 3 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " URI");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ReferenceType->URI.charactersLen);
@@ -2338,6 +2345,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_acdp_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ReferenceType->URI.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ReferenceType->URI.characters[i]))
                                 {
@@ -2361,13 +2369,13 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 3:
                     {
                     // Event: START (Transforms, TransformsType (TransformsType)); next=29
-
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     // decode: element
-                    error = decode_iso20_acdp_TransformsType(stream, &ReferenceType->Transforms, xmlOut);
+                    error = decode_iso20_acdp_TransformsType(stream, &ReferenceType->Transforms, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         ReferenceType->Transforms_isUsed = 1u;
@@ -2375,6 +2383,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2384,19 +2393,20 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 4:
                     {
                     // Event: START (DigestMethod, DigestMethodType (DigestMethodType)); next=30
-
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     // decode: element
-                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut);
+                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 30;
                     }
 
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2414,12 +2424,12 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Type, anyURI (anyURI)); next=27
-
+                    if(strlen(xmlOut) + 4 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Type");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ReferenceType->Type.charactersLen);
@@ -2431,6 +2441,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                             ReferenceType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->Type.charactersLen, ReferenceType->Type.characters, iso20_acdp_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ReferenceType->Type.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ReferenceType->Type.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ReferenceType->Type.characters[i]))
                                 {
@@ -2454,7 +2465,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 1:
                     {
                     // Event: START (URI, anyURI (anyURI)); next=28
-
+                    if(strlen(xmlOut) + 3 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " URI");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ReferenceType->URI.charactersLen);
@@ -2466,6 +2477,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_acdp_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ReferenceType->URI.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ReferenceType->URI.characters[i]))
                                 {
@@ -2489,13 +2501,13 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 2:
                     {
                     // Event: START (Transforms, TransformsType (TransformsType)); next=29
-
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     // decode: element
-                    error = decode_iso20_acdp_TransformsType(stream, &ReferenceType->Transforms, xmlOut);
+                    error = decode_iso20_acdp_TransformsType(stream, &ReferenceType->Transforms, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         ReferenceType->Transforms_isUsed = 1u;
@@ -2503,6 +2515,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2512,19 +2525,20 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 3:
                     {
                     // Event: START (DigestMethod, DigestMethodType (DigestMethodType)); next=30
-
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     // decode: element
-                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut);
+                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 30;
                     }
 
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2542,12 +2556,12 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (URI, anyURI (anyURI)); next=28
-
+                    if(strlen(xmlOut) + 3 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " URI");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ReferenceType->URI.charactersLen);
@@ -2559,6 +2573,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                             ReferenceType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ReferenceType->URI.charactersLen, ReferenceType->URI.characters, iso20_acdp_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ReferenceType->URI.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ReferenceType->URI.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ReferenceType->URI.characters[i]))
                                 {
@@ -2582,13 +2597,13 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 1:
                     {
                     // Event: START (Transforms, TransformsType (TransformsType)); next=29
-
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     // decode: element
-                    error = decode_iso20_acdp_TransformsType(stream, &ReferenceType->Transforms, xmlOut);
+                    error = decode_iso20_acdp_TransformsType(stream, &ReferenceType->Transforms, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         ReferenceType->Transforms_isUsed = 1u;
@@ -2596,6 +2611,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2605,19 +2621,20 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 2:
                     {
                     // Event: START (DigestMethod, DigestMethodType (DigestMethodType)); next=30
-
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     // decode: element
-                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut);
+                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 30;
                     }
 
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2635,18 +2652,18 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Transforms, TransformsType (TransformsType)); next=29
-
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     // decode: element
-                    error = decode_iso20_acdp_TransformsType(stream, &ReferenceType->Transforms, xmlOut);
+                    error = decode_iso20_acdp_TransformsType(stream, &ReferenceType->Transforms, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         ReferenceType->Transforms_isUsed = 1u;
@@ -2654,6 +2671,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2663,19 +2681,20 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                 case 1:
                     {
                     // Event: START (DigestMethod, DigestMethodType (DigestMethodType)); next=30
-
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     // decode: element
-                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut);
+                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 30;
                     }
 
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2693,24 +2712,25 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (DigestMethod, DigestMethodType (DigestMethodType)); next=30
-
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}DigestMethod");
                     // decode: element
-                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut);
+                    error = decode_iso20_acdp_DigestMethodType(stream, &ReferenceType->DigestMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 30;
                     }
 
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2728,12 +2748,12 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (DigestValue, DigestValueType (base64Binary)); next=2
-
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DigestValue");
@@ -2762,6 +2782,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
                         for (int i = 0; i < mod_table[ReferenceType->DigestValue.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -2771,6 +2792,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
 
 
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2788,7 +2810,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -2819,7 +2841,7 @@ static int decode_iso20_acdp_ReferenceType(exi_bitstream_t* stream, struct iso20
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}RetrievalMethod; type={http://www.w3.org/2000/09/xmldsig#}RetrievalMethodType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: Type, anyURI (0, 1); URI, anyURI (0, 1); Transforms, TransformsType (0, 1);
-static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct iso20_acdp_RetrievalMethodType* RetrievalMethodType, char* xmlOut) {
+static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct iso20_acdp_RetrievalMethodType* RetrievalMethodType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 31;
     int done = 0;
     uint32_t eventCode;
@@ -2827,21 +2849,21 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
 
     init_iso20_acdp_RetrievalMethodType(RetrievalMethodType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 31:
             // Grammar: ID=31; read/write bits=3; START (Type), START (URI), START (Transforms), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Type, anyURI (anyURI)); next=32
-
+                    if(strlen(xmlOut) + 4 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Type");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &RetrievalMethodType->Type.charactersLen);
@@ -2853,6 +2875,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                             RetrievalMethodType->Type.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->Type.charactersLen, RetrievalMethodType->Type.characters, iso20_acdp_Type_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + RetrievalMethodType->Type.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < RetrievalMethodType->Type.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(RetrievalMethodType->Type.characters[i]))
                                 {
@@ -2876,7 +2899,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                 case 1:
                     {
                     // Event: START (URI, anyURI (anyURI)); next=33
-
+                    if(strlen(xmlOut) + 3 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " URI");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &RetrievalMethodType->URI.charactersLen);
@@ -2888,6 +2911,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                             RetrievalMethodType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->URI.charactersLen, RetrievalMethodType->URI.characters, iso20_acdp_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + RetrievalMethodType->URI.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < RetrievalMethodType->URI.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(RetrievalMethodType->URI.characters[i]))
                                 {
@@ -2911,13 +2935,13 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                 case 2:
                     {
                     // Event: START (Transforms, TransformsType (TransformsType)); next=2
-
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     // decode: element
-                    error = decode_iso20_acdp_TransformsType(stream, &RetrievalMethodType->Transforms, xmlOut);
+                    error = decode_iso20_acdp_TransformsType(stream, &RetrievalMethodType->Transforms, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         RetrievalMethodType->Transforms_isUsed = 1u;
@@ -2925,6 +2949,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -2949,12 +2974,12 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (URI, anyURI (anyURI)); next=33
-
+                    if(strlen(xmlOut) + 3 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " URI");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &RetrievalMethodType->URI.charactersLen);
@@ -2966,6 +2991,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                             RetrievalMethodType->URI.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, RetrievalMethodType->URI.charactersLen, RetrievalMethodType->URI.characters, iso20_acdp_URI_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + RetrievalMethodType->URI.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < RetrievalMethodType->URI.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(RetrievalMethodType->URI.characters[i]))
                                 {
@@ -2989,13 +3015,13 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                 case 1:
                     {
                     // Event: START (Transforms, TransformsType (TransformsType)); next=2
-
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     // decode: element
-                    error = decode_iso20_acdp_TransformsType(stream, &RetrievalMethodType->Transforms, xmlOut);
+                    error = decode_iso20_acdp_TransformsType(stream, &RetrievalMethodType->Transforms, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         RetrievalMethodType->Transforms_isUsed = 1u;
@@ -3003,6 +3029,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3027,18 +3054,18 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Transforms, TransformsType (TransformsType)); next=2
-
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Transforms");
                     // decode: element
-                    error = decode_iso20_acdp_TransformsType(stream, &RetrievalMethodType->Transforms, xmlOut);
+                    error = decode_iso20_acdp_TransformsType(stream, &RetrievalMethodType->Transforms, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         RetrievalMethodType->Transforms_isUsed = 1u;
@@ -3046,6 +3073,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3070,7 +3098,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -3101,7 +3129,7 @@ static int decode_iso20_acdp_RetrievalMethodType(exi_bitstream_t* stream, struct
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}X509Data; type={http://www.w3.org/2000/09/xmldsig#}X509DataType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: X509IssuerSerial, X509IssuerSerialType (0, 1); X509SKI, base64Binary (0, 1); X509SubjectName, string (0, 1); X509Certificate, base64Binary (0, 1); X509CRL, base64Binary (0, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_acdp_X509DataType* X509DataType, char* xmlOut) {
+static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_acdp_X509DataType* X509DataType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 34;
     int done = 0;
     uint32_t eventCode;
@@ -3109,27 +3137,27 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
 
     init_iso20_acdp_X509DataType(X509DataType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 34:
             // Grammar: ID=34; read/write bits=3; START (X509IssuerSerial), START (X509SKI), START (X509SubjectName), START (X509Certificate), START (X509CRL), START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (X509IssuerSerial, X509IssuerSerialType (X509IssuerSerialType)); next=2
-
+                    if(strlen(xmlOut) + 52 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509IssuerSerial");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}X509IssuerSerial");
                     // decode: element
-                    error = decode_iso20_acdp_X509IssuerSerialType(stream, &X509DataType->X509IssuerSerial, xmlOut);
+                    error = decode_iso20_acdp_X509IssuerSerialType(stream, &X509DataType->X509IssuerSerial, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         X509DataType->X509IssuerSerial_isUsed = 1u;
@@ -3137,6 +3165,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                     }
 
 
+                    if(strlen(xmlOut) + 52 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3146,7 +3175,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                 case 1:
                     {
                     // Event: START (X509SKI, base64Binary (base64Binary)); next=2
-
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509SKI");
@@ -3175,6 +3204,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                         for (int i = 0; i < mod_table[X509DataType->X509SKI.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3185,6 +3215,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
 
 
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3194,7 +3225,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                 case 2:
                     {
                     // Event: START (X509SubjectName, string (string)); next=2
-
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509SubjectName");
@@ -3214,6 +3245,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                                     X509DataType->X509SubjectName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, X509DataType->X509SubjectName.charactersLen, X509DataType->X509SubjectName.characters, iso20_acdp_X509SubjectName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    if(strlen(xmlOut) + X509DataType->X509SubjectName.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                     for(int i = 0; i < X509DataType->X509SubjectName.charactersLen; i++) { // check for unprintable characters
                                         if(!isprint(X509DataType->X509SubjectName.characters[i]))
                                         {
@@ -3255,6 +3287,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                         }
                     }
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3264,7 +3297,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                 case 3:
                     {
                     // Event: START (X509Certificate, base64Binary (base64Binary)); next=2
-
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509Certificate");
@@ -3293,6 +3326,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                         for (int i = 0; i < mod_table[X509DataType->X509Certificate.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3303,6 +3337,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
 
 
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3312,7 +3347,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                 case 4:
                     {
                     // Event: START (X509CRL, base64Binary (base64Binary)); next=2
-
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509CRL");
@@ -3341,6 +3376,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                         for (int i = 0; i < mod_table[X509DataType->X509CRL.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3351,6 +3387,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
 
 
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3384,6 +3421,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
                         for (int i = 0; i < mod_table[X509DataType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3406,7 +3444,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -3437,7 +3475,7 @@ static int decode_iso20_acdp_X509DataType(exi_bitstream_t* stream, struct iso20_
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}PGPData; type={http://www.w3.org/2000/09/xmldsig#}PGPDataType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False; choice=True; sequence=True (2;
 // Particle: PGPKeyID, base64Binary (1, 1); PGPKeyPacket, base64Binary (0, 1); ANY, anyType (0, 1); PGPKeyPacket, base64Binary (1, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_acdp_PGPDataType* PGPDataType, char* xmlOut) {
+static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_acdp_PGPDataType* PGPDataType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 35;
     int done = 0;
     uint32_t eventCode;
@@ -3445,21 +3483,21 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
 
     init_iso20_acdp_PGPDataType(PGPDataType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 35:
             // Grammar: ID=35; read/write bits=2; START (PGPKeyID), START (PGPKeyPacket)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (PGPKeyID, base64Binary (base64Binary)); next=36
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}PGPKeyID");
@@ -3488,6 +3526,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[PGPDataType->choice_1.PGPKeyID.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3497,6 +3536,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
 
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3506,7 +3546,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
                 case 1:
                     {
                     // Event: START (PGPKeyPacket, base64Binary (base64Binary)); next=37
-
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}PGPKeyPacket");
@@ -3535,6 +3575,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[PGPDataType->choice_1.PGPKeyPacket.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3545,6 +3586,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
 
 
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3562,12 +3604,12 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (PGPKeyPacket, base64Binary (base64Binary)); next=37
-
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}PGPKeyPacket");
@@ -3596,6 +3638,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[PGPDataType->choice_1.PGPKeyPacket.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3606,6 +3649,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
 
 
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3653,6 +3697,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[PGPDataType->choice_1.ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3675,7 +3720,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -3725,6 +3770,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[PGPDataType->choice_1.ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3747,12 +3793,12 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (PGPKeyPacket, base64Binary (base64Binary)); next=39
-
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}PGPKeyPacket");
@@ -3781,6 +3827,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[PGPDataType->choice_2.PGPKeyPacket.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3790,6 +3837,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
 
 
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3807,7 +3855,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -3850,6 +3898,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[PGPDataType->choice_2.ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3872,7 +3921,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -3903,7 +3952,7 @@ static int decode_iso20_acdp_PGPDataType(exi_bitstream_t* stream, struct iso20_a
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}SPKIData; type={http://www.w3.org/2000/09/xmldsig#}SPKIDataType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: SPKISexp, base64Binary (1, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_acdp_SPKIDataType* SPKIDataType, char* xmlOut) {
+static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_acdp_SPKIDataType* SPKIDataType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 40;
     int done = 0;
     uint32_t eventCode;
@@ -3911,21 +3960,21 @@ static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_
 
     init_iso20_acdp_SPKIDataType(SPKIDataType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 40:
             // Grammar: ID=40; read/write bits=1; START (SPKISexp)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (SPKISexp, base64Binary (base64Binary)); next=41
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SPKISexp");
@@ -3954,6 +4003,7 @@ static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_
                         for (int i = 0; i < mod_table[SPKIDataType->SPKISexp.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -3963,6 +4013,7 @@ static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_
 
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -3980,7 +4031,7 @@ static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -4023,6 +4074,7 @@ static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_
                         for (int i = 0; i < mod_table[SPKIDataType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -4045,7 +4097,7 @@ static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -4075,8 +4127,8 @@ static int decode_iso20_acdp_SPKIDataType(exi_bitstream_t* stream, struct iso20_
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}SignedInfo; type={http://www.w3.org/2000/09/xmldsig#}SignedInfoType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Id, ID (0, 1); CanonicalizationMethod, CanonicalizationMethodType (1, 1); SignatureMethod, SignatureMethodType (1, 1); Reference, ReferenceType (1, 4);
-static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso20_acdp_SignedInfoType* SignedInfoType, char* xmlOut) {
+// Particle: Id, ID (0, 1); CanonicalizationMethod, CanonicalizationMethodType (1, 1); SignatureMethod, SignatureMethodType (1, 1); Reference, ReferenceType (1, 4) (original max unbounded);
+static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso20_acdp_SignedInfoType* SignedInfoType, char* xmlOut, size_t xmlOut_size) {
     int grammar_id = 42;
     int done = 0;
     uint32_t eventCode;
@@ -4084,21 +4136,21 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
 
     init_iso20_acdp_SignedInfoType(SignedInfoType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
         case 42:
             // Grammar: ID=42; read/write bits=2; START (Id), START (CanonicalizationMethod)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Id, ID (NCName)); next=43
-
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &SignedInfoType->Id.charactersLen);
@@ -4110,6 +4162,7 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
                             SignedInfoType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignedInfoType->Id.charactersLen, SignedInfoType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + SignedInfoType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < SignedInfoType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(SignedInfoType->Id.characters[i]))
                                 {
@@ -4133,19 +4186,20 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
                 case 1:
                     {
                     // Event: START (CanonicalizationMethod, CanonicalizationMethodType (CanonicalizationMethodType)); next=44
-
+                    if(strlen(xmlOut) + 58 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod");
                     // decode: element
-                    error = decode_iso20_acdp_CanonicalizationMethodType(stream, &SignedInfoType->CanonicalizationMethod, xmlOut);
+                    error = decode_iso20_acdp_CanonicalizationMethodType(stream, &SignedInfoType->CanonicalizationMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 44;
                     }
 
 
+                    if(strlen(xmlOut) + 58 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4163,24 +4217,25 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (CanonicalizationMethod, CanonicalizationMethodType (CanonicalizationMethodType)); next=44
-
+                    if(strlen(xmlOut) + 58 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod");
                     // decode: element
-                    error = decode_iso20_acdp_CanonicalizationMethodType(stream, &SignedInfoType->CanonicalizationMethod, xmlOut);
+                    error = decode_iso20_acdp_CanonicalizationMethodType(stream, &SignedInfoType->CanonicalizationMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 44;
                     }
 
 
+                    if(strlen(xmlOut) + 58 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4198,24 +4253,25 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (SignatureMethod, SignatureMethodType (SignatureMethodType)); next=45
-
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SignatureMethod");
                     // decode: element
-                    error = decode_iso20_acdp_SignatureMethodType(stream, &SignedInfoType->SignatureMethod, xmlOut);
+                    error = decode_iso20_acdp_SignatureMethodType(stream, &SignedInfoType->SignatureMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 45;
                     }
 
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4233,12 +4289,12 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Reference, ReferenceType (ReferenceType)); next=46
-
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
@@ -4247,14 +4303,16 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
                     if (SignedInfoType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
                     {
 
-                        error = decode_iso20_acdp_ReferenceType(stream, &SignedInfoType->Reference.array[SignedInfoType->Reference.arrayLen++], xmlOut);
+                        error = decode_iso20_acdp_ReferenceType(stream, &SignedInfoType->Reference.array[SignedInfoType->Reference.arrayLen++], xmlOut, xmlOut_size);
                     }
                     else
                     {
+                        // static array not large enough, only iso20_acdp_ReferenceType_4_ARRAY_SIZE elements
                         error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
                     }
                     grammar_id = 46;
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4268,16 +4326,16 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
             }
             break;
         case 46:
-            // Grammar: ID=46; read/write bits=2; START (Reference), END Element
+            // Grammar: ID=46; read/write bits=2; LOOP (Reference), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=47
-
+                    // Event: LOOP (Reference, ReferenceType (ReferenceType)); next=46
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
@@ -4286,152 +4344,16 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
                     if (SignedInfoType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
                     {
 
-                        error = decode_iso20_acdp_ReferenceType(stream, &SignedInfoType->Reference.array[SignedInfoType->Reference.arrayLen++], xmlOut);
+                        error = decode_iso20_acdp_ReferenceType(stream, &SignedInfoType->Reference.array[SignedInfoType->Reference.arrayLen++], xmlOut, xmlOut_size);
                     }
                     else
                     {
+                        // static array not large enough, only iso20_acdp_ReferenceType_4_ARRAY_SIZE elements
                         error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
                     }
-                    grammar_id = 47;
+                    grammar_id = 46;
 
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 47:
-            // Grammar: ID=47; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=48
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (SignedInfoType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &SignedInfoType->Reference.array[SignedInfoType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 48;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 48:
-            // Grammar: ID=48; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=49
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (SignedInfoType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &SignedInfoType->Reference.array[SignedInfoType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 49;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 49:
-            // Grammar: ID=49; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=2
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (SignedInfoType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &SignedInfoType->Reference.array[SignedInfoType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 2;
-
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4456,7 +4378,7 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -4487,29 +4409,29 @@ static int decode_iso20_acdp_SignedInfoType(exi_bitstream_t* stream, struct iso2
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}SignatureValue; type={http://www.w3.org/2000/09/xmldsig#}SignatureValueType; base type=base64Binary; content type=simple;
 //          abstract=False; final=False; derivation=extension;
 // Particle: Id, ID (0, 1); CONTENT, SignatureValueType (1, 1);
-static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct iso20_acdp_SignatureValueType* SignatureValueType, char* xmlOut) {
-    int grammar_id = 50;
+static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct iso20_acdp_SignatureValueType* SignatureValueType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 47;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_SignatureValueType(SignatureValueType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 50:
-            // Grammar: ID=50; read/write bits=2; START (Id), START (CONTENT)
+        case 47:
+            // Grammar: ID=47; read/write bits=2; START (Id), START (CONTENT)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Id, ID (NCName)); next=51
-
+                    // Event: START (Id, ID (NCName)); next=48
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &SignatureValueType->Id.charactersLen);
@@ -4521,6 +4443,7 @@ static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct 
                             SignatureValueType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureValueType->Id.charactersLen, SignatureValueType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + SignatureValueType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < SignatureValueType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(SignatureValueType->Id.characters[i]))
                                 {
@@ -4537,7 +4460,7 @@ static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct 
                         }
                     }
                     SignatureValueType->Id_isUsed = 1u;
-                    grammar_id = 51;
+                    grammar_id = 48;
 
                     }
                     break;
@@ -4571,6 +4494,7 @@ static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct 
                         for (int i = 0; i < mod_table[SignatureValueType->CONTENT.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -4585,12 +4509,12 @@ static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct 
                 }
             }
             break;
-        case 51:
-            // Grammar: ID=51; read/write bits=1; START (CONTENT)
+        case 48:
+            // Grammar: ID=48; read/write bits=1; START (CONTENT)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -4622,6 +4546,7 @@ static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct 
                         for (int i = 0; i < mod_table[SignatureValueType->CONTENT.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -4641,7 +4566,7 @@ static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct 
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -4672,29 +4597,29 @@ static int decode_iso20_acdp_SignatureValueType(exi_bitstream_t* stream, struct 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}KeyInfo; type={http://www.w3.org/2000/09/xmldsig#}KeyInfoType; base type=; content type=mixed;
 //          abstract=False; final=False; choice=True;
 // Particle: Id, ID (0, 1); KeyName, string (0, 1); KeyValue, KeyValueType (0, 1); RetrievalMethod, RetrievalMethodType (0, 1); X509Data, X509DataType (0, 1); PGPData, PGPDataType (0, 1); SPKIData, SPKIDataType (0, 1); MgmtData, string (0, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_acdp_KeyInfoType* KeyInfoType, char* xmlOut) {
-    int grammar_id = 52;
+static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_acdp_KeyInfoType* KeyInfoType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 49;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_KeyInfoType(KeyInfoType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 52:
-            // Grammar: ID=52; read/write bits=4; START (Id), START (KeyName), START (KeyValue), START (RetrievalMethod), START (X509Data), START (PGPData), START (SPKIData), START (MgmtData), START (ANY)
+        case 49:
+            // Grammar: ID=49; read/write bits=4; START (Id), START (KeyName), START (KeyValue), START (RetrievalMethod), START (X509Data), START (PGPData), START (SPKIData), START (MgmtData), START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 4, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Id, ID (NCName)); next=53
-
+                    // Event: START (Id, ID (NCName)); next=50
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &KeyInfoType->Id.charactersLen);
@@ -4706,6 +4631,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                             KeyInfoType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, KeyInfoType->Id.charactersLen, KeyInfoType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + KeyInfoType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < KeyInfoType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(KeyInfoType->Id.characters[i]))
                                 {
@@ -4722,14 +4648,14 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                         }
                     }
                     KeyInfoType->Id_isUsed = 1u;
-                    grammar_id = 53;
+                    grammar_id = 50;
 
                     }
                     break;
                 case 1:
                     {
                     // Event: START (KeyName, string (string)); next=2
-
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}KeyName");
@@ -4749,6 +4675,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                                     KeyInfoType->KeyName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->KeyName.charactersLen, KeyInfoType->KeyName.characters, iso20_acdp_KeyName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    if(strlen(xmlOut) + KeyInfoType->KeyName.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                     for(int i = 0; i < KeyInfoType->KeyName.charactersLen; i++) { // check for unprintable characters
                                         if(!isprint(KeyInfoType->KeyName.characters[i]))
                                         {
@@ -4790,6 +4717,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                         }
                     }
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4799,13 +4727,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 2:
                     {
                     // Event: START (KeyValue, KeyValueType (KeyValueType)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}KeyValue");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}KeyValue");
                     // decode: element
-                    error = decode_iso20_acdp_KeyValueType(stream, &KeyInfoType->KeyValue, xmlOut);
+                    error = decode_iso20_acdp_KeyValueType(stream, &KeyInfoType->KeyValue, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->KeyValue_isUsed = 1u;
@@ -4813,6 +4741,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4822,13 +4751,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 3:
                     {
                     // Event: START (RetrievalMethod, RetrievalMethodType (RetrievalMethodType)); next=2
-
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}RetrievalMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}RetrievalMethod");
                     // decode: element
-                    error = decode_iso20_acdp_RetrievalMethodType(stream, &KeyInfoType->RetrievalMethod, xmlOut);
+                    error = decode_iso20_acdp_RetrievalMethodType(stream, &KeyInfoType->RetrievalMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->RetrievalMethod_isUsed = 1u;
@@ -4836,6 +4765,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4845,13 +4775,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 4:
                     {
                     // Event: START (X509Data, X509DataType (X509DataType)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509Data");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}X509Data");
                     // decode: element
-                    error = decode_iso20_acdp_X509DataType(stream, &KeyInfoType->X509Data, xmlOut);
+                    error = decode_iso20_acdp_X509DataType(stream, &KeyInfoType->X509Data, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->X509Data_isUsed = 1u;
@@ -4859,6 +4789,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4868,13 +4799,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 5:
                     {
                     // Event: START (PGPData, PGPDataType (PGPDataType)); next=2
-
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}PGPData");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}PGPData");
                     // decode: element
-                    error = decode_iso20_acdp_PGPDataType(stream, &KeyInfoType->PGPData, xmlOut);
+                    error = decode_iso20_acdp_PGPDataType(stream, &KeyInfoType->PGPData, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->PGPData_isUsed = 1u;
@@ -4882,6 +4813,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4891,13 +4823,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 6:
                     {
                     // Event: START (SPKIData, SPKIDataType (SPKIDataType)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SPKIData");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SPKIData");
                     // decode: element
-                    error = decode_iso20_acdp_SPKIDataType(stream, &KeyInfoType->SPKIData, xmlOut);
+                    error = decode_iso20_acdp_SPKIDataType(stream, &KeyInfoType->SPKIData, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->SPKIData_isUsed = 1u;
@@ -4905,6 +4837,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -4914,7 +4847,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 7:
                     {
                     // Event: START (MgmtData, string (string)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}MgmtData");
@@ -4934,6 +4867,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                                     KeyInfoType->MgmtData.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->MgmtData.charactersLen, KeyInfoType->MgmtData.characters, iso20_acdp_MgmtData_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    if(strlen(xmlOut) + KeyInfoType->MgmtData.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                     for(int i = 0; i < KeyInfoType->MgmtData.charactersLen; i++) { // check for unprintable characters
                                         if(!isprint(KeyInfoType->MgmtData.characters[i]))
                                         {
@@ -4975,6 +4909,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                         }
                     }
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5008,6 +4943,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[KeyInfoType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -5025,17 +4961,17 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 }
             }
             break;
-        case 53:
-            // Grammar: ID=53; read/write bits=4; START (KeyName), START (KeyValue), START (RetrievalMethod), START (X509Data), START (PGPData), START (SPKIData), START (MgmtData), START (ANY)
+        case 50:
+            // Grammar: ID=50; read/write bits=4; START (KeyName), START (KeyValue), START (RetrievalMethod), START (X509Data), START (PGPData), START (SPKIData), START (MgmtData), START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 4, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (KeyName, string (string)); next=2
-
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}KeyName");
@@ -5055,6 +4991,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                                     KeyInfoType->KeyName.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->KeyName.charactersLen, KeyInfoType->KeyName.characters, iso20_acdp_KeyName_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    if(strlen(xmlOut) + KeyInfoType->KeyName.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                     for(int i = 0; i < KeyInfoType->KeyName.charactersLen; i++) { // check for unprintable characters
                                         if(!isprint(KeyInfoType->KeyName.characters[i]))
                                         {
@@ -5096,6 +5033,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                         }
                     }
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5105,13 +5043,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 1:
                     {
                     // Event: START (KeyValue, KeyValueType (KeyValueType)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}KeyValue");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}KeyValue");
                     // decode: element
-                    error = decode_iso20_acdp_KeyValueType(stream, &KeyInfoType->KeyValue, xmlOut);
+                    error = decode_iso20_acdp_KeyValueType(stream, &KeyInfoType->KeyValue, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->KeyValue_isUsed = 1u;
@@ -5119,6 +5057,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5128,13 +5067,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 2:
                     {
                     // Event: START (RetrievalMethod, RetrievalMethodType (RetrievalMethodType)); next=2
-
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}RetrievalMethod");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}RetrievalMethod");
                     // decode: element
-                    error = decode_iso20_acdp_RetrievalMethodType(stream, &KeyInfoType->RetrievalMethod, xmlOut);
+                    error = decode_iso20_acdp_RetrievalMethodType(stream, &KeyInfoType->RetrievalMethod, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->RetrievalMethod_isUsed = 1u;
@@ -5142,6 +5081,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5151,13 +5091,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 3:
                     {
                     // Event: START (X509Data, X509DataType (X509DataType)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509Data");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}X509Data");
                     // decode: element
-                    error = decode_iso20_acdp_X509DataType(stream, &KeyInfoType->X509Data, xmlOut);
+                    error = decode_iso20_acdp_X509DataType(stream, &KeyInfoType->X509Data, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->X509Data_isUsed = 1u;
@@ -5165,6 +5105,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5174,13 +5115,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 4:
                     {
                     // Event: START (PGPData, PGPDataType (PGPDataType)); next=2
-
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}PGPData");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}PGPData");
                     // decode: element
-                    error = decode_iso20_acdp_PGPDataType(stream, &KeyInfoType->PGPData, xmlOut);
+                    error = decode_iso20_acdp_PGPDataType(stream, &KeyInfoType->PGPData, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->PGPData_isUsed = 1u;
@@ -5188,6 +5129,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5197,13 +5139,13 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 5:
                     {
                     // Event: START (SPKIData, SPKIDataType (SPKIDataType)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SPKIData");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SPKIData");
                     // decode: element
-                    error = decode_iso20_acdp_SPKIDataType(stream, &KeyInfoType->SPKIData, xmlOut);
+                    error = decode_iso20_acdp_SPKIDataType(stream, &KeyInfoType->SPKIData, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         KeyInfoType->SPKIData_isUsed = 1u;
@@ -5211,6 +5153,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                     }
 
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5220,7 +5163,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                 case 6:
                     {
                     // Event: START (MgmtData, string (string)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}MgmtData");
@@ -5240,6 +5183,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                                     KeyInfoType->MgmtData.charactersLen -= 2;
                                     error = exi_basetypes_decoder_characters(stream, KeyInfoType->MgmtData.charactersLen, KeyInfoType->MgmtData.characters, iso20_acdp_MgmtData_CHARACTER_SIZE);
                                     strcat(xmlOut, ">");
+                                    if(strlen(xmlOut) + KeyInfoType->MgmtData.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                     for(int i = 0; i < KeyInfoType->MgmtData.charactersLen; i++) { // check for unprintable characters
                                         if(!isprint(KeyInfoType->MgmtData.characters[i]))
                                         {
@@ -5281,6 +5225,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                         }
                     }
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5314,6 +5259,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
                         for (int i = 0; i < mod_table[KeyInfoType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -5336,7 +5282,7 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -5366,30 +5312,30 @@ static int decode_iso20_acdp_KeyInfoType(exi_bitstream_t* stream, struct iso20_a
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Object; type={http://www.w3.org/2000/09/xmldsig#}ObjectType; base type=; content type=mixed;
 //          abstract=False; final=False;
-// Particle: Encoding, anyURI (0, 1); Id, ID (0, 1); MimeType, string (0, 1); ANY, anyType (0, 1)(old 1, 1);
-static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_acdp_ObjectType* ObjectType, char* xmlOut) {
-    int grammar_id = 54;
+// Particle: Encoding, anyURI (0, 1); Id, ID (0, 1); MimeType, string (0, 1); ANY, anyType (0, 1) (old 1, 1);
+static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_acdp_ObjectType* ObjectType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 51;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_ObjectType(ObjectType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 54:
-            // Grammar: ID=54; read/write bits=3; START (Encoding), START (Id), START (MimeType), START (ANY), END Element, START (ANY)
+        case 51:
+            // Grammar: ID=51; read/write bits=3; START (Encoding), START (Id), START (MimeType), START (ANY), END Element, START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Encoding, anyURI (anyURI)); next=55
-
+                    // Event: START (Encoding, anyURI (anyURI)); next=52
+                    if(strlen(xmlOut) + 8 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Encoding");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ObjectType->Encoding.charactersLen);
@@ -5401,6 +5347,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                             ObjectType->Encoding.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Encoding.charactersLen, ObjectType->Encoding.characters, iso20_acdp_Encoding_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ObjectType->Encoding.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ObjectType->Encoding.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ObjectType->Encoding.characters[i]))
                                 {
@@ -5417,14 +5364,14 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         }
                     }
                     ObjectType->Encoding_isUsed = 1u;
-                    grammar_id = 55;
+                    grammar_id = 52;
 
                     }
                     break;
                 case 1:
                     {
-                    // Event: START (Id, ID (NCName)); next=56
-
+                    // Event: START (Id, ID (NCName)); next=53
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ObjectType->Id.charactersLen);
@@ -5436,6 +5383,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                             ObjectType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Id.charactersLen, ObjectType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ObjectType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ObjectType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ObjectType->Id.characters[i]))
                                 {
@@ -5452,14 +5400,14 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         }
                     }
                     ObjectType->Id_isUsed = 1u;
-                    grammar_id = 56;
+                    grammar_id = 53;
 
                     }
                     break;
                 case 2:
                     {
-                    // Event: START (MimeType, string (string)); next=57
-
+                    // Event: START (MimeType, string (string)); next=54
+                    if(strlen(xmlOut) + 8 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " MimeType");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ObjectType->MimeType.charactersLen);
@@ -5471,6 +5419,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_acdp_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ObjectType->MimeType.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ObjectType->MimeType.characters[i]))
                                 {
@@ -5487,7 +5436,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         }
                     }
                     ObjectType->MimeType_isUsed = 1u;
-                    grammar_id = 57;
+                    grammar_id = 54;
 
                     }
                     break;
@@ -5532,6 +5481,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         for (int i = 0; i < mod_table[ObjectType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -5549,17 +5499,17 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                 }
             }
             break;
-        case 55:
-            // Grammar: ID=55; read/write bits=3; START (Id), START (MimeType), START (ANY), END Element, START (ANY)
+        case 52:
+            // Grammar: ID=52; read/write bits=3; START (Id), START (MimeType), START (ANY), END Element, START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Id, ID (NCName)); next=56
-
+                    // Event: START (Id, ID (NCName)); next=53
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ObjectType->Id.charactersLen);
@@ -5571,6 +5521,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                             ObjectType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->Id.charactersLen, ObjectType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ObjectType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ObjectType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ObjectType->Id.characters[i]))
                                 {
@@ -5587,14 +5538,14 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         }
                     }
                     ObjectType->Id_isUsed = 1u;
-                    grammar_id = 56;
+                    grammar_id = 53;
 
                     }
                     break;
                 case 1:
                     {
-                    // Event: START (MimeType, string (string)); next=57
-
+                    // Event: START (MimeType, string (string)); next=54
+                    if(strlen(xmlOut) + 8 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " MimeType");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ObjectType->MimeType.charactersLen);
@@ -5606,6 +5557,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_acdp_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ObjectType->MimeType.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ObjectType->MimeType.characters[i]))
                                 {
@@ -5622,7 +5574,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         }
                     }
                     ObjectType->MimeType_isUsed = 1u;
-                    grammar_id = 57;
+                    grammar_id = 54;
 
                     }
                     break;
@@ -5667,6 +5619,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         for (int i = 0; i < mod_table[ObjectType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -5684,17 +5637,17 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                 }
             }
             break;
-        case 56:
-            // Grammar: ID=56; read/write bits=3; START (MimeType), START (ANY), END Element, START (ANY)
+        case 53:
+            // Grammar: ID=53; read/write bits=3; START (MimeType), START (ANY), END Element, START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (MimeType, string (string)); next=57
-
+                    // Event: START (MimeType, string (string)); next=54
+                    if(strlen(xmlOut) + 8 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " MimeType");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ObjectType->MimeType.charactersLen);
@@ -5706,6 +5659,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                             ObjectType->MimeType.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ObjectType->MimeType.charactersLen, ObjectType->MimeType.characters, iso20_acdp_MimeType_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ObjectType->MimeType.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ObjectType->MimeType.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ObjectType->MimeType.characters[i]))
                                 {
@@ -5722,7 +5676,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         }
                     }
                     ObjectType->MimeType_isUsed = 1u;
-                    grammar_id = 57;
+                    grammar_id = 54;
 
                     }
                     break;
@@ -5767,6 +5721,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         for (int i = 0; i < mod_table[ObjectType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -5784,12 +5739,12 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                 }
             }
             break;
-        case 57:
-            // Grammar: ID=57; read/write bits=2; START (ANY), END Element, START (ANY)
+        case 54:
+            // Grammar: ID=54; read/write bits=2; START (ANY), END Element, START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -5832,6 +5787,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
                         for (int i = 0; i < mod_table[ObjectType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -5854,7 +5810,7 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -5884,30 +5840,30 @@ static int decode_iso20_acdp_ObjectType(exi_bitstream_t* stream, struct iso20_ac
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Signature; type={http://www.w3.org/2000/09/xmldsig#}SignatureType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Id, ID (0, 1); SignedInfo, SignedInfoType (1, 1); SignatureValue, SignatureValueType (1, 1); KeyInfo, KeyInfoType (0, 1); Object, ObjectType (0, 1);
-static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20_acdp_SignatureType* SignatureType, char* xmlOut) {
-    int grammar_id = 58;
+// Particle: Id, ID (0, 1); SignedInfo, SignedInfoType (1, 1); SignatureValue, SignatureValueType (1, 1); KeyInfo, KeyInfoType (0, 1); Object, ObjectType (0, 1) (original max unbounded);
+static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20_acdp_SignatureType* SignatureType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 55;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_SignatureType(SignatureType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 58:
-            // Grammar: ID=58; read/write bits=2; START (Id), START (SignedInfo)
+        case 55:
+            // Grammar: ID=55; read/write bits=2; START (Id), START (SignedInfo)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Id, ID (NCName)); next=59
-
+                    // Event: START (Id, ID (NCName)); next=56
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &SignatureType->Id.charactersLen);
@@ -5919,6 +5875,7 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                             SignatureType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignatureType->Id.charactersLen, SignatureType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + SignatureType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < SignatureType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(SignatureType->Id.characters[i]))
                                 {
@@ -5935,26 +5892,27 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                         }
                     }
                     SignatureType->Id_isUsed = 1u;
-                    grammar_id = 59;
+                    grammar_id = 56;
 
                     }
                     break;
                 case 1:
                     {
-                    // Event: START (SignedInfo, SignedInfoType (SignedInfoType)); next=60
-
+                    // Event: START (SignedInfo, SignedInfoType (SignedInfoType)); next=57
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignedInfo");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SignedInfo");
                     // decode: element
-                    error = decode_iso20_acdp_SignedInfoType(stream, &SignatureType->SignedInfo, xmlOut);
+                    error = decode_iso20_acdp_SignedInfoType(stream, &SignatureType->SignedInfo, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 60;
+                        grammar_id = 57;
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -5967,29 +5925,30 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                 }
             }
             break;
-        case 59:
-            // Grammar: ID=59; read/write bits=1; START (SignedInfo)
+        case 56:
+            // Grammar: ID=56; read/write bits=1; START (SignedInfo)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (SignedInfo, SignedInfoType (SignedInfoType)); next=60
-
+                    // Event: START (SignedInfo, SignedInfoType (SignedInfoType)); next=57
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignedInfo");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SignedInfo");
                     // decode: element
-                    error = decode_iso20_acdp_SignedInfoType(stream, &SignatureType->SignedInfo, xmlOut);
+                    error = decode_iso20_acdp_SignedInfoType(stream, &SignatureType->SignedInfo, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 60;
+                        grammar_id = 57;
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6002,29 +5961,30 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                 }
             }
             break;
-        case 60:
-            // Grammar: ID=60; read/write bits=1; START (SignatureValue)
+        case 57:
+            // Grammar: ID=57; read/write bits=1; START (SignatureValue)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (SignatureValue, SignatureValueType (base64Binary)); next=61
-
+                    // Event: START (SignatureValue, SignatureValueType (base64Binary)); next=58
+                    if(strlen(xmlOut) + 50 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureValue");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SignatureValue");
                     // decode: element
-                    error = decode_iso20_acdp_SignatureValueType(stream, &SignatureType->SignatureValue, xmlOut);
+                    error = decode_iso20_acdp_SignatureValueType(stream, &SignatureType->SignatureValue, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 61;
+                        grammar_id = 58;
                     }
 
 
+                    if(strlen(xmlOut) + 50 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6037,30 +5997,31 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                 }
             }
             break;
-        case 61:
-            // Grammar: ID=61; read/write bits=2; START (KeyInfo), START (Object), END Element
+        case 58:
+            // Grammar: ID=58; read/write bits=2; START (KeyInfo), START (Object), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (KeyInfo, KeyInfoType (KeyInfoType)); next=63
-
+                    // Event: START (KeyInfo, KeyInfoType (KeyInfoType)); next=60
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}KeyInfo");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}KeyInfo");
                     // decode: element
-                    error = decode_iso20_acdp_KeyInfoType(stream, &SignatureType->KeyInfo, xmlOut);
+                    error = decode_iso20_acdp_KeyInfoType(stream, &SignatureType->KeyInfo, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         SignatureType->KeyInfo_isUsed = 1u;
-                        grammar_id = 63;
+                        grammar_id = 60;
                     }
 
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6069,21 +6030,22 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                     break;
                 case 1:
                     {
-                    // Event: START (Object, ObjectType (ObjectType)); next=62
-
+                    // Event: START (Object, ObjectType (ObjectType)); next=59
+                    if(strlen(xmlOut) + 42 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Object");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Object");
                     // decode: element
-                    error = decode_iso20_acdp_ObjectType(stream, &SignatureType->Object, xmlOut);
+                    error = decode_iso20_acdp_ObjectType(stream, &SignatureType->Object, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         SignatureType->Object_isUsed = 1u;
-                        grammar_id = 62;
+                        grammar_id = 59;
                     }
 
 
+                    if(strlen(xmlOut) + 42 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6103,30 +6065,26 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                 }
             }
             break;
-        case 62:
-            // Grammar: ID=62; read/write bits=2; START (Object), END Element
+        case 59:
+            // Grammar: ID=59; read/write bits=2; START (Object), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Object, ObjectType (ObjectType)); next=2
-
+                    if(strlen(xmlOut) + 42 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Object");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Object");
                     // decode: element
-                    error = decode_iso20_acdp_ObjectType(stream, &SignatureType->Object, xmlOut);
-                    if (error == 0)
-                    {
-                        SignatureType->Object_isUsed = 1u;
-                        grammar_id = 2;
-                    }
+                    // This element should not occur a further time, its representation was reduced to a single element
+                    error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
 
-
+                    if(strlen(xmlOut) + 42 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6146,30 +6104,31 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                 }
             }
             break;
-        case 63:
-            // Grammar: ID=63; read/write bits=2; START (Object), END Element
+        case 60:
+            // Grammar: ID=60; read/write bits=2; START (Object), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Object, ObjectType (ObjectType)); next=64
-
+                    // Event: START (Object, ObjectType (ObjectType)); next=61
+                    if(strlen(xmlOut) + 42 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Object");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Object");
                     // decode: element
-                    error = decode_iso20_acdp_ObjectType(stream, &SignatureType->Object, xmlOut);
+                    error = decode_iso20_acdp_ObjectType(stream, &SignatureType->Object, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         SignatureType->Object_isUsed = 1u;
-                        grammar_id = 64;
+                        grammar_id = 61;
                     }
 
 
+                    if(strlen(xmlOut) + 42 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6189,30 +6148,26 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
                 }
             }
             break;
-        case 64:
-            // Grammar: ID=64; read/write bits=2; START (Object), END Element
+        case 61:
+            // Grammar: ID=61; read/write bits=2; START (Object), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Object, ObjectType (ObjectType)); next=2
-
+                    if(strlen(xmlOut) + 42 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Object");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Object");
                     // decode: element
-                    error = decode_iso20_acdp_ObjectType(stream, &SignatureType->Object, xmlOut);
-                    if (error == 0)
-                    {
-                        SignatureType->Object_isUsed = 1u;
-                        grammar_id = 2;
-                    }
+                    // This element should not occur a further time, its representation was reduced to a single element
+                    error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
 
-
+                    if(strlen(xmlOut) + 42 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6237,7 +6192,7 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -6268,29 +6223,29 @@ static int decode_iso20_acdp_SignatureType(exi_bitstream_t* stream, struct iso20
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength; type={urn:iso:std:iso:15118:-20:CommonTypes}RationalNumberType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: Exponent, byte (1, 1); Value, short (1, 1);
-static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct iso20_acdp_RationalNumberType* RationalNumberType, char* xmlOut) {
-    int grammar_id = 65;
+static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct iso20_acdp_RationalNumberType* RationalNumberType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 62;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_RationalNumberType(RationalNumberType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 65:
-            // Grammar: ID=65; read/write bits=1; START (Exponent)
+        case 62:
+            // Grammar: ID=62; read/write bits=1; START (Exponent)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Exponent, byte (short)); next=66
-
+                    // Event: START (Exponent, byte (short)); next=63
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}Exponent");
@@ -6307,6 +6262,7 @@ static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct 
                             {
                                 // type has min_value = -128
                                 RationalNumberType->Exponent = (int8_t)(value + -128);
+                                if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
                                 sprintf(append, "%d", RationalNumberType->Exponent);
                                 strcat(xmlOut, ">");
@@ -6329,7 +6285,7 @@ static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct 
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 66;
+                                grammar_id = 63;
                             }
                             else
                             {
@@ -6338,6 +6294,7 @@ static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct 
                         }
                     }
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6350,17 +6307,17 @@ static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct 
                 }
             }
             break;
-        case 66:
-            // Grammar: ID=66; read/write bits=1; START (Value)
+        case 63:
+            // Grammar: ID=63; read/write bits=1; START (Value)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Value, short (int)); next=2
-
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}Value");
@@ -6370,6 +6327,7 @@ static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct 
                     if (error == 0)
                     {
                         char append[7]; // max length: 5 digits + 1 sign + 1 zero terminator
+                        if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                         sprintf(append, "%d", RationalNumberType->Value);
 // TODO the short value 'Value' of physical value type is an attribute according to cbexigen. Uncomment me (in jinja) as soon as it is fixed
 //
@@ -6379,6 +6337,7 @@ static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct 
                         grammar_id = 2;
                     }
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6396,7 +6355,7 @@ static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct 
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -6427,29 +6386,29 @@ static int decode_iso20_acdp_RationalNumberType(exi_bitstream_t* stream, struct 
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:CommonTypes}Header; type={urn:iso:std:iso:15118:-20:CommonTypes}MessageHeaderType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: SessionID, sessionIDType (1, 1); TimeStamp, unsignedLong (1, 1); Signature, SignatureType (0, 1);
-static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct iso20_acdp_MessageHeaderType* MessageHeaderType, char* xmlOut) {
-    int grammar_id = 67;
+static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct iso20_acdp_MessageHeaderType* MessageHeaderType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 64;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_MessageHeaderType(MessageHeaderType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 67:
-            // Grammar: ID=67; read/write bits=1; START (SessionID)
+        case 64:
+            // Grammar: ID=64; read/write bits=1; START (SessionID)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (SessionID, sessionIDType (hexBinary)); next=68
-
+                    // Event: START (SessionID, sessionIDType (hexBinary)); next=65
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}SessionID");
@@ -6458,6 +6417,7 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
                     error = decode_exi_type_hex_binary(stream, &MessageHeaderType->SessionID.bytesLen, &MessageHeaderType->SessionID.bytes[0], iso20_acdp_sessionIDType_BYTES_SIZE);
                     if (error == 0)
                     {
+                        if(strlen(xmlOut) + 128 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                         char asHex[128] = "";
                         char* ahPtr = &asHex[0];
                         uint8_t* contentPtr = &MessageHeaderType->SessionID.bytes[0];
@@ -6471,9 +6431,10 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
                         *ahPtr = 0;
                         strcat(xmlOut, ">");
                         strcat(xmlOut, asHex);
-                        grammar_id = 68;
+                        grammar_id = 65;
                     }
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6486,17 +6447,17 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
                 }
             }
             break;
-        case 68:
-            // Grammar: ID=68; read/write bits=1; START (TimeStamp)
+        case 65:
+            // Grammar: ID=65; read/write bits=1; START (TimeStamp)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (TimeStamp, unsignedLong (nonNegativeInteger)); next=69
-
+                    // Event: START (TimeStamp, unsignedLong (nonNegativeInteger)); next=66
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}TimeStamp");
@@ -6506,12 +6467,14 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
                     if (error == 0)
                     {
                         char append[20]; // max length: 19 digits + 0 sign + 1 zero terminator
-                        sprintf(append, "%" PRIu64, MessageHeaderType->TimeStamp);
+                        if(strlen(xmlOut) + 20 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                        sprintf(append, "%llu", MessageHeaderType->TimeStamp);
                         strcat(xmlOut, ">");
                         strcat(xmlOut, append);
-                        grammar_id = 69;
+                        grammar_id = 66;
                     }
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6524,23 +6487,23 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
                 }
             }
             break;
-        case 69:
-            // Grammar: ID=69; read/write bits=2; START (Signature), END Element
+        case 66:
+            // Grammar: ID=66; read/write bits=2; START (Signature), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (Signature, SignatureType (SignatureType)); next=2
-
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Signature");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Signature");
                     // decode: element
-                    error = decode_iso20_acdp_SignatureType(stream, &MessageHeaderType->Signature, xmlOut);
+                    error = decode_iso20_acdp_SignatureType(stream, &MessageHeaderType->Signature, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         MessageHeaderType->Signature_isUsed = 1u;
@@ -6548,6 +6511,7 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
                     }
 
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6572,7 +6536,7 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -6603,29 +6567,29 @@ static int decode_iso20_acdp_MessageHeaderType(exi_bitstream_t* stream, struct i
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}SignatureProperty; type={http://www.w3.org/2000/09/xmldsig#}SignaturePropertyType; base type=; content type=mixed;
 //          abstract=False; final=False; choice=True;
 // Particle: Id, ID (0, 1); Target, anyURI (1, 1); ANY, anyType (0, 1);
-static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, struct iso20_acdp_SignaturePropertyType* SignaturePropertyType, char* xmlOut) {
-    int grammar_id = 70;
+static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, struct iso20_acdp_SignaturePropertyType* SignaturePropertyType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 67;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_SignaturePropertyType(SignaturePropertyType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 70:
-            // Grammar: ID=70; read/write bits=2; START (Id), START (Target)
+        case 67:
+            // Grammar: ID=67; read/write bits=2; START (Id), START (Target)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Id, ID (NCName)); next=71
-
+                    // Event: START (Id, ID (NCName)); next=68
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &SignaturePropertyType->Id.charactersLen);
@@ -6637,6 +6601,7 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                             SignaturePropertyType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Id.charactersLen, SignaturePropertyType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + SignaturePropertyType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < SignaturePropertyType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(SignaturePropertyType->Id.characters[i]))
                                 {
@@ -6653,14 +6618,14 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                         }
                     }
                     SignaturePropertyType->Id_isUsed = 1u;
-                    grammar_id = 71;
+                    grammar_id = 68;
 
                     }
                     break;
                 case 1:
                     {
-                    // Event: START (Target, anyURI (anyURI)); next=72
-
+                    // Event: START (Target, anyURI (anyURI)); next=69
+                    if(strlen(xmlOut) + 6 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Target");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &SignaturePropertyType->Target.charactersLen);
@@ -6672,6 +6637,7 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                             SignaturePropertyType->Target.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Target.charactersLen, SignaturePropertyType->Target.characters, iso20_acdp_Target_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + SignaturePropertyType->Target.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < SignaturePropertyType->Target.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(SignaturePropertyType->Target.characters[i]))
                                 {
@@ -6687,7 +6653,7 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                             error = EXI_ERROR__STRINGVALUES_NOT_SUPPORTED;
                         }
                     }
-                    grammar_id = 72;
+                    grammar_id = 69;
 
                     }
                     break;
@@ -6697,17 +6663,17 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                 }
             }
             break;
-        case 71:
-            // Grammar: ID=71; read/write bits=1; START (Target)
+        case 68:
+            // Grammar: ID=68; read/write bits=1; START (Target)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Target, anyURI (anyURI)); next=72
-
+                    // Event: START (Target, anyURI (anyURI)); next=69
+                    if(strlen(xmlOut) + 6 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Target");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &SignaturePropertyType->Target.charactersLen);
@@ -6719,6 +6685,7 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                             SignaturePropertyType->Target.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertyType->Target.charactersLen, SignaturePropertyType->Target.characters, iso20_acdp_Target_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + SignaturePropertyType->Target.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < SignaturePropertyType->Target.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(SignaturePropertyType->Target.characters[i]))
                                 {
@@ -6734,7 +6701,7 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                             error = EXI_ERROR__STRINGVALUES_NOT_SUPPORTED;
                         }
                     }
-                    grammar_id = 72;
+                    grammar_id = 69;
 
                     }
                     break;
@@ -6744,12 +6711,12 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                 }
             }
             break;
-        case 72:
-            // Grammar: ID=72; read/write bits=1; START (ANY)
+        case 69:
+            // Grammar: ID=69; read/write bits=1; START (ANY)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -6778,6 +6745,7 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
                         for (int i = 0; i < mod_table[SignaturePropertyType->ANY.bytesLen % 3]; i++) {
                             encoded_data[output_length - 1 - i] = '=';
                         }
+                        if(strlen(xmlOut) + output_length + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; free(encoded_data); break; }
                         strcat(xmlOut, ">");
                         strncat(xmlOut, (char*)encoded_data, output_length);
                         free(encoded_data);
@@ -6800,7 +6768,7 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -6831,29 +6799,29 @@ static int decode_iso20_acdp_SignaturePropertyType(exi_bitstream_t* stream, stru
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:ACDP}EVTechnicalStatus; type={urn:iso:std:iso:15118:-20:ACDP}EVTechnicalStatusType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
 // Particle: EVReadyToCharge, boolean (1, 1); EVImmobilizationRequest, boolean (1, 1); EVImmobilized, boolean (0, 1); EVWLANStrength, RationalNumberType (0, 1); EVCPStatus, cpStatusType (0, 1); EVSOC, percentValueType (0, 1); EVErrorCode, errorCodeType (0, 1); EVTimeout, boolean (0, 1);
-static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, struct iso20_acdp_EVTechnicalStatusType* EVTechnicalStatusType, char* xmlOut) {
-    int grammar_id = 73;
+static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, struct iso20_acdp_EVTechnicalStatusType* EVTechnicalStatusType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 70;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_EVTechnicalStatusType(EVTechnicalStatusType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 73:
-            // Grammar: ID=73; read/write bits=1; START (EVReadyToCharge)
+        case 70:
+            // Grammar: ID=70; read/write bits=1; START (EVReadyToCharge)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVReadyToCharge, boolean (boolean)); next=74
-
+                    // Event: START (EVReadyToCharge, boolean (boolean)); next=71
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVReadyToCharge");
@@ -6869,7 +6837,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVReadyToCharge = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -6889,7 +6858,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 74;
+                                grammar_id = 71;
                             }
                             else
                             {
@@ -6898,6 +6867,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -6910,17 +6880,17 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 }
             }
             break;
-        case 74:
-            // Grammar: ID=74; read/write bits=1; START (EVImmobilizationRequest)
+        case 71:
+            // Grammar: ID=71; read/write bits=1; START (EVImmobilizationRequest)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVImmobilizationRequest, boolean (boolean)); next=75
-
+                    // Event: START (EVImmobilizationRequest, boolean (boolean)); next=72
+                    if(strlen(xmlOut) + 55 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVImmobilizationRequest");
@@ -6936,8 +6906,160 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVImmobilizationRequest = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
+                            }
+                        }
+                        else
+                        {
+                            // second level event is not supported
+                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
+                        }
+                    }
+
+                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
+                    if (error == 0)
+                    {
+                        // END Element for simple type
+                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                        if (error == 0)
+                        {
+                            if (eventCode == 0)
+                            {
+                                grammar_id = 72;
+                            }
+                            else
+                            {
+                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
+                            }
+                        }
+                    }
+
+                    if(strlen(xmlOut) + 55 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    bool isClosed = false;
+                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
+                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVImmobilizationRequest>");
+                    }
+                    break;
+                default:
+                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
+                    break;
+                }
+            }
+            break;
+        case 72:
+            // Grammar: ID=72; read/write bits=3; START (EVImmobilized), START (EVWLANStrength), START (EVCPStatus), START (EVSOC), START (EVErrorCode), START (EVTimeout), END Element
+            error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
+            if (error == 0)
+            {
+                switch (eventCode)
+                {
+                case 0:
+                    {
+                    // Event: START (EVImmobilized, boolean (boolean)); next=73
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    char* xmlPos = &xmlOut[strlen(xmlOut)];
+                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVImmobilized");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVImmobilized");
+                    // decode: boolean
+                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                    if (error == 0)
+                    {
+                        if (eventCode == 0)
+                        {
+                            uint32_t value;
+                            error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
+                            if (error == 0)
+                            {
+                                EVTechnicalStatusType->EVImmobilized = value;
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
+                                strcat(xmlOut, value ? "true" : "false");
+                                EVTechnicalStatusType->EVImmobilized_isUsed = 1u;
+                            }
+                        }
+                        else
+                        {
+                            // second level event is not supported
+                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
+                        }
+                    }
+
+                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
+                    if (error == 0)
+                    {
+                        // END Element for simple type
+                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                        if (error == 0)
+                        {
+                            if (eventCode == 0)
+                            {
+                                grammar_id = 73;
+                            }
+                            else
+                            {
+                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
+                            }
+                        }
+                    }
+
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    bool isClosed = false;
+                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
+                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVImmobilized>");
+                    }
+                    break;
+                case 1:
+                    {
+                    // Event: START (EVWLANStrength, RationalNumberType (RationalNumberType)); next=74
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    char* xmlPos = &xmlOut[strlen(xmlOut)];
+                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength");
+                    // decode: element
+                    error = decode_iso20_acdp_RationalNumberType(stream, &EVTechnicalStatusType->EVWLANStrength, xmlOut, xmlOut_size);
+                    if (error == 0)
+                    {
+                        EVTechnicalStatusType->EVWLANStrength_isUsed = 1u;
+                        grammar_id = 74;
+                    }
+
+
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    bool isClosed = false;
+                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
+                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength>");
+                    }
+                    break;
+                case 2:
+                    {
+                    // Event: START (EVCPStatus, cpStatusType (string)); next=75
+                    if(strlen(xmlOut) + 42 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    char* xmlPos = &xmlOut[strlen(xmlOut)];
+                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVCPStatus");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVCPStatus");
+                    // decode: enum
+                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                    if (error == 0)
+                    {
+                        if (eventCode == 0)
+                        {
+                            uint32_t value;
+                            error = exi_basetypes_decoder_nbit_uint(stream, 3, &value);
+                            if (error == 0)
+                            {
+                                EVTechnicalStatusType->EVCPStatus = (iso20_acdp_cpStatusType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_cpStatusType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
+                                strcat(xmlOut, get_enum_val_iso20_acdp_cpStatusType_reverse(value));
+                                EVTechnicalStatusType->EVCPStatus_isUsed = 1u;
                             }
                         }
                         else
@@ -6965,47 +7087,38 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 42 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVImmobilizationRequest>");
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVCPStatus>");
                     }
                     break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 75:
-            // Grammar: ID=75; read/write bits=3; START (EVImmobilized), START (EVWLANStrength), START (EVCPStatus), START (EVSOC), START (EVErrorCode), START (EVTimeout), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
+                case 3:
                     {
-                    // Event: START (EVImmobilized, boolean (boolean)); next=76
-
+                    // Event: START (EVSOC, percentValueType (byte)); next=76
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVImmobilized");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVImmobilized");
-                    // decode: boolean
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSOC");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSOC");
+                    // decode: restricted integer (4096 or fewer values)
                     error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
                     if (error == 0)
                     {
                         if (eventCode == 0)
                         {
                             uint32_t value;
-                            error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
+                            error = exi_basetypes_decoder_nbit_uint(stream, 7, &value);
                             if (error == 0)
                             {
-                                EVTechnicalStatusType->EVImmobilized = value;
-                                    strcat(xmlOut, ">");
-                                strcat(xmlOut, value ? "true" : "false");
-                                EVTechnicalStatusType->EVImmobilized_isUsed = 1u;
+                                EVTechnicalStatusType->EVSOC = (int8_t)value;
+                                if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
+                                sprintf(append, "%d", EVTechnicalStatusType->EVSOC);
+                                strcat(xmlOut, ">");
+                                strcat(xmlOut, append);
+                                EVTechnicalStatusType->EVSOC_isUsed = 1u;
                             }
                         }
                         else
@@ -7033,141 +7146,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVImmobilized>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: START (EVWLANStrength, RationalNumberType (RationalNumberType)); next=77
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength");
-                    // decode: element
-                    error = decode_iso20_acdp_RationalNumberType(stream, &EVTechnicalStatusType->EVWLANStrength, xmlOut);
-                    if (error == 0)
-                    {
-                        EVTechnicalStatusType->EVWLANStrength_isUsed = 1u;
-                        grammar_id = 77;
-                    }
-
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength>");
-                    }
-                    break;
-                case 2:
-                    {
-                    // Event: START (EVCPStatus, cpStatusType (string)); next=78
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVCPStatus");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVCPStatus");
-                    // decode: enum
-                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                    if (error == 0)
-                    {
-                        if (eventCode == 0)
-                        {
-                            uint32_t value;
-                            error = exi_basetypes_decoder_nbit_uint(stream, 3, &value);
-                            if (error == 0)
-                            {
-                                EVTechnicalStatusType->EVCPStatus = (iso20_acdp_cpStatusType)value;
-                                strcat(xmlOut, ">");
-                                strcat(xmlOut, get_enum_val_iso20_acdp_cpStatusType_reverse(value));
-                                EVTechnicalStatusType->EVCPStatus_isUsed = 1u;
-                            }
-                        }
-                        else
-                        {
-                            // second level event is not supported
-                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
-                        }
-                    }
-
-                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
-                    if (error == 0)
-                    {
-                        // END Element for simple type
-                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                        if (error == 0)
-                        {
-                            if (eventCode == 0)
-                            {
-                                grammar_id = 78;
-                            }
-                            else
-                            {
-                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
-                            }
-                        }
-                    }
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVCPStatus>");
-                    }
-                    break;
-                case 3:
-                    {
-                    // Event: START (EVSOC, percentValueType (byte)); next=79
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSOC");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSOC");
-                    // decode: restricted integer (4096 or fewer values)
-                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                    if (error == 0)
-                    {
-                        if (eventCode == 0)
-                        {
-                            uint32_t value;
-                            error = exi_basetypes_decoder_nbit_uint(stream, 7, &value);
-                            if (error == 0)
-                            {
-                                EVTechnicalStatusType->EVSOC = (int8_t)value;
-                                char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
-                                sprintf(append, "%d", EVTechnicalStatusType->EVSOC);
-                                strcat(xmlOut, ">");
-                                strcat(xmlOut, append);
-                                EVTechnicalStatusType->EVSOC_isUsed = 1u;
-                            }
-                        }
-                        else
-                        {
-                            // second level event is not supported
-                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
-                        }
-                    }
-
-                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
-                    if (error == 0)
-                    {
-                        // END Element for simple type
-                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                        if (error == 0)
-                        {
-                            if (eventCode == 0)
-                            {
-                                grammar_id = 79;
-                            }
-                            else
-                            {
-                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
-                            }
-                        }
-                    }
-
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7176,8 +7155,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                     break;
                 case 4:
                     {
-                    // Event: START (EVErrorCode, errorCodeType (string)); next=80
-
+                    // Event: START (EVErrorCode, errorCodeType (string)); next=77
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVErrorCode");
@@ -7193,6 +7172,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVErrorCode = (iso20_acdp_errorCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_errorCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_errorCodeType_reverse(value));
                                 EVTechnicalStatusType->EVErrorCode_isUsed = 1u;
@@ -7214,7 +7194,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 80;
+                                grammar_id = 77;
                             }
                             else
                             {
@@ -7223,6 +7203,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7232,7 +7213,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 case 5:
                     {
                     // Event: START (EVTimeout, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 41 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVTimeout");
@@ -7248,7 +7229,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVTimeout = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                                 EVTechnicalStatusType->EVTimeout_isUsed = 1u;
                             }
@@ -7278,6 +7260,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 41 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7297,30 +7280,31 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 }
             }
             break;
-        case 76:
-            // Grammar: ID=76; read/write bits=3; START (EVWLANStrength), START (EVCPStatus), START (EVSOC), START (EVErrorCode), START (EVTimeout), END Element
+        case 73:
+            // Grammar: ID=73; read/write bits=3; START (EVWLANStrength), START (EVCPStatus), START (EVSOC), START (EVErrorCode), START (EVTimeout), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVWLANStrength, RationalNumberType (RationalNumberType)); next=77
-
+                    // Event: START (EVWLANStrength, RationalNumberType (RationalNumberType)); next=74
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength");
                     xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVWLANStrength");
                     // decode: element
-                    error = decode_iso20_acdp_RationalNumberType(stream, &EVTechnicalStatusType->EVWLANStrength, xmlOut);
+                    error = decode_iso20_acdp_RationalNumberType(stream, &EVTechnicalStatusType->EVWLANStrength, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         EVTechnicalStatusType->EVWLANStrength_isUsed = 1u;
-                        grammar_id = 77;
+                        grammar_id = 74;
                     }
 
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7329,8 +7313,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                     break;
                 case 1:
                     {
-                    // Event: START (EVCPStatus, cpStatusType (string)); next=78
-
+                    // Event: START (EVCPStatus, cpStatusType (string)); next=75
+                    if(strlen(xmlOut) + 42 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVCPStatus");
@@ -7346,6 +7330,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVCPStatus = (iso20_acdp_cpStatusType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_cpStatusType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_cpStatusType_reverse(value));
                                 EVTechnicalStatusType->EVCPStatus_isUsed = 1u;
@@ -7367,7 +7352,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 78;
+                                grammar_id = 75;
                             }
                             else
                             {
@@ -7376,6 +7361,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 42 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7384,8 +7370,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                     break;
                 case 2:
                     {
-                    // Event: START (EVSOC, percentValueType (byte)); next=79
-
+                    // Event: START (EVSOC, percentValueType (byte)); next=76
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSOC");
@@ -7401,6 +7387,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVSOC = (int8_t)value;
+                                if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
                                 sprintf(append, "%d", EVTechnicalStatusType->EVSOC);
                                 strcat(xmlOut, ">");
@@ -7424,7 +7411,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 79;
+                                grammar_id = 76;
                             }
                             else
                             {
@@ -7433,6 +7420,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7441,8 +7429,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                     break;
                 case 3:
                     {
-                    // Event: START (EVErrorCode, errorCodeType (string)); next=80
-
+                    // Event: START (EVErrorCode, errorCodeType (string)); next=77
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVErrorCode");
@@ -7458,6 +7446,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVErrorCode = (iso20_acdp_errorCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_errorCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_errorCodeType_reverse(value));
                                 EVTechnicalStatusType->EVErrorCode_isUsed = 1u;
@@ -7479,7 +7468,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 80;
+                                grammar_id = 77;
                             }
                             else
                             {
@@ -7488,6 +7477,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7497,7 +7487,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 case 4:
                     {
                     // Event: START (EVTimeout, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 41 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVTimeout");
@@ -7513,7 +7503,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVTimeout = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                                 EVTechnicalStatusType->EVTimeout_isUsed = 1u;
                             }
@@ -7543,6 +7534,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 41 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7562,17 +7554,17 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 }
             }
             break;
-        case 77:
-            // Grammar: ID=77; read/write bits=3; START (EVCPStatus), START (EVSOC), START (EVErrorCode), START (EVTimeout), END Element
+        case 74:
+            // Grammar: ID=74; read/write bits=3; START (EVCPStatus), START (EVSOC), START (EVErrorCode), START (EVTimeout), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVCPStatus, cpStatusType (string)); next=78
-
+                    // Event: START (EVCPStatus, cpStatusType (string)); next=75
+                    if(strlen(xmlOut) + 42 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVCPStatus");
@@ -7588,6 +7580,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVCPStatus = (iso20_acdp_cpStatusType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_cpStatusType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_cpStatusType_reverse(value));
                                 EVTechnicalStatusType->EVCPStatus_isUsed = 1u;
@@ -7609,7 +7602,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 78;
+                                grammar_id = 75;
                             }
                             else
                             {
@@ -7618,6 +7611,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 42 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7626,8 +7620,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                     break;
                 case 1:
                     {
-                    // Event: START (EVSOC, percentValueType (byte)); next=79
-
+                    // Event: START (EVSOC, percentValueType (byte)); next=76
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSOC");
@@ -7643,6 +7637,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVSOC = (int8_t)value;
+                                if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
                                 sprintf(append, "%d", EVTechnicalStatusType->EVSOC);
                                 strcat(xmlOut, ">");
@@ -7666,7 +7661,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 79;
+                                grammar_id = 76;
                             }
                             else
                             {
@@ -7675,6 +7670,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7683,8 +7679,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                     break;
                 case 2:
                     {
-                    // Event: START (EVErrorCode, errorCodeType (string)); next=80
-
+                    // Event: START (EVErrorCode, errorCodeType (string)); next=77
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVErrorCode");
@@ -7700,6 +7696,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVErrorCode = (iso20_acdp_errorCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_errorCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_errorCodeType_reverse(value));
                                 EVTechnicalStatusType->EVErrorCode_isUsed = 1u;
@@ -7721,7 +7718,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 80;
+                                grammar_id = 77;
                             }
                             else
                             {
@@ -7730,6 +7727,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7739,7 +7737,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 case 3:
                     {
                     // Event: START (EVTimeout, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 41 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVTimeout");
@@ -7755,7 +7753,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVTimeout = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                                 EVTechnicalStatusType->EVTimeout_isUsed = 1u;
                             }
@@ -7785,6 +7784,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 41 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7804,17 +7804,17 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 }
             }
             break;
-        case 78:
-            // Grammar: ID=78; read/write bits=3; START (EVSOC), START (EVErrorCode), START (EVTimeout), END Element
+        case 75:
+            // Grammar: ID=75; read/write bits=3; START (EVSOC), START (EVErrorCode), START (EVTimeout), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 3, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSOC, percentValueType (byte)); next=79
-
+                    // Event: START (EVSOC, percentValueType (byte)); next=76
+                    if(strlen(xmlOut) + 37 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSOC");
@@ -7830,6 +7830,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVSOC = (int8_t)value;
+                                if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 char append[7]; // max length: 5 digits (uint8) + 1 sign + 1 zero terminator
                                 sprintf(append, "%d", EVTechnicalStatusType->EVSOC);
                                 strcat(xmlOut, ">");
@@ -7853,7 +7854,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 79;
+                                grammar_id = 76;
                             }
                             else
                             {
@@ -7862,6 +7863,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 37 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7870,8 +7872,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                     break;
                 case 1:
                     {
-                    // Event: START (EVErrorCode, errorCodeType (string)); next=80
-
+                    // Event: START (EVErrorCode, errorCodeType (string)); next=77
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVErrorCode");
@@ -7887,6 +7889,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVErrorCode = (iso20_acdp_errorCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_errorCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_errorCodeType_reverse(value));
                                 EVTechnicalStatusType->EVErrorCode_isUsed = 1u;
@@ -7908,7 +7911,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 80;
+                                grammar_id = 77;
                             }
                             else
                             {
@@ -7917,6 +7920,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7926,7 +7930,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 case 2:
                     {
                     // Event: START (EVTimeout, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 41 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVTimeout");
@@ -7942,7 +7946,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVTimeout = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                                 EVTechnicalStatusType->EVTimeout_isUsed = 1u;
                             }
@@ -7972,6 +7977,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 41 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -7991,17 +7997,17 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 }
             }
             break;
-        case 79:
-            // Grammar: ID=79; read/write bits=2; START (EVErrorCode), START (EVTimeout), END Element
+        case 76:
+            // Grammar: ID=76; read/write bits=2; START (EVErrorCode), START (EVTimeout), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVErrorCode, errorCodeType (string)); next=80
-
+                    // Event: START (EVErrorCode, errorCodeType (string)); next=77
+                    if(strlen(xmlOut) + 43 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVErrorCode");
@@ -8017,6 +8023,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVErrorCode = (iso20_acdp_errorCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_errorCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_errorCodeType_reverse(value));
                                 EVTechnicalStatusType->EVErrorCode_isUsed = 1u;
@@ -8038,7 +8045,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 80;
+                                grammar_id = 77;
                             }
                             else
                             {
@@ -8047,6 +8054,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8056,7 +8064,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 case 1:
                     {
                     // Event: START (EVTimeout, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 41 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVTimeout");
@@ -8072,7 +8080,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVTimeout = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                                 EVTechnicalStatusType->EVTimeout_isUsed = 1u;
                             }
@@ -8102,6 +8111,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 41 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8121,17 +8131,17 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                 }
             }
             break;
-        case 80:
-            // Grammar: ID=80; read/write bits=2; START (EVTimeout), END Element
+        case 77:
+            // Grammar: ID=77; read/write bits=2; START (EVTimeout), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (EVTimeout, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 41 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVTimeout");
@@ -8147,7 +8157,8 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                             if (error == 0)
                             {
                                 EVTechnicalStatusType->EVTimeout = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                                 EVTechnicalStatusType->EVTimeout_isUsed = 1u;
                             }
@@ -8177,6 +8188,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
                         }
                     }
 
+                    if(strlen(xmlOut) + 41 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8201,7 +8213,7 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -8232,41 +8244,42 @@ static int decode_iso20_acdp_EVTechnicalStatusType(exi_bitstream_t* stream, stru
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:ACDP}ACDP_VehiclePositioningReq; type={urn:iso:std:iso:15118:-20:ACDP}ACDP_VehiclePositioningReqType; base type=V2GRequestType; content type=ELEMENT-ONLY;
 //          abstract=False; final=False; derivation=extension;
 // Particle: Header, MessageHeaderType (1, 1); EVMobilityStatus, boolean (1, 1); EVPositioningSupport, boolean (1, 1);
-static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_VehiclePositioningReqType* ACDP_VehiclePositioningReqType, char* xmlOut) {
-    int grammar_id = 81;
+static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_VehiclePositioningReqType* ACDP_VehiclePositioningReqType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 78;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_ACDP_VehiclePositioningReqType(ACDP_VehiclePositioningReqType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 81:
-            // Grammar: ID=81; read/write bits=1; START (Header)
+        case 78:
+            // Grammar: ID=78; read/write bits=1; START (Header)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=82
-
+                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=79
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     xmlPos += strlen("<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     // decode: element
-                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_VehiclePositioningReqType->Header, xmlOut);
+                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_VehiclePositioningReqType->Header, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 82;
+                        grammar_id = 79;
                     }
 
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8279,17 +8292,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
                 }
             }
             break;
-        case 82:
-            // Grammar: ID=82; read/write bits=1; START (EVMobilityStatus)
+        case 79:
+            // Grammar: ID=79; read/write bits=1; START (EVMobilityStatus)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVMobilityStatus, boolean (boolean)); next=83
-
+                    // Event: START (EVMobilityStatus, boolean (boolean)); next=80
+                    if(strlen(xmlOut) + 48 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVMobilityStatus");
@@ -8305,7 +8318,8 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
                             if (error == 0)
                             {
                                 ACDP_VehiclePositioningReqType->EVMobilityStatus = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -8325,7 +8339,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 83;
+                                grammar_id = 80;
                             }
                             else
                             {
@@ -8334,6 +8348,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
                         }
                     }
 
+                    if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8346,17 +8361,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
                 }
             }
             break;
-        case 83:
-            // Grammar: ID=83; read/write bits=1; START (EVPositioningSupport)
+        case 80:
+            // Grammar: ID=80; read/write bits=1; START (EVPositioningSupport)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (EVPositioningSupport, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 52 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVPositioningSupport");
@@ -8372,7 +8387,8 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
                             if (error == 0)
                             {
                                 ACDP_VehiclePositioningReqType->EVPositioningSupport = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -8401,6 +8417,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
                         }
                     }
 
+                    if(strlen(xmlOut) + 52 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8418,7 +8435,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -8449,41 +8466,42 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningReqType(exi_bitstream_t* str
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:ACDP}ACDP_VehiclePositioningRes; type={urn:iso:std:iso:15118:-20:ACDP}ACDP_VehiclePositioningResType; base type=V2GResponseType; content type=ELEMENT-ONLY;
 //          abstract=False; final=False; derivation=extension;
 // Particle: Header, MessageHeaderType (1, 1); ResponseCode, responseCodeType (1, 1); EVSEProcessing, processingType (1, 1); EVSEPositioningSupport, boolean (1, 1); EVRelativeXDeviation, short (1, 1); EVRelativeYDeviation, short (1, 1); ContactWindowXc, short (1, 1); ContactWindowYc, short (1, 1); EVInChargePosition, boolean (1, 1);
-static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_VehiclePositioningResType* ACDP_VehiclePositioningResType, char* xmlOut) {
-    int grammar_id = 84;
+static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_VehiclePositioningResType* ACDP_VehiclePositioningResType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 81;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_ACDP_VehiclePositioningResType(ACDP_VehiclePositioningResType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 84:
-            // Grammar: ID=84; read/write bits=1; START (Header)
+        case 81:
+            // Grammar: ID=81; read/write bits=1; START (Header)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=85
-
+                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=82
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     xmlPos += strlen("<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     // decode: element
-                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_VehiclePositioningResType->Header, xmlOut);
+                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_VehiclePositioningResType->Header, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 85;
+                        grammar_id = 82;
                     }
 
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8496,17 +8514,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                 }
             }
             break;
-        case 85:
-            // Grammar: ID=85; read/write bits=1; START (ResponseCode)
+        case 82:
+            // Grammar: ID=82; read/write bits=1; START (ResponseCode)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (ResponseCode, responseCodeType (string)); next=86
-
+                    // Event: START (ResponseCode, responseCodeType (string)); next=83
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}ResponseCode");
@@ -8522,6 +8540,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                             if (error == 0)
                             {
                                 ACDP_VehiclePositioningResType->ResponseCode = (iso20_acdp_responseCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_responseCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_responseCodeType_reverse(value));
                             }
@@ -8542,7 +8561,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 86;
+                                grammar_id = 83;
                             }
                             else
                             {
@@ -8551,6 +8570,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                         }
                     }
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8563,17 +8583,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                 }
             }
             break;
-        case 86:
-            // Grammar: ID=86; read/write bits=1; START (EVSEProcessing)
+        case 83:
+            // Grammar: ID=83; read/write bits=1; START (EVSEProcessing)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEProcessing, processingType (string)); next=87
-
+                    // Event: START (EVSEProcessing, processingType (string)); next=84
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEProcessing");
@@ -8589,6 +8609,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                             if (error == 0)
                             {
                                 ACDP_VehiclePositioningResType->EVSEProcessing = (iso20_acdp_processingType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_processingType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_processingType_reverse(value));
                             }
@@ -8609,7 +8630,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 87;
+                                grammar_id = 84;
                             }
                             else
                             {
@@ -8618,6 +8639,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                         }
                     }
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8630,17 +8652,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                 }
             }
             break;
-        case 87:
-            // Grammar: ID=87; read/write bits=1; START (EVSEPositioningSupport)
+        case 84:
+            // Grammar: ID=84; read/write bits=1; START (EVSEPositioningSupport)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEPositioningSupport, boolean (boolean)); next=88
-
+                    // Event: START (EVSEPositioningSupport, boolean (boolean)); next=85
+                    if(strlen(xmlOut) + 54 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEPositioningSupport");
@@ -8656,7 +8678,8 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                             if (error == 0)
                             {
                                 ACDP_VehiclePositioningResType->EVSEPositioningSupport = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -8676,7 +8699,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 88;
+                                grammar_id = 85;
                             }
                             else
                             {
@@ -8685,6 +8708,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                         }
                     }
 
+                    if(strlen(xmlOut) + 54 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8697,17 +8721,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                 }
             }
             break;
-        case 88:
-            // Grammar: ID=88; read/write bits=1; START (EVRelativeXDeviation)
+        case 85:
+            // Grammar: ID=85; read/write bits=1; START (EVRelativeXDeviation)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVRelativeXDeviation, short (int)); next=89
-
+                    // Event: START (EVRelativeXDeviation, short (int)); next=86
+                    if(strlen(xmlOut) + 52 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVRelativeXDeviation");
@@ -8717,15 +8741,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                     if (error == 0)
                     {
                         char append[7]; // max length: 5 digits + 1 sign + 1 zero terminator
+                        if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                         sprintf(append, "%d", ACDP_VehiclePositioningResType->EVRelativeXDeviation);
 // TODO the short value 'Value' of physical value type is an attribute according to cbexigen. Uncomment me (in jinja) as soon as it is fixed
 //
                         strcat(xmlOut, ">");
 //
                         strcat(xmlOut, append);
-                        grammar_id = 89;
+                        grammar_id = 86;
                     }
 
+                    if(strlen(xmlOut) + 52 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8738,17 +8764,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                 }
             }
             break;
-        case 89:
-            // Grammar: ID=89; read/write bits=1; START (EVRelativeYDeviation)
+        case 86:
+            // Grammar: ID=86; read/write bits=1; START (EVRelativeYDeviation)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVRelativeYDeviation, short (int)); next=90
-
+                    // Event: START (EVRelativeYDeviation, short (int)); next=87
+                    if(strlen(xmlOut) + 52 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVRelativeYDeviation");
@@ -8758,15 +8784,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                     if (error == 0)
                     {
                         char append[7]; // max length: 5 digits + 1 sign + 1 zero terminator
+                        if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                         sprintf(append, "%d", ACDP_VehiclePositioningResType->EVRelativeYDeviation);
 // TODO the short value 'Value' of physical value type is an attribute according to cbexigen. Uncomment me (in jinja) as soon as it is fixed
 //
                         strcat(xmlOut, ">");
 //
                         strcat(xmlOut, append);
-                        grammar_id = 90;
+                        grammar_id = 87;
                     }
 
+                    if(strlen(xmlOut) + 52 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8779,17 +8807,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                 }
             }
             break;
-        case 90:
-            // Grammar: ID=90; read/write bits=1; START (ContactWindowXc)
+        case 87:
+            // Grammar: ID=87; read/write bits=1; START (ContactWindowXc)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (ContactWindowXc, short (int)); next=91
-
+                    // Event: START (ContactWindowXc, short (int)); next=88
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ContactWindowXc");
@@ -8799,15 +8827,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                     if (error == 0)
                     {
                         char append[7]; // max length: 5 digits + 1 sign + 1 zero terminator
+                        if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                         sprintf(append, "%d", ACDP_VehiclePositioningResType->ContactWindowXc);
 // TODO the short value 'Value' of physical value type is an attribute according to cbexigen. Uncomment me (in jinja) as soon as it is fixed
 //
                         strcat(xmlOut, ">");
 //
                         strcat(xmlOut, append);
-                        grammar_id = 91;
+                        grammar_id = 88;
                     }
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8820,17 +8850,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                 }
             }
             break;
-        case 91:
-            // Grammar: ID=91; read/write bits=1; START (ContactWindowYc)
+        case 88:
+            // Grammar: ID=88; read/write bits=1; START (ContactWindowYc)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (ContactWindowYc, short (int)); next=92
-
+                    // Event: START (ContactWindowYc, short (int)); next=89
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ContactWindowYc");
@@ -8840,15 +8870,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                     if (error == 0)
                     {
                         char append[7]; // max length: 5 digits + 1 sign + 1 zero terminator
+                        if(strlen(xmlOut) + 7 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                         sprintf(append, "%d", ACDP_VehiclePositioningResType->ContactWindowYc);
 // TODO the short value 'Value' of physical value type is an attribute according to cbexigen. Uncomment me (in jinja) as soon as it is fixed
 //
                         strcat(xmlOut, ">");
 //
                         strcat(xmlOut, append);
-                        grammar_id = 92;
+                        grammar_id = 89;
                     }
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8861,17 +8893,17 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                 }
             }
             break;
-        case 92:
-            // Grammar: ID=92; read/write bits=1; START (EVInChargePosition)
+        case 89:
+            // Grammar: ID=89; read/write bits=1; START (EVInChargePosition)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (EVInChargePosition, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 50 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVInChargePosition");
@@ -8887,7 +8919,8 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                             if (error == 0)
                             {
                                 ACDP_VehiclePositioningResType->EVInChargePosition = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -8916,6 +8949,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
                         }
                     }
 
+                    if(strlen(xmlOut) + 50 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -8933,7 +8967,7 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -8964,41 +8998,42 @@ static int decode_iso20_acdp_ACDP_VehiclePositioningResType(exi_bitstream_t* str
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:ACDP}ACDP_ConnectReq; type={urn:iso:std:iso:15118:-20:ACDP}ACDP_ConnectReqType; base type=V2GRequestType; content type=ELEMENT-ONLY;
 //          abstract=False; final=False; derivation=extension;
 // Particle: Header, MessageHeaderType (1, 1); EVElectricalChargingDeviceStatus, electricalChargingDeviceStatusType (1, 1);
-static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_ConnectReqType* ACDP_ConnectReqType, char* xmlOut) {
-    int grammar_id = 93;
+static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_ConnectReqType* ACDP_ConnectReqType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 90;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_ACDP_ConnectReqType(ACDP_ConnectReqType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 93:
-            // Grammar: ID=93; read/write bits=1; START (Header)
+        case 90:
+            // Grammar: ID=90; read/write bits=1; START (Header)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=94
-
+                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=91
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     xmlPos += strlen("<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     // decode: element
-                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_ConnectReqType->Header, xmlOut);
+                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_ConnectReqType->Header, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 94;
+                        grammar_id = 91;
                     }
 
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9011,17 +9046,17 @@ static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct
                 }
             }
             break;
-        case 94:
-            // Grammar: ID=94; read/write bits=1; START (EVElectricalChargingDeviceStatus)
+        case 91:
+            // Grammar: ID=91; read/write bits=1; START (EVElectricalChargingDeviceStatus)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (EVElectricalChargingDeviceStatus, electricalChargingDeviceStatusType (string)); next=2
-
+                    if(strlen(xmlOut) + 64 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVElectricalChargingDeviceStatus");
@@ -9037,6 +9072,7 @@ static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct
                             if (error == 0)
                             {
                                 ACDP_ConnectReqType->EVElectricalChargingDeviceStatus = (iso20_acdp_electricalChargingDeviceStatusType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_electricalChargingDeviceStatusType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_electricalChargingDeviceStatusType_reverse(value));
                             }
@@ -9066,6 +9102,7 @@ static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct
                         }
                     }
 
+                    if(strlen(xmlOut) + 64 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9083,7 +9120,7 @@ static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -9114,41 +9151,42 @@ static int decode_iso20_acdp_ACDP_ConnectReqType(exi_bitstream_t* stream, struct
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:ACDP}ACDP_ConnectRes; type={urn:iso:std:iso:15118:-20:ACDP}ACDP_ConnectResType; base type=V2GResponseType; content type=ELEMENT-ONLY;
 //          abstract=False; final=False; derivation=extension;
 // Particle: Header, MessageHeaderType (1, 1); ResponseCode, responseCodeType (1, 1); EVSEProcessing, processingType (1, 1); EVSEElectricalChargingDeviceStatus, electricalChargingDeviceStatusType (1, 1); EVSEMechanicalChargingDeviceStatus, mechanicalChargingDeviceStatusType (1, 1);
-static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_ConnectResType* ACDP_ConnectResType, char* xmlOut) {
-    int grammar_id = 95;
+static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_ConnectResType* ACDP_ConnectResType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 92;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_ACDP_ConnectResType(ACDP_ConnectResType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 95:
-            // Grammar: ID=95; read/write bits=1; START (Header)
+        case 92:
+            // Grammar: ID=92; read/write bits=1; START (Header)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=96
-
+                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=93
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     xmlPos += strlen("<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     // decode: element
-                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_ConnectResType->Header, xmlOut);
+                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_ConnectResType->Header, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 96;
+                        grammar_id = 93;
                     }
 
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9161,17 +9199,17 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                 }
             }
             break;
-        case 96:
-            // Grammar: ID=96; read/write bits=1; START (ResponseCode)
+        case 93:
+            // Grammar: ID=93; read/write bits=1; START (ResponseCode)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (ResponseCode, responseCodeType (string)); next=97
-
+                    // Event: START (ResponseCode, responseCodeType (string)); next=94
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}ResponseCode");
@@ -9187,6 +9225,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                             if (error == 0)
                             {
                                 ACDP_ConnectResType->ResponseCode = (iso20_acdp_responseCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_responseCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_responseCodeType_reverse(value));
                             }
@@ -9207,7 +9246,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 97;
+                                grammar_id = 94;
                             }
                             else
                             {
@@ -9216,6 +9255,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                         }
                     }
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9228,17 +9268,17 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                 }
             }
             break;
-        case 97:
-            // Grammar: ID=97; read/write bits=1; START (EVSEProcessing)
+        case 94:
+            // Grammar: ID=94; read/write bits=1; START (EVSEProcessing)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEProcessing, processingType (string)); next=98
-
+                    // Event: START (EVSEProcessing, processingType (string)); next=95
+                    if(strlen(xmlOut) + 46 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEProcessing");
@@ -9254,6 +9294,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                             if (error == 0)
                             {
                                 ACDP_ConnectResType->EVSEProcessing = (iso20_acdp_processingType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_processingType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_processingType_reverse(value));
                             }
@@ -9274,7 +9315,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 98;
+                                grammar_id = 95;
                             }
                             else
                             {
@@ -9283,6 +9324,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                         }
                     }
 
+                    if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9295,17 +9337,17 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                 }
             }
             break;
-        case 98:
-            // Grammar: ID=98; read/write bits=1; START (EVSEElectricalChargingDeviceStatus)
+        case 95:
+            // Grammar: ID=95; read/write bits=1; START (EVSEElectricalChargingDeviceStatus)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEElectricalChargingDeviceStatus, electricalChargingDeviceStatusType (string)); next=99
-
+                    // Event: START (EVSEElectricalChargingDeviceStatus, electricalChargingDeviceStatusType (string)); next=96
+                    if(strlen(xmlOut) + 66 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEElectricalChargingDeviceStatus");
@@ -9321,6 +9363,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                             if (error == 0)
                             {
                                 ACDP_ConnectResType->EVSEElectricalChargingDeviceStatus = (iso20_acdp_electricalChargingDeviceStatusType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_electricalChargingDeviceStatusType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_electricalChargingDeviceStatusType_reverse(value));
                             }
@@ -9341,7 +9384,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                         {
                             if (eventCode == 0)
                             {
-                                grammar_id = 99;
+                                grammar_id = 96;
                             }
                             else
                             {
@@ -9350,6 +9393,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                         }
                     }
 
+                    if(strlen(xmlOut) + 66 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9362,17 +9406,17 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                 }
             }
             break;
-        case 99:
-            // Grammar: ID=99; read/write bits=1; START (EVSEMechanicalChargingDeviceStatus)
+        case 96:
+            // Grammar: ID=96; read/write bits=1; START (EVSEMechanicalChargingDeviceStatus)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (EVSEMechanicalChargingDeviceStatus, mechanicalChargingDeviceStatusType (string)); next=2
-
+                    if(strlen(xmlOut) + 66 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEMechanicalChargingDeviceStatus");
@@ -9388,6 +9432,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                             if (error == 0)
                             {
                                 ACDP_ConnectResType->EVSEMechanicalChargingDeviceStatus = (iso20_acdp_mechanicalChargingDeviceStatusType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_mechanicalChargingDeviceStatusType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_mechanicalChargingDeviceStatusType_reverse(value));
                             }
@@ -9417,6 +9462,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
                         }
                     }
 
+                    if(strlen(xmlOut) + 66 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9434,7 +9480,7 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -9465,41 +9511,42 @@ static int decode_iso20_acdp_ACDP_ConnectResType(exi_bitstream_t* stream, struct
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:ACDP}ACDP_SystemStatusReq; type={urn:iso:std:iso:15118:-20:ACDP}ACDP_SystemStatusReqType; base type=V2GRequestType; content type=ELEMENT-ONLY;
 //          abstract=False; final=False; derivation=extension;
 // Particle: Header, MessageHeaderType (1, 1); EVTechnicalStatus, EVTechnicalStatusType (1, 1);
-static int decode_iso20_acdp_ACDP_SystemStatusReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_SystemStatusReqType* ACDP_SystemStatusReqType, char* xmlOut) {
-    int grammar_id = 100;
+static int decode_iso20_acdp_ACDP_SystemStatusReqType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_SystemStatusReqType* ACDP_SystemStatusReqType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 97;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_ACDP_SystemStatusReqType(ACDP_SystemStatusReqType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 100:
-            // Grammar: ID=100; read/write bits=1; START (Header)
+        case 97:
+            // Grammar: ID=97; read/write bits=1; START (Header)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=101
-
+                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=98
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     xmlPos += strlen("<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     // decode: element
-                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_SystemStatusReqType->Header, xmlOut);
+                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_SystemStatusReqType->Header, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 101;
+                        grammar_id = 98;
                     }
 
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9512,29 +9559,30 @@ static int decode_iso20_acdp_ACDP_SystemStatusReqType(exi_bitstream_t* stream, s
                 }
             }
             break;
-        case 101:
-            // Grammar: ID=101; read/write bits=1; START (EVTechnicalStatus)
+        case 98:
+            // Grammar: ID=98; read/write bits=1; START (EVTechnicalStatus)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (EVTechnicalStatus, EVTechnicalStatusType (EVTechnicalStatusType)); next=2
-
+                    if(strlen(xmlOut) + 49 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVTechnicalStatus");
                     xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVTechnicalStatus");
                     // decode: element
-                    error = decode_iso20_acdp_EVTechnicalStatusType(stream, &ACDP_SystemStatusReqType->EVTechnicalStatus, xmlOut);
+                    error = decode_iso20_acdp_EVTechnicalStatusType(stream, &ACDP_SystemStatusReqType->EVTechnicalStatus, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
                         grammar_id = 2;
                     }
 
 
+                    if(strlen(xmlOut) + 49 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9552,7 +9600,7 @@ static int decode_iso20_acdp_ACDP_SystemStatusReqType(exi_bitstream_t* stream, s
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -9583,41 +9631,42 @@ static int decode_iso20_acdp_ACDP_SystemStatusReqType(exi_bitstream_t* stream, s
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:ACDP}ACDP_SystemStatusRes; type={urn:iso:std:iso:15118:-20:ACDP}ACDP_SystemStatusResType; base type=V2GResponseType; content type=ELEMENT-ONLY;
 //          abstract=False; final=False; derivation=extension;
 // Particle: Header, MessageHeaderType (1, 1); ResponseCode, responseCodeType (1, 1); EVSEMechanicalChargingDeviceStatus, mechanicalChargingDeviceStatusType (1, 1); EVSEReadyToCharge, boolean (1, 1); EVSEIsolationStatus, isolationStatusType (1, 1); EVSEDisabled, boolean (1, 1); EVSEUtilityInterruptEvent, boolean (1, 1); EVSEEmergencyShutdown, boolean (1, 1); EVSEMalfunction, boolean (1, 1); EVInChargePosition, boolean (1, 1); EVAssociationStatus, boolean (1, 1);
-static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_SystemStatusResType* ACDP_SystemStatusResType, char* xmlOut) {
-    int grammar_id = 102;
+static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, struct iso20_acdp_ACDP_SystemStatusResType* ACDP_SystemStatusResType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 99;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_ACDP_SystemStatusResType(ACDP_SystemStatusResType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 102:
-            // Grammar: ID=102; read/write bits=1; START (Header)
+        case 99:
+            // Grammar: ID=99; read/write bits=1; START (Header)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=103
-
+                    // Event: START (Header, MessageHeaderType (MessageHeaderType)); next=100
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     xmlPos += strlen("<{urn:iso:std:iso:15118:-20:CommonTypes}Header");
                     // decode: element
-                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_SystemStatusResType->Header, xmlOut);
+                    error = decode_iso20_acdp_MessageHeaderType(stream, &ACDP_SystemStatusResType->Header, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 103;
+                        grammar_id = 100;
                     }
 
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -9630,17 +9679,17 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                 }
             }
             break;
-        case 103:
-            // Grammar: ID=103; read/write bits=1; START (ResponseCode)
+        case 100:
+            // Grammar: ID=100; read/write bits=1; START (ResponseCode)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (ResponseCode, responseCodeType (string)); next=104
-
+                    // Event: START (ResponseCode, responseCodeType (string)); next=101
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}ResponseCode");
@@ -9656,8 +9705,216 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                             if (error == 0)
                             {
                                 ACDP_SystemStatusResType->ResponseCode = (iso20_acdp_responseCodeType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_responseCodeType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
                                 strcat(xmlOut, get_enum_val_iso20_acdp_responseCodeType_reverse(value));
+                            }
+                        }
+                        else
+                        {
+                            // second level event is not supported
+                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
+                        }
+                    }
+
+                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
+                    if (error == 0)
+                    {
+                        // END Element for simple type
+                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                        if (error == 0)
+                        {
+                            if (eventCode == 0)
+                            {
+                                grammar_id = 101;
+                            }
+                            else
+                            {
+                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
+                            }
+                        }
+                    }
+
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    bool isClosed = false;
+                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
+                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:CommonTypes}ResponseCode>");
+                    }
+                    break;
+                default:
+                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
+                    break;
+                }
+            }
+            break;
+        case 101:
+            // Grammar: ID=101; read/write bits=1; START (EVSEMechanicalChargingDeviceStatus)
+            error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+            if (error == 0)
+            {
+                switch (eventCode)
+                {
+                case 0:
+                    {
+                    // Event: START (EVSEMechanicalChargingDeviceStatus, mechanicalChargingDeviceStatusType (string)); next=102
+                    if(strlen(xmlOut) + 66 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    char* xmlPos = &xmlOut[strlen(xmlOut)];
+                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEMechanicalChargingDeviceStatus");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEMechanicalChargingDeviceStatus");
+                    // decode: enum
+                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                    if (error == 0)
+                    {
+                        if (eventCode == 0)
+                        {
+                            uint32_t value;
+                            error = exi_basetypes_decoder_nbit_uint(stream, 2, &value);
+                            if (error == 0)
+                            {
+                                ACDP_SystemStatusResType->EVSEMechanicalChargingDeviceStatus = (iso20_acdp_mechanicalChargingDeviceStatusType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_mechanicalChargingDeviceStatusType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
+                                strcat(xmlOut, get_enum_val_iso20_acdp_mechanicalChargingDeviceStatusType_reverse(value));
+                            }
+                        }
+                        else
+                        {
+                            // second level event is not supported
+                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
+                        }
+                    }
+
+                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
+                    if (error == 0)
+                    {
+                        // END Element for simple type
+                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                        if (error == 0)
+                        {
+                            if (eventCode == 0)
+                            {
+                                grammar_id = 102;
+                            }
+                            else
+                            {
+                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
+                            }
+                        }
+                    }
+
+                    if(strlen(xmlOut) + 66 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    bool isClosed = false;
+                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
+                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEMechanicalChargingDeviceStatus>");
+                    }
+                    break;
+                default:
+                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
+                    break;
+                }
+            }
+            break;
+        case 102:
+            // Grammar: ID=102; read/write bits=1; START (EVSEReadyToCharge)
+            error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+            if (error == 0)
+            {
+                switch (eventCode)
+                {
+                case 0:
+                    {
+                    // Event: START (EVSEReadyToCharge, boolean (boolean)); next=103
+                    if(strlen(xmlOut) + 49 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    char* xmlPos = &xmlOut[strlen(xmlOut)];
+                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEReadyToCharge");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEReadyToCharge");
+                    // decode: boolean
+                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                    if (error == 0)
+                    {
+                        if (eventCode == 0)
+                        {
+                            uint32_t value;
+                            error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
+                            if (error == 0)
+                            {
+                                ACDP_SystemStatusResType->EVSEReadyToCharge = value;
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
+                                strcat(xmlOut, value ? "true" : "false");
+                            }
+                        }
+                        else
+                        {
+                            // second level event is not supported
+                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
+                        }
+                    }
+
+                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
+                    if (error == 0)
+                    {
+                        // END Element for simple type
+                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                        if (error == 0)
+                        {
+                            if (eventCode == 0)
+                            {
+                                grammar_id = 103;
+                            }
+                            else
+                            {
+                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
+                            }
+                        }
+                    }
+
+                    if(strlen(xmlOut) + 49 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    bool isClosed = false;
+                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
+                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEReadyToCharge>");
+                    }
+                    break;
+                default:
+                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
+                    break;
+                }
+            }
+            break;
+        case 103:
+            // Grammar: ID=103; read/write bits=1; START (EVSEIsolationStatus)
+            error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+            if (error == 0)
+            {
+                switch (eventCode)
+                {
+                case 0:
+                    {
+                    // Event: START (EVSEIsolationStatus, isolationStatusType (string)); next=104
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                    char* xmlPos = &xmlOut[strlen(xmlOut)];
+                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEIsolationStatus");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEIsolationStatus");
+                    // decode: enum
+                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
+                    if (error == 0)
+                    {
+                        if (eventCode == 0)
+                        {
+                            uint32_t value;
+                            error = exi_basetypes_decoder_nbit_uint(stream, 2, &value);
+                            if (error == 0)
+                            {
+                                ACDP_SystemStatusResType->EVSEIsolationStatus = (iso20_acdp_isolationStatusType)value;
+                                if(strlen(xmlOut) + strlen(get_enum_val_iso20_acdp_isolationStatusType_reverse(value)) + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
+                                strcat(xmlOut, get_enum_val_iso20_acdp_isolationStatusType_reverse(value));
                             }
                         }
                         else
@@ -9685,10 +9942,11 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                         }
                     }
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:CommonTypes}ResponseCode>");
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEIsolationStatus>");
                     }
                     break;
                 default:
@@ -9698,33 +9956,34 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
             }
             break;
         case 104:
-            // Grammar: ID=104; read/write bits=1; START (EVSEMechanicalChargingDeviceStatus)
+            // Grammar: ID=104; read/write bits=1; START (EVSEDisabled)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEMechanicalChargingDeviceStatus, mechanicalChargingDeviceStatusType (string)); next=105
-
+                    // Event: START (EVSEDisabled, boolean (boolean)); next=105
+                    if(strlen(xmlOut) + 44 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEMechanicalChargingDeviceStatus");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEMechanicalChargingDeviceStatus");
-                    // decode: enum
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEDisabled");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEDisabled");
+                    // decode: boolean
                     error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
                     if (error == 0)
                     {
                         if (eventCode == 0)
                         {
                             uint32_t value;
-                            error = exi_basetypes_decoder_nbit_uint(stream, 2, &value);
+                            error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
                             if (error == 0)
                             {
-                                ACDP_SystemStatusResType->EVSEMechanicalChargingDeviceStatus = (iso20_acdp_mechanicalChargingDeviceStatusType)value;
+                                ACDP_SystemStatusResType->EVSEDisabled = value;
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
-                                strcat(xmlOut, get_enum_val_iso20_acdp_mechanicalChargingDeviceStatusType_reverse(value));
+                                strcat(xmlOut, value ? "true" : "false");
                             }
                         }
                         else
@@ -9752,10 +10011,11 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                         }
                     }
 
+                    if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEMechanicalChargingDeviceStatus>");
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEDisabled>");
                     }
                     break;
                 default:
@@ -9765,20 +10025,20 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
             }
             break;
         case 105:
-            // Grammar: ID=105; read/write bits=1; START (EVSEReadyToCharge)
+            // Grammar: ID=105; read/write bits=1; START (EVSEUtilityInterruptEvent)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEReadyToCharge, boolean (boolean)); next=106
-
+                    // Event: START (EVSEUtilityInterruptEvent, boolean (boolean)); next=106
+                    if(strlen(xmlOut) + 57 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEReadyToCharge");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEReadyToCharge");
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEUtilityInterruptEvent");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEUtilityInterruptEvent");
                     // decode: boolean
                     error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
                     if (error == 0)
@@ -9789,8 +10049,9 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                             error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
                             if (error == 0)
                             {
-                                ACDP_SystemStatusResType->EVSEReadyToCharge = value;
-                                    strcat(xmlOut, ">");
+                                ACDP_SystemStatusResType->EVSEUtilityInterruptEvent = value;
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -9819,10 +10080,11 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                         }
                     }
 
+                    if(strlen(xmlOut) + 57 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEReadyToCharge>");
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEUtilityInterruptEvent>");
                     }
                     break;
                 default:
@@ -9832,33 +10094,34 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
             }
             break;
         case 106:
-            // Grammar: ID=106; read/write bits=1; START (EVSEIsolationStatus)
+            // Grammar: ID=106; read/write bits=1; START (EVSEEmergencyShutdown)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEIsolationStatus, isolationStatusType (string)); next=107
-
+                    // Event: START (EVSEEmergencyShutdown, boolean (boolean)); next=107
+                    if(strlen(xmlOut) + 53 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEIsolationStatus");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEIsolationStatus");
-                    // decode: enum
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEEmergencyShutdown");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEEmergencyShutdown");
+                    // decode: boolean
                     error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
                     if (error == 0)
                     {
                         if (eventCode == 0)
                         {
                             uint32_t value;
-                            error = exi_basetypes_decoder_nbit_uint(stream, 2, &value);
+                            error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
                             if (error == 0)
                             {
-                                ACDP_SystemStatusResType->EVSEIsolationStatus = (iso20_acdp_isolationStatusType)value;
+                                ACDP_SystemStatusResType->EVSEEmergencyShutdown = value;
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                                 strcat(xmlOut, ">");
-                                strcat(xmlOut, get_enum_val_iso20_acdp_isolationStatusType_reverse(value));
+                                strcat(xmlOut, value ? "true" : "false");
                             }
                         }
                         else
@@ -9886,10 +10149,11 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                         }
                     }
 
+                    if(strlen(xmlOut) + 53 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEIsolationStatus>");
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEEmergencyShutdown>");
                     }
                     break;
                 default:
@@ -9899,20 +10163,20 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
             }
             break;
         case 107:
-            // Grammar: ID=107; read/write bits=1; START (EVSEDisabled)
+            // Grammar: ID=107; read/write bits=1; START (EVSEMalfunction)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEDisabled, boolean (boolean)); next=108
-
+                    // Event: START (EVSEMalfunction, boolean (boolean)); next=108
+                    if(strlen(xmlOut) + 47 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEDisabled");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEDisabled");
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEMalfunction");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEMalfunction");
                     // decode: boolean
                     error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
                     if (error == 0)
@@ -9923,8 +10187,9 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                             error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
                             if (error == 0)
                             {
-                                ACDP_SystemStatusResType->EVSEDisabled = value;
-                                    strcat(xmlOut, ">");
+                                ACDP_SystemStatusResType->EVSEMalfunction = value;
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -9953,10 +10218,11 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                         }
                     }
 
+                    if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEDisabled>");
+                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEMalfunction>");
                     }
                     break;
                 default:
@@ -9966,20 +10232,20 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
             }
             break;
         case 108:
-            // Grammar: ID=108; read/write bits=1; START (EVSEUtilityInterruptEvent)
+            // Grammar: ID=108; read/write bits=1; START (EVInChargePosition)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (EVSEUtilityInterruptEvent, boolean (boolean)); next=109
-
+                    // Event: START (EVInChargePosition, boolean (boolean)); next=109
+                    if(strlen(xmlOut) + 50 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEUtilityInterruptEvent");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEUtilityInterruptEvent");
+                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVInChargePosition");
+                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVInChargePosition");
                     // decode: boolean
                     error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
                     if (error == 0)
@@ -9990,8 +10256,9 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                             error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
                             if (error == 0)
                             {
-                                ACDP_SystemStatusResType->EVSEUtilityInterruptEvent = value;
-                                    strcat(xmlOut, ">");
+                                ACDP_SystemStatusResType->EVInChargePosition = value;
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -10020,207 +10287,7 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                         }
                     }
 
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEUtilityInterruptEvent>");
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 109:
-            // Grammar: ID=109; read/write bits=1; START (EVSEEmergencyShutdown)
-            error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (EVSEEmergencyShutdown, boolean (boolean)); next=110
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEEmergencyShutdown");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEEmergencyShutdown");
-                    // decode: boolean
-                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                    if (error == 0)
-                    {
-                        if (eventCode == 0)
-                        {
-                            uint32_t value;
-                            error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
-                            if (error == 0)
-                            {
-                                ACDP_SystemStatusResType->EVSEEmergencyShutdown = value;
-                                    strcat(xmlOut, ">");
-                                strcat(xmlOut, value ? "true" : "false");
-                            }
-                        }
-                        else
-                        {
-                            // second level event is not supported
-                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
-                        }
-                    }
-
-                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
-                    if (error == 0)
-                    {
-                        // END Element for simple type
-                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                        if (error == 0)
-                        {
-                            if (eventCode == 0)
-                            {
-                                grammar_id = 110;
-                            }
-                            else
-                            {
-                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
-                            }
-                        }
-                    }
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEEmergencyShutdown>");
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 110:
-            // Grammar: ID=110; read/write bits=1; START (EVSEMalfunction)
-            error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (EVSEMalfunction, boolean (boolean)); next=111
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVSEMalfunction");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVSEMalfunction");
-                    // decode: boolean
-                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                    if (error == 0)
-                    {
-                        if (eventCode == 0)
-                        {
-                            uint32_t value;
-                            error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
-                            if (error == 0)
-                            {
-                                ACDP_SystemStatusResType->EVSEMalfunction = value;
-                                    strcat(xmlOut, ">");
-                                strcat(xmlOut, value ? "true" : "false");
-                            }
-                        }
-                        else
-                        {
-                            // second level event is not supported
-                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
-                        }
-                    }
-
-                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
-                    if (error == 0)
-                    {
-                        // END Element for simple type
-                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                        if (error == 0)
-                        {
-                            if (eventCode == 0)
-                            {
-                                grammar_id = 111;
-                            }
-                            else
-                            {
-                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
-                            }
-                        }
-                    }
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}EVSEMalfunction>");
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 111:
-            // Grammar: ID=111; read/write bits=1; START (EVInChargePosition)
-            error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (EVInChargePosition, boolean (boolean)); next=112
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVInChargePosition");
-                    xmlPos += strlen("<{urn:iso:std:iso:15118:-20:ACDP}EVInChargePosition");
-                    // decode: boolean
-                    error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                    if (error == 0)
-                    {
-                        if (eventCode == 0)
-                        {
-                            uint32_t value;
-                            error = exi_basetypes_decoder_nbit_uint(stream, 1, &value);
-                            if (error == 0)
-                            {
-                                ACDP_SystemStatusResType->EVInChargePosition = value;
-                                    strcat(xmlOut, ">");
-                                strcat(xmlOut, value ? "true" : "false");
-                            }
-                        }
-                        else
-                        {
-                            // second level event is not supported
-                            error = EXI_ERROR__UNSUPPORTED_SUB_EVENT;
-                        }
-                    }
-
-                    // if nothing went wrong, the error of exi_basetypes_decoder_nbit_uint is evaluated here
-                    if (error == 0)
-                    {
-                        // END Element for simple type
-                        error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
-                        if (error == 0)
-                        {
-                            if (eventCode == 0)
-                            {
-                                grammar_id = 112;
-                            }
-                            else
-                            {
-                                error = EXI_ERROR__DEVIANTS_NOT_SUPPORTED;
-                            }
-                        }
-                    }
-
+                    if(strlen(xmlOut) + 50 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -10233,17 +10300,17 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                 }
             }
             break;
-        case 112:
-            // Grammar: ID=112; read/write bits=1; START (EVAssociationStatus)
+        case 109:
+            // Grammar: ID=109; read/write bits=1; START (EVAssociationStatus)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (EVAssociationStatus, boolean (boolean)); next=2
-
+                    if(strlen(xmlOut) + 51 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}EVAssociationStatus");
@@ -10259,7 +10326,8 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                             if (error == 0)
                             {
                                 ACDP_SystemStatusResType->EVAssociationStatus = value;
-                                    strcat(xmlOut, ">");
+                                if(strlen(xmlOut) + 8 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
+                                strcat(xmlOut, ">");
                                 strcat(xmlOut, value ? "true" : "false");
                             }
                         }
@@ -10288,6 +10356,7 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
                         }
                     }
 
+                    if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -10305,7 +10374,7 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -10335,7 +10404,7 @@ static int decode_iso20_acdp_ACDP_SystemStatusResType(exi_bitstream_t* stream, s
 
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:CommonTypes}CLReqControlMode; type={urn:iso:std:iso:15118:-20:CommonTypes}CLReqControlModeType; base type=; content type=empty;
 //          abstract=False; final=False;
-static int decode_iso20_acdp_CLReqControlModeType(exi_bitstream_t* stream, struct iso20_acdp_CLReqControlModeType* CLReqControlModeType, char* xmlOut) {
+static int decode_iso20_acdp_CLReqControlModeType(exi_bitstream_t* stream, struct iso20_acdp_CLReqControlModeType* CLReqControlModeType, char* xmlOut, size_t xmlOut_size) {
     // Element has no particles, so the function just decodes END Element
     (void)CLReqControlModeType;
     uint32_t eventCode;
@@ -10354,7 +10423,7 @@ static int decode_iso20_acdp_CLReqControlModeType(exi_bitstream_t* stream, struc
 
 // Element: definition=complex; name={urn:iso:std:iso:15118:-20:CommonTypes}CLResControlMode; type={urn:iso:std:iso:15118:-20:CommonTypes}CLResControlModeType; base type=; content type=empty;
 //          abstract=False; final=False;
-static int decode_iso20_acdp_CLResControlModeType(exi_bitstream_t* stream, struct iso20_acdp_CLResControlModeType* CLResControlModeType, char* xmlOut) {
+static int decode_iso20_acdp_CLResControlModeType(exi_bitstream_t* stream, struct iso20_acdp_CLResControlModeType* CLResControlModeType, char* xmlOut, size_t xmlOut_size) {
     // Element has no particles, so the function just decodes END Element
     (void)CLResControlModeType;
     uint32_t eventCode;
@@ -10373,30 +10442,30 @@ static int decode_iso20_acdp_CLResControlModeType(exi_bitstream_t* stream, struc
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}Manifest; type={http://www.w3.org/2000/09/xmldsig#}ManifestType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Id, ID (0, 1); Reference, ReferenceType (1, 4);
-static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_acdp_ManifestType* ManifestType, char* xmlOut) {
-    int grammar_id = 113;
+// Particle: Id, ID (0, 1); Reference, ReferenceType (1, 4) (original max unbounded);
+static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_acdp_ManifestType* ManifestType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 110;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_ManifestType(ManifestType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 113:
-            // Grammar: ID=113; read/write bits=2; START (Id), START (Reference)
+        case 110:
+            // Grammar: ID=110; read/write bits=2; START (Id), START (Reference)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Id, ID (NCName)); next=118
-
+                    // Event: START (Id, ID (NCName)); next=112
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &ManifestType->Id.charactersLen);
@@ -10408,6 +10477,7 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                             ManifestType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, ManifestType->Id.charactersLen, ManifestType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + ManifestType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < ManifestType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(ManifestType->Id.characters[i]))
                                 {
@@ -10424,14 +10494,14 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                         }
                     }
                     ManifestType->Id_isUsed = 1u;
-                    grammar_id = 118;
+                    grammar_id = 112;
 
                     }
                     break;
                 case 1:
                     {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=114
-
+                    // Event: START (Reference, ReferenceType (ReferenceType)); next=111
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
@@ -10440,14 +10510,16 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                     if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
                     {
 
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
+                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut, xmlOut_size);
                     }
                     else
                     {
+                        // static array not large enough, only iso20_acdp_ReferenceType_4_ARRAY_SIZE elements
                         error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
                     }
-                    grammar_id = 114;
+                    grammar_id = 111;
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -10460,17 +10532,17 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                 }
             }
             break;
-        case 114:
-            // Grammar: ID=114; read/write bits=2; START (Reference), END Element
+        case 111:
+            // Grammar: ID=111; read/write bits=2; LOOP (Reference), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=115
-
+                    // Event: LOOP (Reference, ReferenceType (ReferenceType)); next=111
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
@@ -10479,14 +10551,16 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                     if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
                     {
 
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
+                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut, xmlOut_size);
                     }
                     else
                     {
+                        // static array not large enough, only iso20_acdp_ReferenceType_4_ARRAY_SIZE elements
                         error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
                     }
-                    grammar_id = 115;
+                    grammar_id = 111;
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -10506,155 +10580,17 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                 }
             }
             break;
-        case 115:
-            // Grammar: ID=115; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=116
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 116;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 116:
-            // Grammar: ID=116; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=117
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 117;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 117:
-            // Grammar: ID=117; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=2
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 2;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 118:
-            // Grammar: ID=118; read/write bits=1; START (Reference)
+        case 112:
+            // Grammar: ID=112; read/write bits=1; START (Reference)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=119
-
+                    // Event: START (Reference, ReferenceType (ReferenceType)); next=113
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
@@ -10663,14 +10599,16 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                     if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
                     {
 
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
+                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut, xmlOut_size);
                     }
                     else
                     {
+                        // static array not large enough, only iso20_acdp_ReferenceType_4_ARRAY_SIZE elements
                         error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
                     }
-                    grammar_id = 119;
+                    grammar_id = 113;
 
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -10683,17 +10621,17 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                 }
             }
             break;
-        case 119:
-            // Grammar: ID=119; read/write bits=2; START (Reference), END Element
+        case 113:
+            // Grammar: ID=113; read/write bits=2; LOOP (Reference), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=120
-
+                    // Event: LOOP (Reference, ReferenceType (ReferenceType)); next=113
+                    if(strlen(xmlOut) + 45 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
@@ -10702,152 +10640,16 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
                     if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
                     {
 
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
+                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut, xmlOut_size);
                     }
                     else
                     {
+                        // static array not large enough, only iso20_acdp_ReferenceType_4_ARRAY_SIZE elements
                         error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
                     }
-                    grammar_id = 120;
+                    grammar_id = 113;
 
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 120:
-            // Grammar: ID=120; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=121
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 121;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 121:
-            // Grammar: ID=121; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=122
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 122;
-
-                    bool isClosed = false;
-                    while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
-                    if(!isClosed) {strcat(xmlOut, ">");} // empty element
-                    strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                    }
-                    break;
-                case 1:
-                    {
-                    // Event: END Element; next=3
-                    done = 1;
-                    grammar_id = 3;
-                    }
-                    break;
-                default:
-                    error = EXI_ERROR__UNKNOWN_EVENT_CODE;
-                    break;
-                }
-            }
-            break;
-        case 122:
-            // Grammar: ID=122; read/write bits=2; START (Reference), END Element
-            error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
-            if (error == 0)
-            {
-                switch(eventCode)
-                {
-                case 0:
-                    {
-                    // Event: START (Reference, ReferenceType (ReferenceType)); next=2
-
-                    char* xmlPos = &xmlOut[strlen(xmlOut)];
-                    if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
-                    strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}Reference");
-                    // decode: element array
-                    if (ManifestType->Reference.arrayLen < iso20_acdp_ReferenceType_4_ARRAY_SIZE)
-                    {
-
-                        error = decode_iso20_acdp_ReferenceType(stream, &ManifestType->Reference.array[ManifestType->Reference.arrayLen++], xmlOut);
-                    }
-                    else
-                    {
-                        error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
-                    }
-                    grammar_id = 2;
-
+                    if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -10872,7 +10674,7 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -10902,30 +10704,30 @@ static int decode_iso20_acdp_ManifestType(exi_bitstream_t* stream, struct iso20_
 
 // Element: definition=complex; name={http://www.w3.org/2000/09/xmldsig#}SignatureProperties; type={http://www.w3.org/2000/09/xmldsig#}SignaturePropertiesType; base type=; content type=ELEMENT-ONLY;
 //          abstract=False; final=False;
-// Particle: Id, ID (0, 1); SignatureProperty, SignaturePropertyType (1, 1);
-static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, struct iso20_acdp_SignaturePropertiesType* SignaturePropertiesType, char* xmlOut) {
-    int grammar_id = 123;
+// Particle: Id, ID (0, 1); SignatureProperty, SignaturePropertyType (1, 1) (original max unbounded);
+static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, struct iso20_acdp_SignaturePropertiesType* SignaturePropertiesType, char* xmlOut, size_t xmlOut_size) {
+    int grammar_id = 114;
     int done = 0;
     uint32_t eventCode;
     int error;
 
     init_iso20_acdp_SignaturePropertiesType(SignaturePropertiesType);
 
-    while(!done)
+    while (!done)
     {
-        switch(grammar_id)
+        switch (grammar_id)
         {
-        case 123:
-            // Grammar: ID=123; read/write bits=2; START (Id), START (SignatureProperty)
+        case 114:
+            // Grammar: ID=114; read/write bits=2; START (Id), START (SignatureProperty)
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (Id, ID (NCName)); next=125
-
+                    // Event: START (Id, ID (NCName)); next=116
+                    if(strlen(xmlOut) + 2 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     strcat(xmlOut, " Id");
                     // decode: string (len, characters) (Attribute)
                     error = exi_basetypes_decoder_uint_16(stream, &SignaturePropertiesType->Id.charactersLen);
@@ -10937,6 +10739,7 @@ static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, st
                             SignaturePropertiesType->Id.charactersLen -= 2;
                             error = exi_basetypes_decoder_characters(stream, SignaturePropertiesType->Id.charactersLen, SignaturePropertiesType->Id.characters, iso20_acdp_Id_CHARACTER_SIZE);
                             strcat(xmlOut, "=\"");
+                            if(strlen(xmlOut) + SignaturePropertiesType->Id.charactersLen + 1 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                             for(int i = 0; i < SignaturePropertiesType->Id.charactersLen; i++) { // check for unprintable characters
                                 if(!isprint(SignaturePropertiesType->Id.characters[i]))
                                 {
@@ -10953,26 +10756,27 @@ static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, st
                         }
                     }
                     SignaturePropertiesType->Id_isUsed = 1u;
-                    grammar_id = 125;
+                    grammar_id = 116;
 
                     }
                     break;
                 case 1:
                     {
-                    // Event: START (SignatureProperty, SignaturePropertyType (SignaturePropertyType)); next=124
-
+                    // Event: START (SignatureProperty, SignaturePropertyType (SignaturePropertyType)); next=115
+                    if(strlen(xmlOut) + 53 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty");
                     // decode: element
-                    error = decode_iso20_acdp_SignaturePropertyType(stream, &SignaturePropertiesType->SignatureProperty, xmlOut);
+                    error = decode_iso20_acdp_SignaturePropertyType(stream, &SignaturePropertiesType->SignatureProperty, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 124;
+                        grammar_id = 115;
                     }
 
 
+                    if(strlen(xmlOut) + 53 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -10985,29 +10789,26 @@ static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, st
                 }
             }
             break;
-        case 124:
-            // Grammar: ID=124; read/write bits=2; START (SignatureProperty), END Element
+        case 115:
+            // Grammar: ID=115; read/write bits=2; START (SignatureProperty), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (SignatureProperty, SignaturePropertyType (SignaturePropertyType)); next=2
-
+                    if(strlen(xmlOut) + 53 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty");
                     // decode: element
-                    error = decode_iso20_acdp_SignaturePropertyType(stream, &SignaturePropertiesType->SignatureProperty, xmlOut);
-                    if (error == 0)
-                    {
-                        grammar_id = 2;
-                    }
+                    // This element should not occur a further time, its representation was reduced to a single element
+                    error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
 
-
+                    if(strlen(xmlOut) + 53 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -11027,29 +10828,30 @@ static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, st
                 }
             }
             break;
-        case 125:
-            // Grammar: ID=125; read/write bits=1; START (SignatureProperty)
+        case 116:
+            // Grammar: ID=116; read/write bits=1; START (SignatureProperty)
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
-                    // Event: START (SignatureProperty, SignaturePropertyType (SignaturePropertyType)); next=126
-
+                    // Event: START (SignatureProperty, SignaturePropertyType (SignaturePropertyType)); next=117
+                    if(strlen(xmlOut) + 53 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty");
                     // decode: element
-                    error = decode_iso20_acdp_SignaturePropertyType(stream, &SignaturePropertiesType->SignatureProperty, xmlOut);
+                    error = decode_iso20_acdp_SignaturePropertyType(stream, &SignaturePropertiesType->SignatureProperty, xmlOut, xmlOut_size);
                     if (error == 0)
                     {
-                        grammar_id = 126;
+                        grammar_id = 117;
                     }
 
 
+                    if(strlen(xmlOut) + 53 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -11062,29 +10864,26 @@ static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, st
                 }
             }
             break;
-        case 126:
-            // Grammar: ID=126; read/write bits=2; START (SignatureProperty), END Element
+        case 117:
+            // Grammar: ID=117; read/write bits=2; START (SignatureProperty), END Element
             error = exi_basetypes_decoder_nbit_uint(stream, 2, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
                     // Event: START (SignatureProperty, SignaturePropertyType (SignaturePropertyType)); next=2
-
+                    if(strlen(xmlOut) + 53 + 2 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     char* xmlPos = &xmlOut[strlen(xmlOut)];
                     if(*(xmlPos - 1) != '>') { strcat(xmlOut, ">"); xmlPos++; }
                     strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty");
                     xmlPos += strlen("<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty");
                     // decode: element
-                    error = decode_iso20_acdp_SignaturePropertyType(stream, &SignaturePropertiesType->SignatureProperty, xmlOut);
-                    if (error == 0)
-                    {
-                        grammar_id = 2;
-                    }
+                    // This element should not occur a further time, its representation was reduced to a single element
+                    error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS;
 
-
+                    if(strlen(xmlOut) + 53 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
                     bool isClosed = false;
                     while(*xmlPos != '\0' && !isClosed) { if(*xmlPos++ == '>') isClosed = true; }
                     if(!isClosed) {strcat(xmlOut, ">");} // empty element
@@ -11109,7 +10908,7 @@ static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, st
             error = exi_basetypes_decoder_nbit_uint(stream, 1, &eventCode);
             if (error == 0)
             {
-                switch(eventCode)
+                switch (eventCode)
                 {
                 case 0:
                     {
@@ -11139,252 +10938,287 @@ static int decode_iso20_acdp_SignaturePropertiesType(exi_bitstream_t* stream, st
 
 
 // main function for decoding
-int decode_iso20_acdp_exiDocument(exi_bitstream_t* stream, struct iso20_acdp_exiDocument* exiDoc, char* xmlOut) {
+int decode_iso20_acdp_exiDocument(exi_bitstream_t* stream, struct iso20_acdp_exiDocument* exiDoc, char* xmlOut, size_t xmlOut_size) {
     uint32_t eventCode;
     int error = exi_header_read_and_check(stream);
 
     if (error == 0)
     {
         init_iso20_acdp_exiDocument(exiDoc);
+        if(strlen(xmlOut) + 38 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
         strcat(xmlOut, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
         error = exi_basetypes_decoder_nbit_uint(stream, 6, &eventCode);
         if (error == 0)
         {
-            switch(eventCode)
+            switch (eventCode)
             {
             case 0:
                 
+        if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ACDP_ConnectReq>");
-                error = decode_iso20_acdp_ACDP_ConnectReqType(stream, &exiDoc->ACDP_ConnectReq, xmlOut);
+                error = decode_iso20_acdp_ACDP_ConnectReqType(stream, &exiDoc->ACDP_ConnectReq, xmlOut, xmlOut_size);
                 exiDoc->ACDP_ConnectReq_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}ACDP_ConnectReq>");
                 break;
             case 1:
                 
+        if(strlen(xmlOut) + 50 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ACDP_DisconnectReq>");
-                error = decode_iso20_acdp_ACDP_ConnectReqType(stream, &exiDoc->ACDP_DisconnectReq, xmlOut);
+                error = decode_iso20_acdp_ACDP_ConnectReqType(stream, &exiDoc->ACDP_DisconnectReq, xmlOut, xmlOut_size);
                 exiDoc->ACDP_DisconnectReq_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}ACDP_DisconnectReq>");
                 break;
             case 2:
                 
+        if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ACDP_ConnectRes>");
-                error = decode_iso20_acdp_ACDP_ConnectResType(stream, &exiDoc->ACDP_ConnectRes, xmlOut);
+                error = decode_iso20_acdp_ACDP_ConnectResType(stream, &exiDoc->ACDP_ConnectRes, xmlOut, xmlOut_size);
                 exiDoc->ACDP_ConnectRes_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}ACDP_ConnectRes>");
                 break;
             case 3:
                 
+        if(strlen(xmlOut) + 50 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ACDP_DisconnectRes>");
-                error = decode_iso20_acdp_ACDP_ConnectResType(stream, &exiDoc->ACDP_DisconnectRes, xmlOut);
+                error = decode_iso20_acdp_ACDP_ConnectResType(stream, &exiDoc->ACDP_DisconnectRes, xmlOut, xmlOut_size);
                 exiDoc->ACDP_DisconnectRes_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}ACDP_DisconnectRes>");
                 break;
             case 4:
                 
+        if(strlen(xmlOut) + 52 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ACDP_SystemStatusReq>");
-                error = decode_iso20_acdp_ACDP_SystemStatusReqType(stream, &exiDoc->ACDP_SystemStatusReq, xmlOut);
+                error = decode_iso20_acdp_ACDP_SystemStatusReqType(stream, &exiDoc->ACDP_SystemStatusReq, xmlOut, xmlOut_size);
                 exiDoc->ACDP_SystemStatusReq_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}ACDP_SystemStatusReq>");
                 break;
             case 5:
                 
+        if(strlen(xmlOut) + 52 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ACDP_SystemStatusRes>");
-                error = decode_iso20_acdp_ACDP_SystemStatusResType(stream, &exiDoc->ACDP_SystemStatusRes, xmlOut);
+                error = decode_iso20_acdp_ACDP_SystemStatusResType(stream, &exiDoc->ACDP_SystemStatusRes, xmlOut, xmlOut_size);
                 exiDoc->ACDP_SystemStatusRes_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}ACDP_SystemStatusRes>");
                 break;
             case 6:
                 
+        if(strlen(xmlOut) + 58 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ACDP_VehiclePositioningReq>");
-                error = decode_iso20_acdp_ACDP_VehiclePositioningReqType(stream, &exiDoc->ACDP_VehiclePositioningReq, xmlOut);
+                error = decode_iso20_acdp_ACDP_VehiclePositioningReqType(stream, &exiDoc->ACDP_VehiclePositioningReq, xmlOut, xmlOut_size);
                 exiDoc->ACDP_VehiclePositioningReq_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}ACDP_VehiclePositioningReq>");
                 break;
             case 7:
                 
+        if(strlen(xmlOut) + 58 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:ACDP}ACDP_VehiclePositioningRes>");
-                error = decode_iso20_acdp_ACDP_VehiclePositioningResType(stream, &exiDoc->ACDP_VehiclePositioningRes, xmlOut);
+                error = decode_iso20_acdp_ACDP_VehiclePositioningResType(stream, &exiDoc->ACDP_VehiclePositioningRes, xmlOut, xmlOut_size);
                 exiDoc->ACDP_VehiclePositioningRes_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:ACDP}ACDP_VehiclePositioningRes>");
                 break;
             case 8:
                 
+        if(strlen(xmlOut) + 55 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}CLReqControlMode>");
-                error = decode_iso20_acdp_CLReqControlModeType(stream, &exiDoc->CLReqControlMode, xmlOut);
+                error = decode_iso20_acdp_CLReqControlModeType(stream, &exiDoc->CLReqControlMode, xmlOut, xmlOut_size);
                 exiDoc->CLReqControlMode_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:CommonTypes}CLReqControlMode>");
                 break;
             case 9:
                 
+        if(strlen(xmlOut) + 55 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{urn:iso:std:iso:15118:-20:CommonTypes}CLResControlMode>");
-                error = decode_iso20_acdp_CLResControlModeType(stream, &exiDoc->CLResControlMode, xmlOut);
+                error = decode_iso20_acdp_CLResControlModeType(stream, &exiDoc->CLResControlMode, xmlOut, xmlOut_size);
                 exiDoc->CLResControlMode_isUsed = 1u;
                 strcat(xmlOut, "</{urn:iso:std:iso:15118:-20:CommonTypes}CLResControlMode>");
                 break;
             case 10:
                 
+        if(strlen(xmlOut) + 58 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod>");
-                error = decode_iso20_acdp_CanonicalizationMethodType(stream, &exiDoc->CanonicalizationMethod, xmlOut);
+                error = decode_iso20_acdp_CanonicalizationMethodType(stream, &exiDoc->CanonicalizationMethod, xmlOut, xmlOut_size);
                 exiDoc->CanonicalizationMethod_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod>");
                 break;
             case 11:
                 
+        if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DSAKeyValue>");
-                error = decode_iso20_acdp_DSAKeyValueType(stream, &exiDoc->DSAKeyValue, xmlOut);
+                error = decode_iso20_acdp_DSAKeyValueType(stream, &exiDoc->DSAKeyValue, xmlOut, xmlOut_size);
                 exiDoc->DSAKeyValue_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}DSAKeyValue>");
                 break;
             case 12:
                 
+        if(strlen(xmlOut) + 48 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DigestMethod>");
-                error = decode_iso20_acdp_DigestMethodType(stream, &exiDoc->DigestMethod, xmlOut);
+                error = decode_iso20_acdp_DigestMethodType(stream, &exiDoc->DigestMethod, xmlOut, xmlOut_size);
                 exiDoc->DigestMethod_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}DigestMethod>");
                 break;
             case 13:
                 
+        if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}DigestValue>");
                 // simple type! decode_iso20_acdp_DigestValue;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}DigestValue>");
                 break;
             case 14:
                 
+        if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}KeyInfo>");
-                error = decode_iso20_acdp_KeyInfoType(stream, &exiDoc->KeyInfo, xmlOut);
+                error = decode_iso20_acdp_KeyInfoType(stream, &exiDoc->KeyInfo, xmlOut, xmlOut_size);
                 exiDoc->KeyInfo_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}KeyInfo>");
                 break;
             case 15:
                 
+        if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}KeyName>");
                 // simple type! decode_iso20_acdp_KeyName;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}KeyName>");
                 break;
             case 16:
                 
+        if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}KeyValue>");
-                error = decode_iso20_acdp_KeyValueType(stream, &exiDoc->KeyValue, xmlOut);
+                error = decode_iso20_acdp_KeyValueType(stream, &exiDoc->KeyValue, xmlOut, xmlOut_size);
                 exiDoc->KeyValue_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}KeyValue>");
                 break;
             case 17:
                 
+        if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Manifest>");
-                error = decode_iso20_acdp_ManifestType(stream, &exiDoc->Manifest, xmlOut);
+                error = decode_iso20_acdp_ManifestType(stream, &exiDoc->Manifest, xmlOut, xmlOut_size);
                 exiDoc->Manifest_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Manifest>");
                 break;
             case 18:
                 
+        if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}MgmtData>");
                 // simple type! decode_iso20_acdp_MgmtData;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}MgmtData>");
                 break;
             case 19:
                 
+        if(strlen(xmlOut) + 42 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Object>");
-                error = decode_iso20_acdp_ObjectType(stream, &exiDoc->Object, xmlOut);
+                error = decode_iso20_acdp_ObjectType(stream, &exiDoc->Object, xmlOut, xmlOut_size);
                 exiDoc->Object_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Object>");
                 break;
             case 20:
                 
+        if(strlen(xmlOut) + 43 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}PGPData>");
-                error = decode_iso20_acdp_PGPDataType(stream, &exiDoc->PGPData, xmlOut);
+                error = decode_iso20_acdp_PGPDataType(stream, &exiDoc->PGPData, xmlOut, xmlOut_size);
                 exiDoc->PGPData_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}PGPData>");
                 break;
             case 21:
                 
+        if(strlen(xmlOut) + 47 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}RSAKeyValue>");
-                error = decode_iso20_acdp_RSAKeyValueType(stream, &exiDoc->RSAKeyValue, xmlOut);
+                error = decode_iso20_acdp_RSAKeyValueType(stream, &exiDoc->RSAKeyValue, xmlOut, xmlOut_size);
                 exiDoc->RSAKeyValue_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}RSAKeyValue>");
                 break;
             case 22:
                 
+        if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Reference>");
-                error = decode_iso20_acdp_ReferenceType(stream, &exiDoc->Reference, xmlOut);
+                error = decode_iso20_acdp_ReferenceType(stream, &exiDoc->Reference, xmlOut, xmlOut_size);
                 exiDoc->Reference_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Reference>");
                 break;
             case 23:
                 
+        if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}RetrievalMethod>");
-                error = decode_iso20_acdp_RetrievalMethodType(stream, &exiDoc->RetrievalMethod, xmlOut);
+                error = decode_iso20_acdp_RetrievalMethodType(stream, &exiDoc->RetrievalMethod, xmlOut, xmlOut_size);
                 exiDoc->RetrievalMethod_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}RetrievalMethod>");
                 break;
             case 24:
                 
+        if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SPKIData>");
-                error = decode_iso20_acdp_SPKIDataType(stream, &exiDoc->SPKIData, xmlOut);
+                error = decode_iso20_acdp_SPKIDataType(stream, &exiDoc->SPKIData, xmlOut, xmlOut_size);
                 exiDoc->SPKIData_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}SPKIData>");
                 break;
             case 25:
                 
+        if(strlen(xmlOut) + 51 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureMethod>");
-                error = decode_iso20_acdp_SignatureMethodType(stream, &exiDoc->SignatureMethod, xmlOut);
+                error = decode_iso20_acdp_SignatureMethodType(stream, &exiDoc->SignatureMethod, xmlOut, xmlOut_size);
                 exiDoc->SignatureMethod_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}SignatureMethod>");
                 break;
             case 26:
                 
+        if(strlen(xmlOut) + 55 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureProperties>");
-                error = decode_iso20_acdp_SignaturePropertiesType(stream, &exiDoc->SignatureProperties, xmlOut);
+                error = decode_iso20_acdp_SignaturePropertiesType(stream, &exiDoc->SignatureProperties, xmlOut, xmlOut_size);
                 exiDoc->SignatureProperties_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}SignatureProperties>");
                 break;
             case 27:
                 
+        if(strlen(xmlOut) + 53 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureProperty>");
-                error = decode_iso20_acdp_SignaturePropertyType(stream, &exiDoc->SignatureProperty, xmlOut);
+                error = decode_iso20_acdp_SignaturePropertyType(stream, &exiDoc->SignatureProperty, xmlOut, xmlOut_size);
                 exiDoc->SignatureProperty_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}SignatureProperty>");
                 break;
             case 28:
                 
+        if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Signature>");
-                error = decode_iso20_acdp_SignatureType(stream, &exiDoc->Signature, xmlOut);
+                error = decode_iso20_acdp_SignatureType(stream, &exiDoc->Signature, xmlOut, xmlOut_size);
                 exiDoc->Signature_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Signature>");
                 break;
             case 29:
                 
+        if(strlen(xmlOut) + 50 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignatureValue>");
-                error = decode_iso20_acdp_SignatureValueType(stream, &exiDoc->SignatureValue, xmlOut);
+                error = decode_iso20_acdp_SignatureValueType(stream, &exiDoc->SignatureValue, xmlOut, xmlOut_size);
                 exiDoc->SignatureValue_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}SignatureValue>");
                 break;
             case 30:
                 
+        if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}SignedInfo>");
-                error = decode_iso20_acdp_SignedInfoType(stream, &exiDoc->SignedInfo, xmlOut);
+                error = decode_iso20_acdp_SignedInfoType(stream, &exiDoc->SignedInfo, xmlOut, xmlOut_size);
                 exiDoc->SignedInfo_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}SignedInfo>");
                 break;
             case 31:
                 
+        if(strlen(xmlOut) + 45 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transform>");
-                error = decode_iso20_acdp_TransformType(stream, &exiDoc->Transform, xmlOut);
+                error = decode_iso20_acdp_TransformType(stream, &exiDoc->Transform, xmlOut, xmlOut_size);
                 exiDoc->Transform_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Transform>");
                 break;
             case 32:
                 
+        if(strlen(xmlOut) + 46 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}Transforms>");
-                error = decode_iso20_acdp_TransformsType(stream, &exiDoc->Transforms, xmlOut);
+                error = decode_iso20_acdp_TransformsType(stream, &exiDoc->Transforms, xmlOut, xmlOut_size);
                 exiDoc->Transforms_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}Transforms>");
                 break;
             case 33:
                 
+        if(strlen(xmlOut) + 44 + 3 + 1 > xmlOut_size) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; return error; }
                 strcat(xmlOut, "<{http://www.w3.org/2000/09/xmldsig#}X509Data>");
-                error = decode_iso20_acdp_X509DataType(stream, &exiDoc->X509Data, xmlOut);
+                error = decode_iso20_acdp_X509DataType(stream, &exiDoc->X509Data, xmlOut, xmlOut_size);
                 exiDoc->X509Data_isUsed = 1u;
                 strcat(xmlOut, "</{http://www.w3.org/2000/09/xmldsig#}X509Data>");
                 break;
@@ -11408,6 +11242,7 @@ int decode_iso20_acdp_exiDocument(exi_bitstream_t* stream, struct iso20_acdp_exi
     while( (posOfPrefixStart = strcspn(currentXmlPtr, "{")) != strlen(currentXmlPtr) ) {
         currentXmlPtr += posOfPrefixStart + 1;
         prefixSize = strcspn(currentXmlPtr, "}");
+        if(prefixSize > FQN_FULL_LENGTH - 1) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
         
         bool hit = false;
         // check if prefix already in list
@@ -11423,8 +11258,9 @@ int decode_iso20_acdp_exiDocument(exi_bitstream_t* stream, struct iso20_acdp_exi
             prefixList[prefixCount][1] = malloc(sizeof(*prefixList[prefixCount]) * FQN_FULL_LENGTH);
             strncpy(prefixList[prefixCount][1], currentXmlPtr, prefixSize);
             prefixList[prefixCount][1][prefixSize] = 0;
-                sprintf(prefixList[prefixCount][0], "ns%d", prefixCount + 1);
-                    prefixCount ++;
+            sprintf(prefixList[prefixCount][0], "ns%d", prefixCount + 1);
+            prefixCount ++;
+            if (prefixCount >= 10) { error = EXI_ERROR__ARRAY_OUT_OF_BOUNDS; break; }
         }
         currentXmlPtr += prefixSize;
     }
@@ -11477,6 +11313,7 @@ int decode_iso20_acdp_exiDocument(exi_bitstream_t* stream, struct iso20_acdp_exi
         }
     }
     xmlOut[xmlOutLength] = 0;
+    free(xmlDup);
     
     // clean up
     for(int i = 0; i < prefixCount; i++)
@@ -11484,7 +11321,6 @@ int decode_iso20_acdp_exiDocument(exi_bitstream_t* stream, struct iso20_acdp_exi
         free(prefixList[i][0]);
         free(prefixList[i][1]);
     }
-    free(xmlDup);
 
     return error;
 }
