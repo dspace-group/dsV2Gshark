@@ -202,6 +202,11 @@ end
 
 local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo)
     local new_element
+    if xml_table == nil then
+        add_expert_info("Decoded XML could not be parsed!", tree_out, pinfo, ef_warning_generic)
+        return
+    end
+
     if xml_table.value ~= "" then
         -- special handling for certificates
         if xml_table.name == "Certificate" or xml_table.name == "OEMProvisioningCert" then
