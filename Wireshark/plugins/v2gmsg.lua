@@ -57,16 +57,30 @@ local values_to_plot = {
     "EVRESSSOC",
     "EVMaximumVoltageLimit",
     "EVMaximumCurrentLimit",
+    "EVMaximumPowerLimit",
+    "RemainingTimeToFullSoC",
+    "RemainingTimeToBulkSoC",
     "EVSEMaximumVoltageLimit",
     "EVSEMaximumCurrentLimit",
+    "EVSEMaximumPowerLimit",
     -- ISO20
     "EVPresentVoltage",
     "PresentSOC",
+    "EVMaximumChargePower",
+    "EVMinimumChargePower",
+    "EVMaximumChargeCurrent",
+    "EVMinimumChargeCurrent",
     "EVMaximumVoltage",
     "EVMinimumVoltage",
-    "EVMaximumChargeCurrent",
+    "EVSEMaximumChargePower",
+    "EVSEMinimumChargePower",
+    "EVSEMaximumChargeCurrent",
+    "EVSEMinimumChargeCurrent",
     "EVSEMaximumVoltage",
-    "EVSEMaximumChargeCurrent"
+    "EVSEMinimumVoltage",
+    "RemainingTimeToMinimumSOC",
+    "RemainingTimeToTargetSOC",
+    "RemainingTimeToMaximumSOC",
 }
 local f_plot_fields = {} -- maps value name to iograph-field
 for _, value in pairs(values_to_plot) do
