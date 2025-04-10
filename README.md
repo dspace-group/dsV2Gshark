@@ -57,7 +57,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
     - Mac OS currently not supported
 
 ## Installation notes
-- The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest)
+- The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest). The setup is signed by "dSPACE GmbH".
 - To use the plugin without installer, download the zipped files from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest) and copy its content manually into your Wireshark installation or into your personal plugin directory (Windows: %appdata%/wireshark/, Linux: ~/.local/lib/wireshark/). To activate the filter buttons, color filter and I/O Graph in this case, you have to import and activate the dsV2Gshark_profile.zip as Wireshark profile.
 - If Wireshark auto-update is enabled, it is recommended to install the plugin in local install mode without admin privileges.
 - Not compatible with other V2G dissector plugins. Please uninstall these plugins before installing dsV2Gshark.
@@ -83,7 +83,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ## Further notes
 - When sniffing V2G communication, lost packets may occur, which cause corrupted TCP/TLS sessions. In that case, it may help to activate the option to ignore Message Authentication Code (MAC) check failures in the Wireshark TLS protocol settings.  
     This option can be found under Wireshark Preferences - Protocols - TLS
-- This plugin was built with Wireshark 4.4.0 and 4.4.3
+- This plugin was built with Wireshark 4.4.5 and 4.2.6
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 
