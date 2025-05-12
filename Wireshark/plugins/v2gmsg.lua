@@ -44,7 +44,10 @@ local f_xml = ProtoField.string("v2gmsg.xml", "Decoded XML", base.ASCII)
 local f_msg = ProtoField.string("v2gmsg.msgname", "Message", base.ASCII)
 local f_validation = ProtoField.string("v2gmsg.validation", "Message Validation", base.ASCII)
 
-p_v2gmsg.fields = {f_schema, f_exi, f_msg, f_entry, f_xml, f_validation}
+local f_plot_power_target = ProtoField.double("v2gmsg.xml.iograph.CalcPowerTarget", "I/O Graph Value")
+local f_plot_power_present = ProtoField.double("v2gmsg.xml.iograph.CalcPowerPresent", "I/O Graph Value")
+
+p_v2gmsg.fields = {f_schema, f_exi, f_msg, f_entry, f_xml, f_validation, f_plot_power_target, f_plot_power_present}
 
 local values_to_plot = {
     -- common
@@ -72,12 +75,18 @@ local values_to_plot = {
     "EVMinimumChargeCurrent",
     "EVMaximumVoltage",
     "EVMinimumVoltage",
+    "EVPresentActivePower",
+    "EVPresentActivePower_L2",
+    "EVPresentActivePower_L3",
     "EVSEMaximumChargePower",
     "EVSEMinimumChargePower",
     "EVSEMaximumChargeCurrent",
     "EVSEMinimumChargeCurrent",
     "EVSEMaximumVoltage",
     "EVSEMinimumVoltage",
+    "EVSEPresentActivePower",
+    "EVSEPresentActivePower_L2",
+    "EVSEPresentActivePower_L3",
     "RemainingTimeToMinimumSOC",
     "RemainingTimeToTargetSOC",
     "RemainingTimeToMaximumSOC",
@@ -214,6 +223,23 @@ local function add_certificate_subtree(xml_table, cert_element, dissector_field,
     x509_v3_element:add(dissector_field, v3_sk_ID):set_text("Subject Key ID: " .. v3_sk_ID)
 end
 
+local function get_value_of_phyvaltype(msg_element)
+    --- returns value [double], unit [string or nil]
+    if
+        #msg_element.children == 3 and msg_element.children[1].name == "Multiplier" and msg_element.children[2].name == "Unit" and
+            msg_element.children[3].name == "Value"
+    then
+        return tonumber(msg_element.children[3].value) * 10 ^ tonumber(msg_element.children[1].value), msg_element.children[2].value
+    elseif
+        #msg_element.children == 2 and
+            (msg_element.children[1].name == "Exponent" or msg_element.children[1].name == "Multiplier") and
+            msg_element.children[2].name == "Value"
+     then
+        return tonumber(msg_element.children[2].value) * 10 ^ tonumber(msg_element.children[1].value), nil
+    end
+    return nil, nil
+end
+
 local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo)
     local new_element
     if xml_table == nil then
@@ -236,60 +262,47 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
     end
 
     -- physical value type (15118-2/DIN)
-    local calc_value = nil
-    if
-        #xml_table.children == 3 and xml_table.children[1].name == "Multiplier" and xml_table.children[2].name == "Unit" and
-            xml_table.children[3].name == "Value"
-     then
-        -- 15118-2 physical value type
-        calc_value = tonumber(xml_table.children[3].value) * 10 ^ tonumber(xml_table.children[1].value)
-
-        local unit = xml_table.children[2].value
-        if calc_value > 1000 and (unit == "W" or unit == "Wh") then
-            unit = "k" .. unit
-            calc_value = calc_value / 1000
-        end
-
-        if unit == "s" then
-            local h = math.floor(calc_value / 3600)
-            local m = math.floor((calc_value - h * 3600) / 60)
-            local s = calc_value % 60
-            local appendix
-            if
-                pcall(
-                    function()
-                        appendix = string.format(": %02d:%02d:%02d [hh:mm:ss]", h, m, s)
-                    end
-                ) == false
-             then
-                appendix = ": ?"
-                add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
+    local calc_value, unit = get_value_of_phyvaltype(xml_table)
+    if calc_value ~= nil then
+        if unit ~= nil then
+            if calc_value > 1000 and (unit == "W" or unit == "Wh") then
+                unit = "k" .. unit
+                calc_value = calc_value / 1000
             end
-            new_element:append_text(appendix)
+
+            if unit == "s" then
+                local h = math.floor(calc_value / 3600)
+                local m = math.floor((calc_value - h * 3600) / 60)
+                local s = calc_value % 60
+                local appendix
+                if
+                    pcall(
+                        function()
+                            appendix = string.format(": %02d:%02d:%02d [hh:mm:ss]", h, m, s)
+                        end
+                    ) == false
+                then
+                    appendix = ": ?"
+                    add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
+                end
+                new_element:append_text(appendix)
+            else
+                local appendix
+                if
+                    pcall(
+                        function()
+                            appendix = string.format(": %s%s", tostring(calc_value):gsub(",", "."), unit)
+                        end
+                    ) == false
+                then
+                    appendix = ": ?"
+                    add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
+                end
+                new_element:append_text(appendix)
+            end
         else
-            local appendix
-            if
-                pcall(
-                    function()
-                        appendix = string.format(": %s%s", tostring(calc_value):gsub(",", "."), unit)
-                    end
-                ) == false
-             then
-                appendix = ": ?"
-                add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
-            end
-            new_element:append_text(appendix)
+            new_element:append_text(": " .. tostring(calc_value):gsub(",", "."))
         end
-    end
-
-    -- rational number type (15118-20 + DIN without unnit)
-    if
-        #xml_table.children == 2 and
-            (xml_table.children[1].name == "Exponent" or xml_table.children[1].name == "Multiplier") and
-            xml_table.children[2].name == "Value"
-     then
-        calc_value = tonumber(xml_table.children[2].value) * 10 ^ tonumber(xml_table.children[1].value)
-        new_element:append_text(": " .. tostring(calc_value):gsub(",", "."))
     end
 
     -- add I/O Graph fields
@@ -345,6 +358,27 @@ local function parse_XML(xml_string)
     return xml_table.children[1]
 end
 
+local function get_descendant_by_path(parent, path)
+    if parent == nil then
+        return nil
+    end
+    local current = parent
+    for _, name in ipairs(path) do
+        local found = false
+        for _, child in ipairs(current.children) do
+            if child.name == name then
+                current = child
+                found = true
+                break
+            end
+        end
+        if not found then
+            return nil
+        end
+    end
+    return current
+end
+
 local function process_SAP(data, packet_number)
     for sap_type in data:gmatch "<[^:]+:supportedAppProtocol([^ >]+)" do
         -- the SAP-req contains a list of protocols from which one is selected in the SAP-Res by the concrete ID
@@ -386,6 +420,34 @@ local function get_message_name(data)
     end
 
     return message_name
+end
+
+local function add_power_to_subtree(base_element, voltage_tag, current_tag, field, subtree)
+    local voltage_element = get_descendant_by_path(base_element, {voltage_tag})
+    local current_element = get_descendant_by_path(base_element, {current_tag})
+    if voltage_element and current_element then
+        local voltage = select(1, get_value_of_phyvaltype(voltage_element))
+        local current = select(1, get_value_of_phyvaltype(current_element))
+        if voltage and current then
+            subtree:add(field, voltage * current / 1000.0).hidden = true
+        end
+    end
+end
+
+local function extract_additional_data(message_name, parsed_xml, subtree)
+    -- ISO-2/DIN:
+    if message_name == "CurrentDemandReq" or message_name == "PreChargeReq" then
+        local base_element = get_descendant_by_path(parsed_xml, {"Body", message_name})
+        add_power_to_subtree(base_element, "EVTargetVoltage", "EVTargetCurrent", f_plot_power_target, subtree)
+    elseif message_name == "CurrentDemandRes" then
+        local base_element = get_descendant_by_path(parsed_xml, {"Body", message_name})
+        add_power_to_subtree(base_element, "EVSEPresentVoltage", "EVSEPresentCurrent", f_plot_power_present, subtree)
+    -- ISO-20:
+    -- (according to [V2G20-2183], it is not possible to calculate the target power from a DC_ChargeLoopReq)
+    elseif message_name == "DC_ChargeLoopRes" then
+        local base_element = parsed_xml
+        add_power_to_subtree(base_element, "EVSEPresentVoltage", "EVSEPresentCurrent", f_plot_power_present, subtree)
+    end
 end
 
 -- Dissection function
@@ -550,9 +612,6 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                 -- show warning for ISO 15118-20 messages. To be removed as soon as the decoder is finalized
                 iso20_warn_tree.hidden = false
             end
-
-            -- parse the xml data and add it to the tree
-            add_xml_table_to_tree(parse_XML(xml_data), subtree, f_entry, pinfo)
         else
             iso20_warn_tree.hidden = false -- always show the warning on decode errors
             pinfo.cols.protocol = "V2GMSG (Decode Error)"
@@ -564,8 +623,14 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                 pinfo,
                 ef_error_generic
             )
-            add_xml_table_to_tree(parse_XML(xml_data), subtree, f_entry, pinfo)
         end
+
+        -- parse the xml data
+        local parsed_xml = parse_XML(xml_data)
+        if message_name ~= nil then
+            extract_additional_data(message_name, parsed_xml, subtree)
+        end
+        add_xml_table_to_tree(parsed_xml, subtree, f_entry, pinfo)
     end
     return buf:len()
 end
