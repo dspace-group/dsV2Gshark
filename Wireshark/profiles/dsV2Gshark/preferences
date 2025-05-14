@@ -1,5 +1,6 @@
 gui.recent_files_count.max: 25
 gui.window_title: dsV2Gshark
+gui.column.hidden: %Cus:vlan.id:0:R
 gui.column.format: 
 	"No.", "%m",
 	"Time", "%t",
@@ -8,6 +9,7 @@ gui.column.format:
 	"Destination", "%rhd",
 	"Protocol", "%p",
 	"Length", "%L",
+	"VLAN", "%Cus:vlan.id:0:R",
 	"Info", "%i"
 gui.show_file_load_time.enabled: TRUE
 

@@ -6,4 +6,5 @@ column.width:
         %rhd, 175,
         %p, 135,
         %L, 40,
+        "%Cus:vlan.id", 40:C,
         %i, 1300
