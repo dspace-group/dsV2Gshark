@@ -81,10 +81,14 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - We appreciate all contributions, from reporting bugs to implementing new features
 
 ## Further notes
-- When sniffing V2G communication, lost packets may occur, which cause corrupted TCP/TLS sessions. In that case, it may help to activate the option to ignore Message Authentication Code (MAC) check failures in the Wireshark TLS protocol settings.  
-    This option can be found under Wireshark Preferences - Protocols - TLS
 - This plugin was built with Wireshark 4.4.5 and 4.2.6
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
+
+## Troubleshooting
+- When sniffing V2G communication, lost packets may occur, which cause corrupted TCP/TLS sessions. In that case, it may help to activate the option to ignore Message Authentication Code (MAC) check failures in the Wireshark TLS protocol settings.  
+    This option can be found under Wireshark Preferences - Protocols - TLS
+- If the EVSE or EV uses TCP/TLS ports outside the standard range defined by the standards (49152 to 65535), you need to update the port range in the [plugin preferences](#plugin-preferences). Otherwise, the packets cannot be decoded.
+You can find this option in Wireshark Preferences under Protocols > V2GTP.
 
 
 ## Screenshots
@@ -106,3 +110,4 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ![I/O Graph](Images/IO_Graph.png)
 ### HomePlug AV Low-Level Communication Sniffer Dissection
 ![I/O Graph](Images/HPAV_LLC_AC.png)
+
