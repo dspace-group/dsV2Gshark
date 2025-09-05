@@ -15,20 +15,6 @@ local p_v2gtlssecret_info = {
 }
 set_plugin_info(p_v2gtlssecret_info)
 
--- Settings
-p_v2gtlssecret.prefs["infotext"] = Pref.statictext("dSPACE V2Gshark Wireshark Plugin")
-p_v2gtlssecret.prefs["additionalinfo"] = Pref.statictext("powered by chargebyte cbExiGen")
-p_v2gtlssecret.prefs["additionalinfo2"] = Pref.statictext("")
-p_v2gtlssecret.prefs["portrange_tlssecret"] =
-    Pref.range(
-    "TLS secret UDP port(s)",
-    "49152-65535",
-    "UDP source ports of TLS secret disclosure packets.\n\nDefault: '49152-65535'",
-    65535
-)
-p_v2gtlssecret.prefs["additionalinfo3"] = Pref.statictext("")
-p_v2gtlssecret.prefs["versioninfo"] = Pref.statictext("Version " .. v2gcommon.DS_V2GSHARK_VERSION)
-
 local min_wireshark_version = "3.5.0"
 
 local f_cr = ProtoField.string("v2gtlssecret.clientrandom", "NSS Key Log", base.ASCII)
@@ -71,8 +57,7 @@ local function add_expert_info(message, tree, pinfo, expertinfo)
     end
 end
 
--- PDU dissection function
-function p_v2gtlssecret.dissector(buf, pinfo, root)
+local v2gtlssecret_dissector = function(buf, pinfo, root)
     local str = buf:raw()
     local tls_secret_list = {} -- stores secret string [1] and start position in payload [2]
     local info_strings = {}
@@ -197,11 +182,14 @@ function p_v2gtlssecret.dissector(buf, pinfo, root)
         end
     end -- end if 'already_visited'
     return buf:len()
-end -- end function 'p_v2gtlssecret.dissector'
+end
+
+function p_v2gtlssecret.dissector(buf, pinfo, root)
+    return v2gtlssecret_dissector(buf, pinfo, root)
+end
 
 -- initialization routine
 function p_v2gtlssecret.init()
-    -- register tls secret ports
-    DissectorTable.get("udp.port"):add(p_v2gtlssecret.prefs["portrange_tlssecret"], p_v2gtlssecret)
     frame_numbers = {}
 end
+p_hpav_scs:register_heuristic("udp", v2gtlssecret_dissector)

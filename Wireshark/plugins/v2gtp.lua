@@ -18,13 +18,6 @@ set_plugin_info(p_v2gtp_info)
 p_v2gtp.prefs["infotext"] = Pref.statictext("dSPACE V2Gshark Wireshark Plugin")
 p_v2gtp.prefs["additionalinfo"] = Pref.statictext("powered by chargebyte cbExiGen")
 p_v2gtp.prefs["additionalinfo2"] = Pref.statictext("")
-p_v2gtp.prefs["portrange_v2g"] =
-    Pref.range(
-    "V2G message TCP port(s)",
-    "49152-65535",
-    "TCP source ports of V2G request and response messages.\n\nDefault: '49152-65535'",
-    65535
-)
 p_v2gtp.prefs["additionalinfo3"] = Pref.statictext("")
 p_v2gtp.prefs["versioninfo"] = Pref.statictext("Version " .. v2gcommon.DS_V2GSHARK_VERSION)
 
@@ -172,8 +165,8 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
     end
 end
 
--- main dissection function
-function p_v2gtp.dissector(buf, pinfo, root)
+
+local v2gtp_dissector = function(buf, pinfo, root)
     -- plausibility checks
     if buf:len() < V2GTP_HDR_LENGTH then return 0 end
     if tostring(buf(0, 2)) ~= "01fe" then return 0 end
@@ -187,12 +180,13 @@ function p_v2gtp.dissector(buf, pinfo, root)
     end
 end
 
+function p_v2gtp.dissector(buf, pinfo, root)
+    return v2gtp_dissector(buf, pinfo, root)
+end
+
 -- initialization routine
 function p_v2gtp.init()
-    -- register v2g ports
-    DissectorTable.get("udp.port"):add(15118, p_v2gtp)
-    DissectorTable.get("tcp.port"):add(15118, p_v2gtp)
-    DissectorTable.get("tls.port"):add(15118, p_v2gtp)
-    DissectorTable.get("tls.port"):add(p_v2gtp.prefs["portrange_v2g"], p_v2gtp)
-    DissectorTable.get("tcp.port"):add(p_v2gtp.prefs["portrange_v2g"], p_v2gtp)
+    DissectorTable.get("udp.port"):add(15118, p_v2gtp) -- register for SDP
 end
+-- register outside init() as heuristic dissector to handle missing SDP messages
+p_hpav_scs:register_heuristic("tcp", v2gtp_dissector)
