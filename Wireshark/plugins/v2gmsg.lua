@@ -291,7 +291,7 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
                 if
                     pcall(
                         function()
-                            appendix = string.format(": %s%s", tostring(calc_value):gsub(",", "."), unit)
+                            appendix = string.format(": %s %s", tostring(calc_value):gsub(",", "."), unit)
                         end
                     ) == false
                 then
