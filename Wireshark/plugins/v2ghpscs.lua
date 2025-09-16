@@ -131,6 +131,9 @@ end
 
 local function is_spidcom_cp_packet(buf)
     -- packet format by SPIDCOM Technologies SA
+    if buf:len() < 8 then
+        return false
+    end
     local mac_mme_type = buf(1, 2):le_uint()
     local mme_vendor = buf(5, 3):uint()
     return mme_vendor == 0x0013D7 and mac_mme_type == 0xA10E
@@ -138,6 +141,9 @@ end
 
 local function is_iotecha_cp_packet(buf)
     -- packet format by ST/IoTecha
+    if buf:len() < 8 then
+        return false
+    end
     local mac_mme_type = buf(1, 2):le_uint()
     local mme_vendor = buf(5, 3):uint()
     return mme_vendor == 0x0080E1 and mac_mme_type == 0xA22E
@@ -145,6 +151,9 @@ end
 
 local function is_qualcomm_atten_char(buf)
     -- Qualcomm VS_ATTENUATION_CHARACTERISTICS
+    if buf:len() < 6 then
+        return false
+    end
     local mac_mme_type = buf(1, 2):le_uint()
     local mme_vendor = buf(3, 3):uint() -- note: hpav v1.0 does not have fragment infos
     return (mme_vendor == 0x00B052 or mme_vendor == 0x000000) and mac_mme_type == 0xA14E
@@ -152,6 +161,9 @@ end
 
 local function is_dSPACE_scs_diag_packet(buf)
     -- dSPACE SCS Diag packet
+    if buf:len() < 8 then
+        return false
+    end
     local mac_mme_type = buf(1, 2):le_uint()
     local mme_vendor = buf(5, 3):uint()
     return mme_vendor == 0x644D70 and mac_mme_type == 0x8002
