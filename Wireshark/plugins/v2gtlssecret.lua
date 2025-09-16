@@ -7,6 +7,19 @@
 --
 local v2gcommon = require("v2gcommon")
 
+local MSG_SIZE_MIN = 175
+local MSG_SIZE_MAX = 1800
+
+local SECRET_LABELS = {
+    CLIENT_RANDOM                     = "master secret",
+    CLIENT_HANDSHAKE_TRAFFIC_SECRET   = "client handshake traffic secret",
+    SERVER_HANDSHAKE_TRAFFIC_SECRET   = "server handshake traffic secret",
+    EXPORTER_SECRET                   = "exporter secret",
+    CLIENT_TRAFFIC_SECRET_            = "client traffic secret",
+    SERVER_TRAFFIC_SECRET_            = "server traffic secret",
+}
+
+
 p_v2gtlssecret = Proto("v2gtlssecret", "V2G TLS secret")
 local p_v2gtlssecret_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
@@ -58,6 +71,10 @@ local function add_expert_info(message, tree, pinfo, expertinfo)
 end
 
 local v2gtlssecret_dissector = function(buf, pinfo, root)
+    if buf:len() < MSG_SIZE_MIN or buf:len() > MSG_SIZE_MAX then
+        return 0
+    end
+
     local str = buf:raw()
     local tls_secret_list = {} -- stores secret string [1] and start position in payload [2]
     local info_strings = {}
@@ -68,21 +85,11 @@ local v2gtlssecret_dissector = function(buf, pinfo, root)
         local match = line:match "^([%u_]+)%d* %x+ %x+$"
         if match == nil then
             return 0
-        elseif match == "CLIENT_RANDOM" then
-            table.insert(info_strings, "master secret")
-        elseif match == "CLIENT_HANDSHAKE_TRAFFIC_SECRET" then
-            table.insert(info_strings, "client handshake traffic secret")
-        elseif match == "SERVER_HANDSHAKE_TRAFFIC_SECRET" then
-            table.insert(info_strings, "server handshake traffic secret")
-        elseif match == "EXPORTER_SECRET" then
-            table.insert(info_strings, "exporter secret")
-        elseif match == "CLIENT_TRAFFIC_SECRET_" then
-            table.insert(info_strings, "client traffic secret")
-        elseif match == "SERVER_TRAFFIC_SECRET_" then
-            table.insert(info_strings, "server traffic secret")
         end
-        -- one last plausibility check
-        if line:len() > 100 and line:len() < 300 then
+
+        local label = SECRET_LABELS[match]
+        if label and line:len() > 100 and line:len() < 300 then
+            table.insert(info_strings, label)
             table.insert(tls_secret_list, {line, startpos})
         end
     end
