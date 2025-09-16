@@ -102,8 +102,6 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 ![ISO 15118-2 Live TLS](Images/WS_ISO15118_2_LiveTLS.png)
 ### Filter Buttons
 ![Filter Buttons](Images/WS_FilterButtons.png)
-### Plugin Preferences
-![Plugin Preferences](Images/WS_Preferences.png)
 ### Wireshark I/O Graph
 ![I/O Graph](Images/IO_Graph.png)
 ### HomePlug AV Low-Level Communication Sniffer Dissection
