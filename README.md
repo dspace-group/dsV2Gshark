@@ -54,7 +54,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - Operating Sytems:
     - Windows 7 or higher
     - Linux x64 (see [Limitations](#limitations))
-    - Mac OS currently not supported
+    - macOS (tested on Apple Silicon and macOS Sequoia 15.6)
 
 ## Installation notes
 - The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest). The setup is signed by "dSPACE GmbH".
@@ -66,6 +66,16 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - Installation size is about 13 MB
 - Supports normal and portable version of Wireshark
 - Optionally, a Wireshark Profile will be added which handles the filter buttons, color filters and I/O Graph. This profile is automatically activated after installation. You can change the current profile in the bottom right corner (shortcut: Ctrl + Shift + A).
+
+### macOS
+
+You need to have gnutls installed via brew for the plugin to compile:
+
+```brew install gnutls```
+
+Build the v2g library by running `V2G_Libraries/build_macos.sh`, then copy:
+- `V2G_Libraries/v2gLib/bin/v2gLib.so` to `~/.local/lib/wireshark`
+- `Wireshark/plugins/*` to `~/.local/lib/wireshark/plugins`
 
 
 ## Limitations
