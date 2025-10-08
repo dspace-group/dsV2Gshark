@@ -45,7 +45,7 @@ for /f "delims=" %%F in ('dir /b /a-d "%dir%\lua*.dll" 2^>nul') do (
         set LFLAGS_LUA=-llua!cleanversion!
     )
 
-    make -C v2gLib clean-obj all
+    make clean-obj all
 
     if %ERRORLEVEL% NEQ 0 (
         echo failed to build v2gLib for !cleanversion!!

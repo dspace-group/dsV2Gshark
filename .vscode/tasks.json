@@ -3,7 +3,10 @@
     "tasks": [
         {
             "label": "Build All",
-            "dependsOn": ["Build v2gLib (single)", "Build Installer"],
+            "dependsOn": [
+                "Build v2gLib (single)",
+                "Build Installer"
+            ],
             "dependsOrder": "sequence"
         },
         {
@@ -24,7 +27,7 @@
             "command": "./build_for_ws.bat \"C:\\Program Files\\Wireshark\"",
             "problemMatcher": [],
             "options": {
-                "cwd": "V2G_Libraries",
+                "cwd": "V2G_Libraries/v2gLib",
                 "kind": "build",
             },
         },
@@ -56,7 +59,7 @@
             "command": "wsl sh ./build_all_linux.sh",
             "problemMatcher": [],
             "options": {
-                "cwd": "V2G_Libraries",
+                "cwd": "V2G_Libraries/v2gLib",
                 "kind": "build",
             },
         },
@@ -65,7 +68,9 @@
             "detail": "",
             "type": "shell",
             "command": "make",
-            "args": ["clean"],
+            "args": [
+                "clean"
+            ],
             "options": {
                 "cwd": "V2G_Libraries/v2gLib",
             },
