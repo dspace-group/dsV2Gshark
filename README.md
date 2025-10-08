@@ -73,7 +73,7 @@ You need to have gnutls installed via brew for the plugin to compile:
 
 ```brew install gnutls```
 
-Build the v2g library by running `V2G_Libraries/build_macos.sh`, then copy:
+Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then copy:
 - `V2G_Libraries/v2gLib/bin/v2gLib.so` to `~/.local/lib/wireshark`
 - `Wireshark/plugins/*` to `~/.local/lib/wireshark/plugins`
 

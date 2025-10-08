@@ -17,7 +17,7 @@ jobs:
 
     - name: Build v2gLibs for Wireshark 4.2.6
       shell: cmd 
-      working-directory: ./V2G_Libraries
+      working-directory: ./V2G_Libraries/v2gLib
       run: |
         build_for_ws.bat "C:\Program Files\Wireshark"
 
@@ -28,7 +28,7 @@ jobs:
 
     - name: Build v2gLibs for Wireshark latest
       shell: cmd 
-      working-directory: ./V2G_Libraries
+      working-directory: ./V2G_Libraries/v2gLib
       run: |
         build_for_ws.bat "C:\Program Files\Wireshark"
 
@@ -68,7 +68,7 @@ jobs:
       run: |
         chmod +x ./build_all_linux.sh
         ./build_all_linux.sh
-      working-directory: ./V2G_Libraries/
+      working-directory: ./V2G_Libraries/v2gLib/
 
     - name: Prepare Artifact Directory
       run: |
