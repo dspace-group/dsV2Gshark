@@ -13,7 +13,7 @@ jobs:
 
     - name: Install Wireshark 4.2.6
       run: |
-        choco install wireshark --version=4.2.6 -y
+        choco install wireshark --version=4.2.6 -y --no-progress
 
     - name: Build v2gLibs for Wireshark 4.2.6
       shell: cmd 
@@ -24,13 +24,17 @@ jobs:
     - name: Install Wireshark latest
       run: |
         choco uninstall wireshark -y
-        choco install wireshark -y
+        choco install wireshark -y --no-progress
 
     - name: Build v2gLibs for Wireshark latest
       shell: cmd 
       working-directory: ./V2G_Libraries/v2gLib
       run: |
         build_for_ws.bat "C:\Program Files\Wireshark"
+
+    - name: Build battery-data-exchange
+      run: cargo xtask ci
+      working-directory: ./V2G_Libraries/battery-data-exchange/
 
     - name: Build Installer
       run: Build_Installer.bat
@@ -69,6 +73,10 @@ jobs:
         chmod +x ./build_all_linux.sh
         ./build_all_linux.sh
       working-directory: ./V2G_Libraries/v2gLib/
+
+    - name: Build battery-data-exchange
+      run: cargo xtask ci
+      working-directory: ./V2G_Libraries/battery-data-exchange/
 
     - name: Prepare Artifact Directory
       run: |
