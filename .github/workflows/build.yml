@@ -32,6 +32,10 @@ jobs:
       run: |
         build_for_ws.bat "C:\Program Files\Wireshark"
 
+    - name: Build battery-data-exchange
+      run: cargo xtask ci
+      working-directory: ./V2G_Libraries/battery-data-exchange/
+
     - name: Build Installer
       run: Build_Installer.bat
       shell: cmd 
@@ -69,6 +73,10 @@ jobs:
         chmod +x ./build_all_linux.sh
         ./build_all_linux.sh
       working-directory: ./V2G_Libraries/v2gLib/
+
+    - name: Build battery-data-exchange
+      run: cargo xtask ci
+      working-directory: ./V2G_Libraries/battery-data-exchange/
 
     - name: Prepare Artifact Directory
       run: |
