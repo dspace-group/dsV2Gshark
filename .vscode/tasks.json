@@ -64,6 +64,17 @@
             },
         },
         {
+            "label": "Build battery-data-exchange",
+            "detail": "",
+            "type": "shell",
+            "command": "cargo xtask ci",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "V2G_Libraries/battery-data-exchange",
+                "kind": "build",
+            },
+        },
+        {
             "label": "Clean v2gLib",
             "detail": "",
             "type": "shell",
