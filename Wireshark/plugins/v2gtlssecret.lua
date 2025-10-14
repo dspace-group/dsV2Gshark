@@ -33,10 +33,10 @@ local min_wireshark_version = "3.5.0"
 local f_cr = ProtoField.string("v2gtlssecret.clientrandom", "NSS Key Log", base.ASCII)
 
 local ef_io_error =
-    ProtoExpert.new("tls_secret", "Failed to open keylog-file!", expert.group.DECRYPTION, expert.severity.WARN)
+    ProtoExpert.new("tls_secret.io_error", "Failed to open keylog-file!", expert.group.DECRYPTION, expert.severity.WARN)
 local ef_bad_version =
     ProtoExpert.new(
-    "tls_secret",
+    "tls_secret.bad_version",
     "To use the TLS disclosure message to decrypt the application data Wireshark/Tshark version " ..
         tostring(min_wireshark_version) .. " or higher is required.",
     expert.group.DECRYPTION,
