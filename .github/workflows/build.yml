@@ -13,7 +13,7 @@ jobs:
 
     - name: Install Wireshark 4.2.6
       run: |
-        choco install wireshark --version=4.2.6 -y
+        choco install wireshark --version=4.2.6 -y --no-progress
 
     - name: Build v2gLibs for Wireshark 4.2.6
       shell: cmd 
@@ -24,7 +24,7 @@ jobs:
     - name: Install Wireshark latest
       run: |
         choco uninstall wireshark -y
-        choco install wireshark -y
+        choco install wireshark -y --no-progress
 
     - name: Build v2gLibs for Wireshark latest
       shell: cmd 
