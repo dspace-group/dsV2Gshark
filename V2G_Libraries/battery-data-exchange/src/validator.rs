@@ -84,7 +84,7 @@ pub fn validate(fields: &[Field]) -> Vec<Diagnostic> {
             "Frame matches Case 2 (Periodic) or Case 3".to_string(),
         )),
         _ => diags.push(Diagnostic::FrameCompositionError(format!(
-            "Frame does not match any allowed CASE composition per §3.3. Groups are {groups:?}",
+            "Frame does not match any allowed CASE composition per §3.3. Group(s) are {groups:?}",
         ))),
     }
 

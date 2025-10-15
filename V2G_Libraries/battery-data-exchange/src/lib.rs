@@ -46,7 +46,7 @@ mod tests {
             Field {
                 tag: Tag::Known(KnownTag::Timestamp),
                 value: Value::U32(1752489450),
-                unit: Some("utc_s"),
+                unit: Some("s"),
                 range: 0..6,
                 diagnostics: vec![]
             }

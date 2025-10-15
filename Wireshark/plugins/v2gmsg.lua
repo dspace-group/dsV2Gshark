@@ -152,14 +152,6 @@ local function decode_v2g_message(schema, exi_string, packet_number)
     return xml_out
 end
 
-local function add_expert_info(message, tree, pinfo, expertinfo)
-    tree:add_proto_expert_info(expertinfo, message)
-    local oldInfo = tostring(pinfo.cols.info)
-    if oldInfo:sub(0, 3) ~= "[!]" then
-        pinfo.cols.info = "[!] " .. oldInfo
-    end
-end
-
 local function add_certificate_subtree(xml_table, cert_element, dissector_field, pinfo)
     
     if string.len(xml_table.value) > 150 then -- cut too long strings
@@ -190,7 +182,7 @@ local function add_certificate_subtree(xml_table, cert_element, dissector_field,
         local cert_err_tree = cert_element:add(dissector_field, math.floor(result_code))
         local err_description = v2g_lib.getGnuTLSErrorDescr(math.floor(result_code))
         cert_err_tree:set_text("GnuTLS error code: " .. math.floor(result_code) .. " (" .. err_description .. ")")
-        add_expert_info("A GnuTLS error (" .. math.floor(result_code) .. ") was encountered while trying to process this certificate.", cert_err_tree, pinfo, ef_warning_generic)
+        v2gcommon.add_expert_info("A GnuTLS error (" .. math.floor(result_code) .. ") was encountered while trying to process this certificate.", cert_err_tree, pinfo, ef_warning_generic)
     end
     cert_element:add(dissector_field, subj):set_text("Subject: " .. subj)
     cert_element:add(dissector_field, issuer):set_text("Issuer: " .. issuer)
@@ -243,7 +235,7 @@ end
 local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo)
     local new_element
     if xml_table == nil then
-        add_expert_info("Decoded XML could not be parsed!", tree_out, pinfo, ef_warning_generic)
+        v2gcommon.add_expert_info("Decoded XML could not be parsed!", tree_out, pinfo, ef_warning_generic)
         return
     end
 
@@ -283,7 +275,7 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
                     ) == false
                 then
                     appendix = ": ?"
-                    add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
+                    v2gcommon.add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
                 end
                 new_element:append_text(appendix)
             else
@@ -296,7 +288,7 @@ local function add_xml_table_to_tree(xml_table, tree_out, dissector_field, pinfo
                     ) == false
                 then
                     appendix = ": ?"
-                    add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
+                    v2gcommon.add_expert_info("INVALID FORMAT", new_element, pinfo, ef_warning_generic)
                 end
                 new_element:append_text(appendix)
             end
@@ -450,6 +442,24 @@ local function extract_additional_data(message_name, parsed_xml, subtree)
     end
 end
 
+local function process_service_detail_res(parsed_xml)
+    local dissector_battery_data = Dissector.get("v2gvasbatterydata")
+    if dissector_battery_data == nil then
+        return
+    end
+    local service_id = get_descendant_by_path(parsed_xml, {"Body", "ServiceDetailRes", "ServiceID"}).value
+    if service_id == "61000" then  -- Battery Data Exchange Protocol
+        local paramset = get_descendant_by_path(parsed_xml, {"Body", "ServiceDetailRes", "ServiceParameterList", "ParameterSet"})
+        for _, param_entry in ipairs(paramset.children) do
+            if string.find(param_entry.attributes, "Port") then
+                local port = param_entry.children[1].value
+                DissectorTable.get("tcp.port"):add(port, dissector_battery_data)
+                return
+            end
+        end
+    end
+end
+
 -- Dissection function
 function p_v2gmsg.dissector(buf, pinfo, root)
     if not v2g_lib then
@@ -467,7 +477,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
     local iso20_warn_tree = subtree:add(f_entry, ""):set_text("WARNING: Preliminary ISO 15118-20 support!")
     iso20_warn_tree.hidden = true -- only shown in ISO 15118-20 messages
 
-    local metadata_tree = subtree:add(f_entry, ""):set_text("Metadata")
+    local metadata_tree = subtree:add(f_entry, ""):set_text("[Metadata]")
 
     local buf_as_hex = buf:bytes():tohex() -- exi as hex string
     metadata_tree:add(f_exi, buf_as_hex)
@@ -494,7 +504,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
         if xml_data == nil then
             -- decoding failed
             pinfo.cols.info = "V2GMSG - Decoding failed"
-            add_expert_info(
+            v2gcommon.add_expert_info(
                 "Decoding failed! Is the schema and payload-type correct?",
                 subtree,
                 pinfo,
@@ -527,7 +537,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
                     end
                 end
                 if validation_buffer[pinfo.number] ~= nil then
-                    add_expert_info(
+                    v2gcommon.add_expert_info(
                         "This message is invalid: " .. validation_buffer[pinfo.number]:sub(1, -2),
                         subtree,
                         pinfo,
@@ -545,7 +555,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
         if xml_data == nil then
             -- decoding failed
             pinfo.cols.info = "V2GMSG - Decoding failed"
-            add_expert_info(
+            v2gcommon.add_expert_info(
                 "Decoding failed! Is the schema and payload-type correct?",
                 subtree,
                 pinfo,
@@ -576,7 +586,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
         if decoded_schema ~= nil then
             -- check decode error
             if decoded_error_code[pinfo.number] ~= 0 then
-                add_expert_info(
+                v2gcommon.add_expert_info(
                     "Decoding failed (" ..
                         decoded_error_code[pinfo.number] .. ")! The decoded message is partially or completely invalid!",
                     subtree,
@@ -589,7 +599,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
             if validation_buffer[pinfo.number] ~= nil then
                 validation_tree =
                     metadata_tree:add(f_validation, "Failed! " .. validation_buffer[pinfo.number]:sub(1, -2))
-                add_expert_info(
+                v2gcommon.add_expert_info(
                     "This message is invalid: " .. validation_buffer[pinfo.number]:sub(1, -2),
                     validation_tree,
                     pinfo,
@@ -617,7 +627,7 @@ function p_v2gmsg.dissector(buf, pinfo, root)
             pinfo.cols.protocol = "V2GMSG (Decode Error)"
             metadata_tree:add(f_schema, "Decode Error")
             metadata_tree:add(f_validation, "Skipped (Decode Error)")
-            add_expert_info(
+            v2gcommon.add_expert_info(
                 "Decoding failed! The decoded message is partially or completely invalid!",
                 subtree,
                 pinfo,
@@ -629,6 +639,9 @@ function p_v2gmsg.dissector(buf, pinfo, root)
         local parsed_xml = parse_XML(xml_data)
         if message_name ~= nil then
             extract_additional_data(message_name, parsed_xml, subtree)
+            if message_name == "ServiceDetailRes" then
+                process_service_detail_res(parsed_xml)
+            end
         end
         add_xml_table_to_tree(parsed_xml, subtree, f_entry, pinfo)
     end
