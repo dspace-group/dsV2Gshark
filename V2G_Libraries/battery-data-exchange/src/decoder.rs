@@ -20,7 +20,7 @@ pub fn decode_raw_field(raw: &RawField) -> Field {
         }
         Tag::Known(kt) => match kt {
             // --- Group A (select one) ---
-            KnownTag::Timestamp => (decode_u32(raw.value, &mut diagnostics), Some("utc_s")),
+            KnownTag::Timestamp => (decode_u32(raw.value, &mut diagnostics), Some("s")),
             KnownTag::SessionDuration => (decode_u32(raw.value, &mut diagnostics), Some("s")),
             KnownTag::Counter => (decode_u16(raw.value, &mut diagnostics), None),
             // // --- Group B (select one) ---
@@ -220,7 +220,7 @@ mod tests {
     fn timestamp_ok() {
         let f = decode_raw_field(&rf(KnownTag::Timestamp as u8, &[0x00, 0x00, 0x00, 0x2A]));
         assert_eq!(f.tag, Tag::Known(KnownTag::Timestamp));
-        assert_eq!(f.unit, Some("utc_s"));
+        assert_eq!(f.unit, Some("s"));
         assert_eq!(f.value, Value::U32(42));
         assert!(f.diagnostics.is_empty());
     }
@@ -228,7 +228,7 @@ mod tests {
     fn timestamp_bad_len() {
         let f = decode_raw_field(&rf(KnownTag::Timestamp as u8, &[0x00, 0x00, 0x2A])); // 3 bytes
         assert_eq!(f.tag, Tag::Known(KnownTag::Timestamp));
-        assert_eq!(f.unit, Some("utc_s"));
+        assert_eq!(f.unit, Some("s"));
         assert_eq!(f.value, Value::Raw(vec![0x00, 0x00, 0x2A]));
         assert_eq!(f.diagnostics[0], Diagnostic::UnexpectedLength(3));
     }

@@ -80,6 +80,14 @@ function v2gcommon.check_version(required_version)
     end
 end
 
+function v2gcommon.add_expert_info(message, tree, pinfo, expertinfo)
+    tree:add_proto_expert_info(expertinfo, message)
+    local oldInfo = tostring(pinfo.cols.info)
+    if oldInfo:sub(1, 3) ~= "[!]" then
+        pinfo.cols.info = "[!] " .. oldInfo
+    end
+end
+
 v2gcommon.DS_V2GSHARK_VERSION = "1.5.1" -- DO NOT CHANGE
 
 -- extend path (where to load .lua files)

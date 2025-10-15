@@ -163,7 +163,7 @@ impl Field {
             }
         }
         fn fmt_float(f: f32) -> String {
-            format!("{f:.3}")
+            format!("{f:.2}")
         }
         fn fmt_float_array(values: &[f32], unit: Option<&'static str>) -> String {
             format!(
