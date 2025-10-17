@@ -47,7 +47,7 @@ impl Display for Diagnostic {
             Self::UnknownTag(tag) => write!(f, "Unknown tag: 0x{tag:02X}"),
             Self::UnexpectedLength(len) => write!(f, "Unexpected length: {len}"),
             Self::OutOfRange => write!(f, "Value out of range"),
-            Self::StringDecodingError => write!(f, "String decoding failed"),
+            Self::StringDecodingError => write!(f, "Cannot decode input as ASCII string"),
             Self::MinGreaterThanMax => write!(f, "Minimum is greater than maximum"),
             Self::InvalidValue => write!(f, "Invalid value encountered"),
             Self::FrameCompositionError(msg) => write!(f, "Validate error: {msg}"),
@@ -182,10 +182,13 @@ impl Field {
             Value::Float(v) => with_unit(fmt_float(*v), self.unit),
             Value::FloatArray(vals) => fmt_float_array(vals, self.unit),
             Value::Str(s) => s.clone(),
-            Value::Raw(bytes) => bytes.iter().fold(String::new(), |mut output, b| {
-                let _ = write!(output, "{b:02X}");
-                output
-            }),
+            Value::Raw(bytes) => format!(
+                "0x{}",
+                bytes.iter().fold(String::new(), |mut output, b| {
+                    let _ = write!(output, "{b:02X}");
+                    output
+                })
+            ),
             Value::None => String::from("---"),
         }
     }
@@ -284,21 +287,21 @@ mod tests {
         assert_eq!(field.to_display_string(), "32\u{202f}A");
 
         field.value = Value::Float(1.234_567_8);
-        assert_eq!(field.to_display_string(), "1.235\u{202f}A");
+        assert_eq!(field.to_display_string(), "1.23\u{202f}A");
 
         field.unit = None;
-        assert_eq!(field.to_display_string(), "1.235");
+        assert_eq!(field.to_display_string(), "1.23");
 
         field.value = Value::FloatArray(vec![1.234_567, 2.345_678_9]);
-        assert_eq!(field.to_display_string(), "[1.235, 2.346]");
+        assert_eq!(field.to_display_string(), "[1.23, 2.35]");
 
         field.unit = Some("°C");
         assert_eq!(
             field.to_display_string(),
-            "[1.235\u{202f}°C, 2.346\u{202f}°C]"
+            "[1.23\u{202f}°C, 2.35\u{202f}°C]"
         );
 
         field.value = Value::Raw(vec![0xde, 0xad, 0xbe, 0xef]);
-        assert_eq!(field.to_display_string(), "DEADBEEF");
+        assert_eq!(field.to_display_string(), "0xDEADBEEF");
     }
 }
