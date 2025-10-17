@@ -20,8 +20,9 @@ pub fn decode_raw_field(raw: &RawField) -> Field {
         }
         Tag::Known(kt) => match kt {
             // --- Group A (select one) ---
-            KnownTag::Timestamp => (decode_u32(raw.value, &mut diagnostics), Some("s")),
-            KnownTag::SessionDuration => (decode_u32(raw.value, &mut diagnostics), Some("s")),
+            KnownTag::Timestamp | KnownTag::SessionDuration => {
+                (decode_u32(raw.value, &mut diagnostics), Some("s"))
+            }
             KnownTag::Counter => (decode_u16(raw.value, &mut diagnostics), None),
             // // --- Group B (select one) ---
             KnownTag::Vin => (decode_vin(raw.value, &mut diagnostics), None),
@@ -144,8 +145,8 @@ fn decode_string(input: &[u8], diagnostics: &mut Vec<Diagnostic>) -> Value {
         diagnostics.push(Diagnostic::InvalidValue);
         return Value::Raw(input.to_vec());
     }
-    if let Ok(s) = std::str::from_utf8(input) {
-        Value::Str(s.to_string())
+    if input.iter().all(|&b| b.is_ascii()) {
+        Value::Str(String::from_utf8_lossy(input).into_owned())
     } else {
         diagnostics.push(Diagnostic::StringDecodingError);
         Value::Raw(input.to_vec())
@@ -280,6 +281,17 @@ mod tests {
     #[test]
     fn vin_no_ascii() {
         let vin = b"K\x80HEM42APXA123456"; // 2. byte is non-ASCII
+        let f = decode_raw_field(&rf(KnownTag::Vin as u8, vin));
+        assert_eq!(f.tag, Tag::Known(KnownTag::Vin));
+        assert_eq!(f.unit, None);
+        // Spec: invalid VIN -> diagnostic + keep raw
+        assert_eq!(f.value, Value::Raw(vin.into()));
+        assert!(f.diagnostics.contains(&Diagnostic::StringDecodingError));
+    }
+    #[test]
+    fn vin_invalid_utf8_char() {
+        let vin = b"K\xc3\xa9HEM42APXA123456"; // 2. char is UTF8
+        assert!(std::str::from_utf8(vin).is_ok());
         let f = decode_raw_field(&rf(KnownTag::Vin as u8, vin));
         assert_eq!(f.tag, Tag::Known(KnownTag::Vin));
         assert_eq!(f.unit, None);
