@@ -9,49 +9,46 @@ local p_vasbatterydata_info = {
 }
 set_plugin_info(p_vasbatterydata_info)
 
-local min_wireshark_version = "4.4.0"  -- battery data lib is built for Lua 5.4
+local min_wireshark_version = "4.4.0" -- battery data lib is built for Lua 5.4
 
 -- Diagnostics
 local f_diag = ProtoField.string("v2gvasbatterydata.diag", "Diagnostics")
-local f_diag_bytes = ProtoField.bytes("v2gvasbatterydata.diag.bytes", "Raw Bytes", base.SPACE)
+local f_diag_bytes = ProtoField.string("v2gvasbatterydata.diag.bytes", "Raw Bytes")
 local f_diag_consumed_bytes = ProtoField.uint32("v2gvasbatterydata.diag_consumed_bytes", "Decoded Bytes", base.DEC)
 local f_diag_decode_result = ProtoField.string("v2gvasbatterydata.diag_decode_result", "Decode Result")
 local f_diag_msg = ProtoField.string("v2gvasbatterydata.diag.message", "Diagnostic Message")
 
 -- Per-field info
 local f_field = ProtoField.string("v2gvasbatterydata.field", "Field")
-local f_field_number = ProtoField.uint8("v2gvasbatterydata.field.num", "Field Number", base.DEC)
-local f_field_length = ProtoField.uint32("v2gvasbatterydata.field.length", "Field Length", base.DEC)
-local f_field_desc = ProtoField.string("v2gvasbatterydata.field.description", "Field Description")
 local f_field_diag_msg = ProtoField.string("v2gvasbatterydata.field.diag.message", "Field Diagnostic Message")
-local f_field_value_generic = ProtoField.string("v2gvasbatterydata.field.value", "Field Value")
--- (Group A)
-local f_field_value_timestamp = ProtoField.uint32("v2gvasbatterydata.field.value.timestamp", "Field Value", base.DEC)
-local f_field_value_sessionduration =
-    ProtoField.uint32("v2gvasbatterydata.field.value.sessionduration", "Field Value", base.DEC)
-local f_field_value_counter = ProtoField.uint16("v2gvasbatterydata.field.value.counter", "Field Value", base.DEC)
--- (Group B)
-local f_field_value_vin = ProtoField.string("v2gvasbatterydata.field.value.vin", "Field Value")
-local f_field_value_batteryid = ProtoField.string("v2gvasbatterydata.field.value.batteryid", "Field Value")
-local f_field_value_encryptedvin = ProtoField.string("v2gvasbatterydata.field.value.encryptedvin", "Field Value")
--- (Group C)
-local f_field_value_soc = ProtoField.float("v2gvasbatterydata.field.value.soc", "Field Value", base.DEC)
--- (Group D)
-local f_field_value_soh = ProtoField.float("v2gvasbatterydata.field.value.soh", "Field Value", base.DEC)
--- (Group E)
-local f_field_value_batpackcurrent =
-    ProtoField.float("v2gvasbatterydata.field.value.batpackcurrent", "Field Value", base.DEC)
--- (Group F)
-local f_field_value_batpackvoltage =
-    ProtoField.float("v2gvasbatterydata.field.value.batpackvoltage", "Field Value", base.DEC)
--- (Group G)
-local f_field_value_batcellvoltage_all =
-    ProtoField.string("v2gvasbatterydata.field.value.batcellvoltage_all", "Field Value")
-local f_field_value_batcellvoltage_maxmin =
-    ProtoField.string("v2gvasbatterydata.field.value.batcellvoltage_maxmin", "Field Value")
--- (Group H)
-local f_field_value_battemp_all = ProtoField.string("v2gvasbatterydata.field.value.battemp_all", "Field Value")
-local f_field_value_battemp_maxmin = ProtoField.string("v2gvasbatterydata.field.value.battemp_maxmin", "Field Value")
+
+-- store numerical field values for io-graph
+local f_fields_value = {
+    -- (Group A)
+    ["Timestamp"] = ProtoField.uint32("v2gvasbatterydata.field.value.timestamp", "Timestamp Numerical Value", base.DEC),
+    ["Session Duration"] = ProtoField.uint32(
+        "v2gvasbatterydata.field.value.sessionduration",
+        "Session Duration Numerical Value",
+        base.DEC
+    ),
+    ["Counter"] = ProtoField.uint16("v2gvasbatterydata.field.value.counter", "Counter Numerical Value", base.DEC),
+    -- (Group C)
+    ["SoC"] = ProtoField.float("v2gvasbatterydata.field.value.soc", "SoC Numerical Value", base.DEC),
+    -- (Group D)
+    ["SoH"] = ProtoField.float("v2gvasbatterydata.field.value.soh", "SoH Numerical Value", base.DEC),
+    -- (Group E)
+    ["Battery Pack Current"] = ProtoField.float(
+        "v2gvasbatterydata.field.value.batpackcurrent",
+        "Battery Pack Current Numerical Value",
+        base.DEC
+    ),
+    -- (Group F)
+    ["Battery Pack Voltage"] = ProtoField.float(
+        "v2gvasbatterydata.field.value.batpackvoltage",
+        "Battery Pack Voltage Numerical Value",
+        base.DEC
+    )
+}
 
 p_vasbatterydata.fields = {
     f_diag,
@@ -60,26 +57,11 @@ p_vasbatterydata.fields = {
     f_diag_decode_result,
     f_diag_msg,
     f_field,
-    f_field_number,
-    f_field_length,
-    f_field_desc,
-    f_field_diag_msg,
-    f_field_value_generic,
-    f_field_value_timestamp,
-    f_field_value_sessionduration,
-    f_field_value_counter,
-    f_field_value_vin,
-    f_field_value_batteryid,
-    f_field_value_encryptedvin,
-    f_field_value_soc,
-    f_field_value_soh,
-    f_field_value_batpackcurrent,
-    f_field_value_batpackvoltage,
-    f_field_value_batcellvoltage_all,
-    f_field_value_batcellvoltage_maxmin,
-    f_field_value_battemp_all,
-    f_field_value_battemp_maxmin
+    f_field_diag_msg
 }
+for _, value in pairs(f_fields_value) do
+    table.insert(p_vasbatterydata.fields, value)
+end
 
 local ef_error_plugin =
     ProtoExpert.new("v2gvasbatterydata.error.plugin", "V2G Error", expert.group.PROTOCOL, expert.severity.ERROR)
@@ -122,45 +104,6 @@ local function add_diagnostic_messages(tree, pinfo, list, f_diag_type)
         elseif severity == "Error" then
             v2gcommon.add_expert_info(msg, node, pinfo, ef_error_diagnostic)
         end
-    end
-end
-
-local function add_field_value_to_node(field_node, desc, value, display_string, pinfo)
-    if value == nil then
-        v2gcommon.add_expert_info("Undefined Value", field_node, pinfo, ef_warning_decoder)
-        return
-    end
-    if desc == "Timestamp" then
-        field_node:add(f_field_value_timestamp, tonumber(value) or -1)
-    elseif desc == "Session Duration" then
-        field_node:add(f_field_value_sessionduration, tonumber(value) or -1)
-    elseif desc == "Counter" then
-        field_node:add(f_field_value_counter, tonumber(value) or -1)
-    elseif desc == "VIN" then
-        field_node:add(f_field_value_vin, tostring(value) or "INVALID")
-    elseif desc == "Battery ID" then
-        field_node:add(f_field_value_batteryid, tostring(value) or "INVALID")
-    elseif desc == "Encrypted VIN" then
-        field_node:add(f_field_value_encryptedvin, tostring(value) or "INVALID")
-    elseif desc == "SoC" then
-        field_node:add(f_field_value_soc, tonumber(value) or -1)
-    elseif desc == "SoH" then
-        field_node:add(f_field_value_soh, tonumber(value) or -1)
-    elseif desc == "Battery Pack Current" then
-        field_node:add(f_field_value_batpackcurrent, tonumber(value) or -1)
-    elseif desc == "Battery Pack Voltage" then
-        field_node:add(f_field_value_batpackvoltage, tonumber(value) or -1)
-    elseif desc == "Battery Cell Voltage (All)" then
-        field_node:add(f_field_value_batcellvoltage_all, display_string)
-    elseif desc == "Battery Cell Voltage (Max/Min)" then
-        field_node:add(f_field_value_batcellvoltage_maxmin, display_string)
-    elseif desc == "Battery Temperature (All)" then
-        field_node:add(f_field_value_battemp_all, display_string)
-    elseif desc == "Battery Temperature (Max/Min)" then
-        field_node:add(f_field_value_battemp_maxmin, display_string)
-    else
-        field_node:add(f_field_value_generic, tostring(value) or "INVALID")
-        v2gcommon.add_expert_info("Unknown Description", field_node, pinfo, ef_warning_decoder)
     end
 end
 
@@ -269,7 +212,7 @@ function p_vasbatterydata.dissector(buf, pinfo, root)
     -- Diagnostics
     local diagtree = subtree:add(f_diag, "")
     diagtree:set_text("[Diagnostics]")
-    diagtree:add(f_diag_bytes, buf(0, consumed))
+    diagtree:add(f_diag_bytes, "0x" .. buf(0, consumed))
     diagtree:add(f_diag_consumed_bytes, consumed)
     diagtree:add(f_diag_decode_result, tostring(decoded.decode_outcome or "unknown"))
     add_diagnostic_messages(diagtree, pinfo, decoded.diagnostics, f_diag_msg)
@@ -303,10 +246,9 @@ function p_vasbatterydata.dissector(buf, pinfo, root)
 
             local field_node = subtree:add(f_field, bytes_range)
             field_node:set_text(field_info_str)
-            field_node:add(f_field_number, i)
-            field_node:add(f_field_length, flen)
-            field_node:add(f_field_desc, desc)
-            add_field_value_to_node(field_node, desc, fld.value, fld.display_string, pinfo)
+            if fld.value ~= nil and type(fld.value) == "number" then
+                field_node:add(f_fields_value[desc], fld.value).hidden = true
+            end
 
             -- Per-field diagnostics
             add_diagnostic_messages(field_node, pinfo, fld.diagnostics, f_field_diag_msg)

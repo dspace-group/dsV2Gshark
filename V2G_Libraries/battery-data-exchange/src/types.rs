@@ -185,7 +185,7 @@ impl Field {
             Value::Raw(bytes) => format!(
                 "0x{}",
                 bytes.iter().fold(String::new(), |mut output, b| {
-                    let _ = write!(output, "{b:02X}");
+                    let _ = write!(output, "{b:02x}");
                     output
                 })
             ),
@@ -302,6 +302,6 @@ mod tests {
         );
 
         field.value = Value::Raw(vec![0xde, 0xad, 0xbe, 0xef]);
-        assert_eq!(field.to_display_string(), "0xDEADBEEF");
+        assert_eq!(field.to_display_string(), "0xdeadbeef");
     }
 }
