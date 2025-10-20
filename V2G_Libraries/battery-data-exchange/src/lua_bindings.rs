@@ -13,10 +13,8 @@ impl IntoLua for Value {
             Self::U16(v) => v.into_lua(lua),
             Self::U32(v) => v.into_lua(lua),
             Self::Float(v) => v.into_lua(lua),
-            Self::Str(v) => v.into_lua(lua),
-            Self::FloatArray(v) => vec_f32_to_string(&v).into_lua(lua),
-            Self::Raw(v) => vec_u8_to_hex_string(&v).into_lua(lua),
-            Self::None => Ok(mlua::Value::Nil),
+            // lua datatypes are only required for plotting, in other cases we use display_string
+            Self::Str(_) | Self::FloatArray(_) | Self::Raw(_) | Self::None => Ok(mlua::Value::Nil),
         }
     }
 }
@@ -68,22 +66,6 @@ where
     }
     Ok(table)
 }
-fn vec_u8_to_hex_string(vec: &[u8]) -> String {
-    let string: String = vec
-        .iter()
-        .map(|byte| format!("0x{byte:02x}"))
-        .collect::<Vec<String>>()
-        .join(", ");
-    format!("[{string}]")
-}
-fn vec_f32_to_string(vec: &[f32]) -> String {
-    let string: String = vec
-        .iter()
-        .map(|x| format!("{x:.2}"))
-        .collect::<Vec<String>>()
-        .join(", ");
-    format!("[{string}]")
-}
 fn lua_table_to_vec(t: &mlua::Table) -> LuaResult<Vec<u8>> {
     let len = t.raw_len();
     let mut out = Vec::with_capacity(len);
@@ -132,20 +114,4 @@ fn battery_data_exchange(lua: &Lua) -> LuaResult<LuaTable> {
     let exports = lua.create_table()?;
     exports.set("decode", lua.create_function(decode)?)?;
     Ok(exports)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_vec_u8_to_hex_string() {
-        let x = vec![0x11, 0x22, 0xaa, 0xff];
-        assert_eq!(vec_u8_to_hex_string(&x), "[0x11, 0x22, 0xaa, 0xff]")
-    }
-    #[test]
-    fn test_vec_f32_to_string() {
-        let x = vec![1.234_567, 9.876_543];
-        assert_eq!(vec_f32_to_string(&x), "[1.23, 9.88]")
-    }
 }
