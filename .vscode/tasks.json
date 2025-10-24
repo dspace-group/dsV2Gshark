@@ -5,6 +5,7 @@
             "label": "Build All",
             "dependsOn": [
                 "Build v2gLib (single)",
+                "Build battery-data-exchange",
                 "Build Installer"
             ],
             "dependsOrder": "sequence"
