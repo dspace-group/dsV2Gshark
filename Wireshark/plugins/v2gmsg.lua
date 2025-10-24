@@ -525,8 +525,8 @@ local function process_service_detail_res(parsed_xml)
     if dissector_battery_data == nil then
         return
     end
-    local service_id = get_descendant_by_path(parsed_xml, {"Body", "ServiceDetailRes", "ServiceID"}).value
-    if service_id == "61000" then  -- Battery Data Exchange Protocol
+    local service_id = get_descendant_by_path(parsed_xml, {"Body", "ServiceDetailRes", "ServiceID"})
+    if service_id and service_id == "61000" then  -- Battery Data Exchange Protocol
         local paramset = get_descendant_by_path(parsed_xml, {"Body", "ServiceDetailRes", "ServiceParameterList", "ParameterSet"})
         for _, param_entry in ipairs(paramset.children) do
             if string.find(param_entry.attributes, "Port") then
