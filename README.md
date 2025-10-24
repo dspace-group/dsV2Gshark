@@ -20,12 +20,14 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
     - DIN 70121  messages
     - ISO 15118-2 messages
     - ISO 15118-20 messages (preliminary support)
+    - Battery Data Exchange messages (VAS Korea)
 - Additional analysis features:
     - Validation of V2G messages according to XSD specification
     - Certificate information details for Plug & Charge (PnC)
     - Live TLS decryption <small>(requires secret disclosure)</small>
     - Extended charging diagnostics via HomePlug AV packets for sniffer and debug packets
         - support of dSPACE SCS diagnostic packets
+    - Validation of Battery Data Exchange Protocol data format
 - Automatic schema detection
     - Detect schema automatically in case of missing SDP or SAP
 - Color filter for V2G packets
@@ -116,4 +118,6 @@ Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then cop
 ![I/O Graph](Images/IO_Graph.png)
 ### HomePlug AV Low-Level Communication Sniffer Dissection
 ![I/O Graph](Images/HPAV_LLC_AC.png)
+### Battery Data Exchange Dissection and Validation
+![Battery Data Exchange](Images/WS_BatteryDataExchange.png)
 
