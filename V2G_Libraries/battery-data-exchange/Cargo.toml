@@ -27,3 +27,6 @@ mlua = { version = "0.11", features = ["lua54", "module"] }
 nom = "8.0.0"
 num-derive = "0.4.2"
 num-traits = "0.2.19"
+
+[dev-dependencies]
+hex = "0.4"

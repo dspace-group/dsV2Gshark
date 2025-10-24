@@ -163,7 +163,11 @@ impl Field {
             }
         }
         fn fmt_float(f: f32) -> String {
-            format!("{f:.2}")
+            if f.is_nan() {
+                "---".into()
+            } else {
+                format!("{f:.2}")
+            }
         }
         fn fmt_float_array(values: &[f32], unit: Option<&'static str>) -> String {
             format!(
@@ -289,8 +293,11 @@ mod tests {
         field.value = Value::Float(1.234_567_8);
         assert_eq!(field.to_display_string(), "1.23\u{202f}A");
 
+        field.value = Value::Float(f32::NAN);
+        assert_eq!(field.to_display_string(), "---\u{202f}A");
+
         field.unit = None;
-        assert_eq!(field.to_display_string(), "1.23");
+        assert_eq!(field.to_display_string(), "---");
 
         field.value = Value::FloatArray(vec![1.234_567, 2.345_678_9]);
         assert_eq!(field.to_display_string(), "[1.23, 2.35]");

@@ -33,10 +33,8 @@ mod tests {
 
     #[test]
     fn basic() {
-        let bytes = [
-            161, 4, 104, 116, 221, 234, 162, 17, 75, 77, 72, 69, 77, 52, 50, 65, 80, 88, 65, 49,
-            50, 51, 52, 53, 54, 163, 1, 148,
-        ];
+        let bytes =
+            hex::decode("a1046874ddeaa2114b4d48454d343241505841313233343536a30194").unwrap();
 
         let result = decode(&bytes);
         assert_eq!(result.consumed_bytes, bytes.len());
@@ -71,17 +69,105 @@ mod tests {
                 diagnostics: vec![]
             }
         );
-        let diagnostics_without_info: Vec<&Diagnostic> = result
-            .diagnostics
-            .iter()
-            .filter_map(|f| {
-                if f.get_severity() == Severity::Info {
-                    None
-                } else {
-                    Some(f)
-                }
-            })
-            .collect();
-        assert!(diagnostics_without_info.is_empty());
+
+        for d in result.diagnostics {
+            assert_eq!(d.get_severity(), Severity::Info);
+        }
+    }
+
+    #[test]
+    fn advanced() {
+        let bytes = hex::decode(
+            "a1046874ddeaa2114b4d48454d343241505841313233343536a30194a401fea502011ca6020eefb702c0bdb8023f3d",
+        )
+        .unwrap();
+
+        let result = decode(&bytes);
+        assert_eq!(result.consumed_bytes, bytes.len());
+        assert_eq!(result.fields.len(), 8);
+        assert_eq!(
+            result.fields[0],
+            Field {
+                tag: Tag::Known(KnownTag::Timestamp),
+                value: Value::U32(1752489450),
+                unit: Some("s"),
+                range: 0..6,
+                diagnostics: vec![]
+            }
+        );
+        assert_eq!(
+            result.fields[1],
+            Field {
+                tag: Tag::Known(KnownTag::Vin),
+                value: Value::Str("KMHEM42APXA123456".into()),
+                unit: None,
+                range: 6..25,
+                diagnostics: vec![]
+            }
+        );
+        assert_eq!(
+            result.fields[2],
+            Field {
+                tag: Tag::Known(KnownTag::StateOfCharge),
+                value: Value::Float(74.0),
+                unit: Some("%"),
+                range: 25..28,
+                diagnostics: vec![]
+            }
+        );
+        assert_eq!(
+            result.fields[3],
+            Field {
+                tag: Tag::Known(KnownTag::StateOfHealth),
+                value: Value::Float(254.0),
+                unit: Some("%"),
+                range: 28..31,
+                diagnostics: vec![Diagnostic::OutOfRange]
+            }
+        );
+        assert_eq!(
+            result.fields[4],
+            Field {
+                tag: Tag::Known(KnownTag::BatteryPackCurrent),
+                value: Value::Float(28.4),
+                unit: Some("A"),
+                range: 31..35,
+                diagnostics: vec![]
+            }
+        );
+        assert_eq!(
+            result.fields[5],
+            Field {
+                tag: Tag::Known(KnownTag::BatteryPackVoltage),
+                value: Value::Float(382.30002),
+                unit: Some("V"),
+                range: 35..39,
+                diagnostics: vec![]
+            }
+        );
+        assert_eq!(
+            result.fields[6],
+            Field {
+                tag: Tag::Known(KnownTag::BatteryCellVoltageMaxMin),
+                value: Value::FloatArray(vec![3.84, 3.78]),
+                unit: Some("V"),
+                range: 39..43,
+                diagnostics: vec![]
+            }
+        );
+        assert_eq!(
+            result.fields[7],
+            Field {
+                tag: Tag::Known(KnownTag::BatteryTemperatureMaxMin),
+                value: Value::FloatArray(vec![23.0, 21.0]),
+                unit: Some("°C"),
+                range: 43..47,
+                diagnostics: vec![]
+            }
+        );
+
+        for d in result.diagnostics {
+            assert_eq!(d.get_severity(), Severity::Info);
+        }
     }
 }

@@ -169,6 +169,7 @@ fn decode_percent(input: &[u8], gain: f32, diagnostics: &mut Vec<Diagnostic>) ->
     let result = decode_f8(input, gain, 0.0, diagnostics);
     if let Value::Float(f) = result
         && !(0.0..=100.0).contains(&f)
+        && !f.is_nan()
     {
         diagnostics.push(Diagnostic::OutOfRange);
     }
@@ -393,6 +394,7 @@ mod tests {
 
         let f = decode_raw_field(&rf(KnownTag::StateOfCharge as u8, &[201]));
         assert_eq!(f.value, Value::Float(100.5));
+        assert_eq!(f.diagnostics.len(), 1);
         assert_eq!(f.diagnostics[0], Diagnostic::OutOfRange);
     }
     #[test]
@@ -405,6 +407,7 @@ mod tests {
         } else {
             panic!("Expected float");
         }
+        assert_eq!(f.diagnostics.len(), 1);
         assert_eq!(f.diagnostics[0], Diagnostic::InvalidValue);
     }
     #[test]
@@ -436,6 +439,7 @@ mod tests {
 
         let f = decode_raw_field(&rf(KnownTag::StateOfHealth as u8, &[101]));
         assert_eq!(f.value, Value::Float(101.0));
+        assert_eq!(f.diagnostics.len(), 1);
         assert_eq!(f.diagnostics[0], Diagnostic::OutOfRange);
     }
     #[test]
@@ -448,6 +452,7 @@ mod tests {
         } else {
             panic!("Expected float");
         }
+        assert_eq!(f.diagnostics.len(), 1);
         assert_eq!(f.diagnostics[0], Diagnostic::InvalidValue);
     }
     #[test]
