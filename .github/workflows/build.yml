@@ -83,7 +83,7 @@ jobs:
       run: |
           mkdir artifact_dir
           cp ./V2G_Libraries/v2gLib/bin/* ./artifact_dir/
-          cp ./V2G_Libraries/battery-data-exchange/target/release/battery_data_exchange.so ./artifact_dir/
+          cp ./V2G_Libraries/battery-data-exchange/target/release/libbattery_data_exchange.so ./artifact_dir/battery_data_exchange.so
           mkdir artifact_dir/plugins
           cp ./Wireshark/plugins/* ./artifact_dir/plugins/
           cp ./LICENSE ./artifact_dir/dsV2Gshark_LICENSE.txt
