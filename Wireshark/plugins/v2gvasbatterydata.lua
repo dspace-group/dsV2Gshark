@@ -14,7 +14,7 @@ local min_wireshark_version = "4.4.0" -- battery data lib is built for Lua 5.4
 -- Diagnostics
 local f_diag = ProtoField.string("v2gvasbatterydata.diag", "Diagnostics")
 local f_diag_bytes = ProtoField.string("v2gvasbatterydata.diag.bytes", "Raw Bytes")
-local f_diag_consumed_bytes = ProtoField.uint32("v2gvasbatterydata.diag_consumed_bytes", "Decoded Bytes", base.DEC)
+local f_diag_consumed_bytes = ProtoField.string("v2gvasbatterydata.diag_consumed_bytes", "Decoded Bytes")
 local f_diag_decode_result = ProtoField.string("v2gvasbatterydata.diag_decode_result", "Decode Result")
 local f_diag_msg = ProtoField.string("v2gvasbatterydata.diag.message", "Diagnostic Message")
 
@@ -213,7 +213,7 @@ function p_vasbatterydata.dissector(buf, pinfo, root)
     local diagtree = subtree:add(f_diag, "")
     diagtree:set_text("[Diagnostics]")
     diagtree:add(f_diag_bytes, "0x" .. buf(0, consumed))
-    diagtree:add(f_diag_consumed_bytes, consumed)
+    diagtree:add(f_diag_consumed_bytes, string.format("%d/%d", consumed, buflen))
     diagtree:add(f_diag_decode_result, tostring(decoded.decode_outcome or "unknown"))
     add_diagnostic_messages(diagtree, pinfo, decoded.diagnostics, f_diag_msg)
 
