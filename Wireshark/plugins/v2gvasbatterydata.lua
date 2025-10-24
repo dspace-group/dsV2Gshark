@@ -75,6 +75,9 @@ p_vasbatterydata.experts = {ef_error_plugin, ef_warning_decoder, ef_error_diagno
 
 local function load_decoder_lib()
     local so_path = v2gcommon.get_plugins_file_path() .. "../battery_data_exchange"
+    if not v2gcommon.is_windows() then
+        so_path = so_path .. ".so"
+    end
     local ok_loader, loader = pcall(package.loadlib, so_path, "luaopen_battery_data_exchange")
     if not ok_loader or not loader then
         return nil, ("Failed to load 'battery_data_exchange' from '%s'"):format(so_path)

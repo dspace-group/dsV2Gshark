@@ -49,6 +49,7 @@ Name: "plugin/decoder/din"; Description: "DIN 70121 support"; Types: full custom
 Name: "plugin/decoder/iso2"; Description: "ISO 15118-2 support"; Types: full custom; Flags: fixed
 Name: "plugin/decoder/iso20"; Description: "ISO 15118-20 support (experimental)"; Types: full custom; Flags: fixed
 Name: "plugin/autoschema"; Description: "Automatic schema detection"; Types: full custom; Flags: fixed
+Name: "plugin/battery_data_exchange"; Description: "Dissector for Battery Data Exchange Protocol"; Types: full custom; Flags: fixed
 Name: "plugin/autodecrypt"; Description: "Live TLS decryption with disclosed master secret from UDP packet"; Types: full custom;
 Name: "plugin/hpav_v2g_diagnostic"; Description: "Additional dissector for V2G related Homeplug AV packets"; Types: full custom;
 Name: "profile"; Description: "Add dsV2Gshark profile to Wireshark"; Types: full
@@ -64,7 +65,9 @@ Source: "..\Wireshark\plugins\v2gtp.lua"; DestDir: "{app}\plugins"; Flags: ignor
 Source: "..\Wireshark\plugins\v2gsdp.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/dissectors
 Source: "..\Wireshark\plugins\v2gtlssecret.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/autodecrypt
 Source: "..\Wireshark\plugins\v2ghpscs.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/hpav_v2g_diagnostic
-Source: "..\Wireshark\*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/decoder
+Source: "..\Wireshark\v2gLib*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/decoder
+Source: "..\Wireshark\battery_data_exchange.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/battery_data_exchange
+Source: "..\Wireshark\plugins\v2gvasbatterydata.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/battery_data_exchange
 Source: "..\Wireshark\profiles\dsV2Gshark\preferences"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile
 Source: "..\Wireshark\profiles\dsV2Gshark\recent"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile
 Source: "..\Wireshark\profiles\dsV2Gshark\dfilter_buttons"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile/buttons
@@ -111,7 +114,6 @@ function GetInstalledVersion: String;
 var
   InstalledVersion: String;
 begin
-
   if RegQueryStringValue(HKLM, RegistryPath1, 'DisplayVersion', InstalledVersion) then
     Result := InstalledVersion
   else if RegQueryStringValue(HKLM, RegistryPath2, 'DisplayVersion', InstalledVersion) then
