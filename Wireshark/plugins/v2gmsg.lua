@@ -442,6 +442,70 @@ local function extract_additional_data(message_name, parsed_xml, subtree)
     end
 end
 
+
+local function process_service_discovery_res(parsed_xml, pinfo)
+    local info_parts = {}
+
+    local function value_of(node)
+        return node and node.value or nil
+    end
+
+    -- Energy transfer mode (AC/DC)
+    do
+        local energy_node = get_descendant_by_path(parsed_xml, {
+            "Body", "ServiceDiscoveryRes", "ChargeService", "SupportedEnergyTransferMode", "EnergyTransferMode"
+        })
+
+        local mode = value_of(energy_node)
+        if mode then
+            local upper = tostring(mode):upper()
+            if upper:find("AC", 1, true) then
+                table.insert(info_parts, "AC")
+            elseif upper:find("DC", 1, true) then
+                table.insert(info_parts, "DC")
+            end
+        end
+    end
+
+    -- Payment options
+    do
+        local pol = get_descendant_by_path(parsed_xml, {
+            "Body", "ServiceDiscoveryRes", "PaymentOptionList"
+        })
+        if pol and pol.children then
+            for _, payment_option in ipairs(pol.children) do
+                local v = value_of(payment_option)
+                if v and v ~= "" then
+                    table.insert(info_parts, v)
+                end
+            end
+        end
+    end
+
+    -- Services
+    do
+        local sl = get_descendant_by_path(parsed_xml, {
+            "Body", "ServiceDiscoveryRes", "ServiceList"
+        })
+        if sl and sl.children then
+            for _, service in ipairs(sl.children) do
+                local name_node = get_descendant_by_path(service, { "ServiceName" })
+                local name = value_of(name_node)
+                if name and name ~= "" then
+                    table.insert(info_parts, name)
+                end
+            end
+        end
+    end
+
+    if #info_parts > 0 then
+        local suffix = table.concat(info_parts, ", ")
+        local current = tostring(pinfo.cols.info)
+        pinfo.cols.info = ("%s (%s)"):format(current, suffix)
+    end
+end
+
+
 local function process_service_detail_res(parsed_xml)
     local dissector_battery_data = Dissector.get("v2gvasbatterydata")
     if dissector_battery_data == nil then
@@ -639,7 +703,9 @@ function p_v2gmsg.dissector(buf, pinfo, root)
         local parsed_xml = parse_XML(xml_data)
         if message_name ~= nil then
             extract_additional_data(message_name, parsed_xml, subtree)
-            if message_name == "ServiceDetailRes" then
+            if message_name == "ServiceDiscoveryRes" then
+                process_service_discovery_res(parsed_xml, pinfo)
+            elseif message_name == "ServiceDetailRes" then
                 process_service_detail_res(parsed_xml)
             end
         end
