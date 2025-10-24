@@ -452,9 +452,16 @@ local function process_service_discovery_res(parsed_xml, pinfo)
 
     -- Energy transfer mode (AC/DC)
     do
+        -- ISO-2
         local energy_node = get_descendant_by_path(parsed_xml, {
             "Body", "ServiceDiscoveryRes", "ChargeService", "SupportedEnergyTransferMode", "EnergyTransferMode"
         })
+        if energy_node == nil then
+            -- DIN
+            energy_node = get_descendant_by_path(parsed_xml, {
+                "Body", "ServiceDiscoveryRes", "ChargeService", "EnergyTransferType"
+            })
+        end
 
         local mode = value_of(energy_node)
         if mode then
@@ -469,9 +476,16 @@ local function process_service_discovery_res(parsed_xml, pinfo)
 
     -- Payment options
     do
+        -- ISO-2
         local pol = get_descendant_by_path(parsed_xml, {
             "Body", "ServiceDiscoveryRes", "PaymentOptionList"
         })
+        if pol == nil then
+            -- DIN
+            pol = get_descendant_by_path(parsed_xml, {
+                "Body", "ServiceDiscoveryRes", "PaymentOptions"
+            })
+        end
         if pol and pol.children then
             for _, payment_option in ipairs(pol.children) do
                 local v = value_of(payment_option)
