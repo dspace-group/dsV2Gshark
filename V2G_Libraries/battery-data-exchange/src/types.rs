@@ -125,7 +125,7 @@ impl core::fmt::Display for Tag {
                 KnownTag::BatteryTemperatureAll => write!(f, "Battery Temperature (All)"),
                 KnownTag::BatteryTemperatureMaxMin => write!(f, "Battery Temperature (Max/Min)"),
             },
-            Tag::Unknown(t) => write!(f, "[Unknown tag {t}]"),
+            Tag::Unknown(t) => write!(f, "[Unknown tag 0x{t:02X}]"),
         }
     }
 }

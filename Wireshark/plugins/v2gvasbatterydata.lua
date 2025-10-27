@@ -1,3 +1,10 @@
+--
+-- Copyright 2025, dSPACE GmbH. All rights reserved.
+--
+-- this plugin adds support for Battery Data Exchange Protocol
+--
+-- See license file (dsV2Gshark_LICENSE.txt)
+--
 local v2gcommon = require("v2gcommon")
 
 p_vasbatterydata = Proto("v2gvasbatterydata", "V2G Battery Data Exchange Protocol")
@@ -204,8 +211,10 @@ function p_vasbatterydata.dissector(buf, pinfo, root)
         -- most likely not to be a battery data packet
         return 0
     end
-    if consumed < 0 or consumed > buflen then
-        consumed = buflen
+    if consumed > buflen then
+        local ti = root:add(p_vasbatterydata, buf(0))
+        v2gcommon.add_expert_info("Decoder consumed more bytes than available!", ti, pinfo, ef_error_plugin)
+        return 0
     end
     pinfo.cols.protocol = "V2GBatteryData"
 
@@ -228,14 +237,9 @@ function p_vasbatterydata.dissector(buf, pinfo, root)
             local flen = tonumber(fld.byte_length) or 0
 
             -- Bounds safety
-            if off < 0 then
-                off = 0
-            end
-            if flen < 0 then
-                flen = 0
-            end
-            if off + flen > buflen then
-                flen = math.max(0, buflen - off)
+            if off < 0 or flen < 0 or off + flen > buflen then
+                v2gcommon.add_expert_info("Field bytes are out of bounds!", diagtree, pinfo, ef_error_plugin)
+                return consumed
             end
 
             local desc = fld.description and tostring(fld.description) or ("Field #" .. i)
