@@ -1,5 +1,5 @@
 --
--- Copyright 2024, dSPACE GmbH. All rights reserved.
+-- Copyright 2025, dSPACE GmbH. All rights reserved.
 --
 -- This dissector adds functionality to the standard HomePlug AV dissector
 -- to allow displaying CP State indication packets

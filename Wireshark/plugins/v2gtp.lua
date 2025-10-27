@@ -1,5 +1,5 @@
 --
--- Copyright 2024, dSPACE GmbH. All rights reserved.
+-- Copyright 2025, dSPACE GmbH. All rights reserved.
 -- based on v2g-ws-dissectors by Amit Geynis
 --
 -- See license file (dsV2Gshark_LICENSE.txt)

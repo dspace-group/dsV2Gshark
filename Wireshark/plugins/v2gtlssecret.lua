@@ -1,5 +1,5 @@
 --
--- Copyright 2024, dSPACE GmbH. All rights reserved.
+-- Copyright 2025, dSPACE GmbH. All rights reserved.
 --
 -- this plugin allows live decryption of V2G messages using UDP disclosure messages
 --

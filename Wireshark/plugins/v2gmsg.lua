@@ -1,5 +1,5 @@
 --
--- Copyright 2024, dSPACE GmbH. All rights reserved.
+-- Copyright 2025, dSPACE GmbH. All rights reserved.
 --
 -- this plugin adds support for V2G Messages for
 -- - DIN 70121
