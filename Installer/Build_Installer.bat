@@ -3,9 +3,11 @@
 :: note: Inno Setup must be installed and added to Path
 
 @echo off
-:: copy v2gLib binaries
+:: copy libraries
 cd "%~dp0../V2G_Libraries/"
 copy "v2gLib\bin\v2gLib*.dll" "%~dp0..\Wireshark\"
+if %ERRORLEVEL% NEQ 0 goto :failed
+copy "battery-data-exchange\target\release\battery_data_exchange.dll" "%~dp0..\Wireshark\"
 if %ERRORLEVEL% NEQ 0 goto :failed
 
 :: prepare installer readme

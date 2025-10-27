@@ -1,5 +1,5 @@
 --
--- Copyright 2024, dSPACE GmbH. All rights reserved.
+-- Copyright 2025, dSPACE GmbH. All rights reserved.
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --
@@ -77,6 +77,14 @@ function v2gcommon.check_version(required_version)
         return false
     else
         return true
+    end
+end
+
+function v2gcommon.add_expert_info(message, tree, pinfo, expertinfo)
+    tree:add_proto_expert_info(expertinfo, message)
+    local oldInfo = tostring(pinfo.cols.info)
+    if oldInfo:sub(1, 3) ~= "[!]" then
+        pinfo.cols.info = "[!] " .. oldInfo
     end
 end
 

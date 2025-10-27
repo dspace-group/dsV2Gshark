@@ -1,0 +1,32 @@
+[package]
+name = "battery-data-exchange"
+description = """Library for decoding and validating the battery data exchange format
+used as a Value-Added-Service (VAS) in the V2G communication 
+between electric vehicle and charging station."""
+keywords = [
+    "battery-data-exchange",
+    "value-added-service",
+    "VAS",
+    "vehicle-to-grid",
+    "V2G",
+    "emobility",
+    "charging",
+]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+
+[dependencies]
+mlua = { version = "0.11", features = ["lua54", "module"] }
+nom = "8.0.0"
+num-derive = "0.4.2"
+num-traits = "0.2.19"
+
+[dev-dependencies]
+hex = "0.4"
