@@ -15,10 +15,11 @@ VersionInfoVersion={#AppVer}
 AppPublisher=dSPACE GmbH
 AppCopyright=Copyright 2024, dSPACE GmbH. All rights reserved.
 WizardStyle=modern
+WizardSizePercent=135
 DefaultDirName={code:GetDefaultDirName}
 Compression=lzma2
 SolidCompression=yes
-ChangesEnvironment=no  
+ChangesEnvironment=no
 DisableDirPage=no
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
@@ -52,10 +53,11 @@ Name: "plugin/autoschema"; Description: "Automatic schema detection"; Types: ful
 Name: "plugin/battery_data_exchange"; Description: "Dissector for Battery Data Exchange Protocol"; Types: full custom; Flags: fixed
 Name: "plugin/autodecrypt"; Description: "Live TLS decryption with disclosed master secret from UDP packet"; Types: full custom;
 Name: "plugin/hpav_v2g_diagnostic"; Description: "Additional dissector for V2G related Homeplug AV packets"; Types: full custom;
+Name: "examples"; Description: "Example PCAPs of CCS charging sessions"; Types: full custom;
 Name: "profile"; Description: "Add dsV2Gshark profile to Wireshark"; Types: full
 Name: "profile/activate"; Description: "Activate dsV2Gshark profile after installation"; Types: full
 Name: "profile/buttons"; Description: "Add filter buttons"; Types: full
-Name: "profile/colorfilters"; Description: "Highlight V2G messages"; Types: full
+Name: "profile/colorfilters"; Description: "Coloring rules for V2G messages"; Types: full
 Name: "profile/iograph"; Description: "Wireshark I/O Graphs for V2G messages"; Types: full
 
 [Files]
@@ -66,8 +68,12 @@ Source: "..\Wireshark\plugins\v2gsdp.lua"; DestDir: "{app}\plugins"; Flags: igno
 Source: "..\Wireshark\plugins\v2gtlssecret.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/autodecrypt
 Source: "..\Wireshark\plugins\v2ghpscs.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/hpav_v2g_diagnostic
 Source: "..\Wireshark\v2gLib*.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/decoder
-Source: "..\Wireshark\battery_data_exchange.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/battery_data_exchange
 Source: "..\Wireshark\plugins\v2gvasbatterydata.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: plugin/battery_data_exchange
+Source: "..\Wireshark\battery_data_exchange.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: plugin/battery_data_exchange
+Source: "..\Wireshark\plugins\v2gexamples.lua"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs; Components: examples
+Source: "..\Wireshark\dsV2Gshark_examples\*.pcap"; DestDir: "{app}\dsV2Gshark_examples"; Flags: ignoreversion recursesubdirs skipifsourcedoesntexist; Components: examples
+Source: "..\Wireshark\dsV2Gshark_examples\*.pcapng"; DestDir: "{app}\dsV2Gshark_examples"; Flags: ignoreversion recursesubdirs skipifsourcedoesntexist; Components: examples
+Source: "..\Wireshark\dsV2Gshark_examples\README.md"; DestDir: "{app}\dsV2Gshark_examples"; Flags: ignoreversion recursesubdirs; Components: examples
 Source: "..\Wireshark\profiles\dsV2Gshark\preferences"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile
 Source: "..\Wireshark\profiles\dsV2Gshark\recent"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile
 Source: "..\Wireshark\profiles\dsV2Gshark\dfilter_buttons"; DestDir: "{app}\profiles\dsV2Gshark\"; Flags: ignoreversion; Components: profile/buttons

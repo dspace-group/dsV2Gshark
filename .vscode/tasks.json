@@ -54,7 +54,18 @@
             },
         },
         {
-            "label": "WSL: Build for Linux",
+            "label": "WSL: Build battery_data_exchange for Linux",
+            "detail": "",
+            "type": "shell",
+            "command": "wsl --shell-type login -- cargo xtask ci",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "V2G_Libraries/battery-data-exchange",
+                "kind": "build",
+            },
+        },
+        {
+            "label": "WSL: Build v2gLib for Linux",
             "detail": "",
             "type": "shell",
             "command": "wsl sh ./build_all_linux.sh",
@@ -76,7 +87,7 @@
             },
         },
         {
-            "label": "WSL: Build battery-data-exchange for Windows",
+            "label": "WSL: Build battery_data_exchange for Windows",
             "detail": "",
             "type": "shell",
             "command": "wsl --shell-type login -- cargo xtask ci-cross-win",

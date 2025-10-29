@@ -18,7 +18,8 @@ set_plugin_info(p_v2gtp_info)
 p_v2gtp.prefs["infotext"] = Pref.statictext("dSPACE V2Gshark Wireshark Plugin")
 p_v2gtp.prefs["additionalinfo"] = Pref.statictext("powered by chargebyte cbExiGen")
 p_v2gtp.prefs["additionalinfo2"] = Pref.statictext("")
-p_v2gtp.prefs["additionalinfo3"] = Pref.statictext("")
+p_v2gtp.prefs["additionalinfo3"] = Pref.statictext("You may also check the menu under 'Tools' > 'dSPACE V2Gshark'.")
+p_v2gtp.prefs["additionalinfo4"] = Pref.statictext("")
 p_v2gtp.prefs["versioninfo"] = Pref.statictext("Version " .. v2gcommon.DS_V2GSHARK_VERSION)
 
 local V2GTP_HDR_LENGTH = 8
