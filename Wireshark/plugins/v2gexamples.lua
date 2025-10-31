@@ -94,7 +94,7 @@ local function show_about_popup()
 
     -- Buttons
     tw:add_button(
-        "Open Git Repository",
+        "Open GitHub Repository",
         function()
             browser_open_url(info.repository)
         end
