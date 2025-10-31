@@ -1,0 +1,2 @@
+These PCAPs are the example files of the dSPACE V2Gshark Wireshark Plugin. See https://github.com/dspace-group/dsV2Gshark.
+They can be accessed directly in Wireshark via Tools > dSPACE V2Gshark > Example V2G Traces.

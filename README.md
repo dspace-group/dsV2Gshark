@@ -33,6 +33,7 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 - Color filter for V2G packets
 - Filter buttons for V2G packets
 - Wireshark I/O Graph support for V2G packets
+- Example PCAPs of charging sessions
 
 ### Live TLS Decryption
 > [!IMPORTANT]
@@ -118,6 +119,8 @@ Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then cop
 ![I/O Graph](Images/IO_Graph.png)
 ### HomePlug AV Low-Level Communication Sniffer Dissection
 ![I/O Graph](Images/HPAV_LLC_AC.png)
-### Battery Data Exchange Dissection and Validation
+### Battery Data Exchange (VAS Korea) Dissection and Validation
 ![Battery Data Exchange](Images/WS_BatteryDataExchange.png)
+### V2G Example Traces
+![Battery Data Exchange](Images/V2G_Examples.png)
 
