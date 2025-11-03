@@ -34,6 +34,8 @@ local f_cr = ProtoField.string("v2gtlssecret.clientrandom", "NSS Key Log", base.
 
 local ef_io_error =
     ProtoExpert.new("tls_secret.io_error", "Failed to open keylog-file!", expert.group.DECRYPTION, expert.severity.WARN)
+local ef_decrypt_error =
+    ProtoExpert.new("tls_secret.decrypt_error", "Decryption Error", expert.group.DECRYPTION, expert.severity.WARN)
 local ef_bad_version =
     ProtoExpert.new(
     "tls_secret.bad_version",
@@ -52,7 +54,7 @@ local tls_secret_path = tmpDir .. "/wireshark_v2g_tls_keylogfile.txt"
 local frame_numbers = {} -- save the numbers of the frames including TLS secrets
 
 p_v2gtlssecret.fields = {f_cr}
-p_v2gtlssecret.experts = {ef_io_error, ef_bad_version}
+p_v2gtlssecret.experts = {ef_io_error, ef_decrypt_error, ef_bad_version}
 
 local function split_string(str)
     local parts = {}
@@ -151,7 +153,7 @@ local v2gtlssecret_dissector = function(buf, pinfo, root)
                                     'CLIENT RANDOM part of secret is not unique! ("' .. splitted_from_packet[2] .. '")',
                                     subtree,
                                     pinfo,
-                                    ef_io_error
+                                    ef_decrypt_error
                                 )
                             end
                         end
@@ -199,4 +201,4 @@ end
 function p_v2gtlssecret.init()
     frame_numbers = {}
 end
-p_hpav_scs:register_heuristic("udp", v2gtlssecret_dissector)
+p_v2gtlssecret:register_heuristic("udp", v2gtlssecret_dissector)

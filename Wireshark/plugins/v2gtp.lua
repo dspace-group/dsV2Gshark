@@ -190,4 +190,4 @@ function p_v2gtp.init()
     DissectorTable.get("udp.port"):add(15118, p_v2gtp) -- register for SDP
 end
 -- register outside init() as heuristic dissector to handle missing SDP messages
-p_hpav_scs:register_heuristic("tcp", v2gtp_dissector)
+p_v2gtp:register_heuristic("tcp", v2gtp_dissector)

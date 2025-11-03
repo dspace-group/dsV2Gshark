@@ -66,7 +66,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - Not compatible with other V2G dissector plugins. Please uninstall these plugins before installing dsV2Gshark.
 - Not compatible with 32 bit versions of Wireshark.
 - Updates of the plugin can be performed directly without uninstalling the old version.
-- Installation size is about 13 MB
+- Installation size is about 14 MB
 - Supports normal and portable version of Wireshark
 - Optionally, a Wireshark Profile will be added which handles the filter buttons, color filters and I/O Graph. This profile is automatically activated after installation. You can change the current profile in the bottom right corner (shortcut: Ctrl + Shift + A).
 
@@ -84,7 +84,7 @@ Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then cop
 ## Limitations
 - ISO 15118-20 is not fully supported yet
     - please let us know if you encounter incorrectly decoded packets
-- Linux
+- Linux/Mac OS
     - No installer, see [Installation Notes](#installation-notes). Make sure you have read permissions for all files.
     - dsV2Gshark profile (Filter buttons, color filters, I/O graph) must be added manually
     - released libraries have been built with Ubuntu 22.04
@@ -94,7 +94,7 @@ Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then cop
 - We appreciate all contributions, from reporting bugs to implementing new features
 
 ## Further notes
-- This plugin was built with Wireshark 4.4.5 and 4.2.6
+- This plugin was built with Wireshark 4.6.0 and 4.2.6
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 ## Troubleshooting
