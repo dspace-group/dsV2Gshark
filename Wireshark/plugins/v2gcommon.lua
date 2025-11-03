@@ -88,7 +88,7 @@ function v2gcommon.add_expert_info(message, tree, pinfo, expertinfo)
     end
 end
 
-v2gcommon.DS_V2GSHARK_VERSION = "1.5.1" -- DO NOT CHANGE
+v2gcommon.DS_V2GSHARK_VERSION = "2.0.0" -- DO NOT CHANGE
 
 -- extend path (where to load .lua files)
 if not string.find(v2gcommon.get_plugins_file_path(), package.path) then
