@@ -300,10 +300,11 @@ function p_hpav_scs.dissector(buf, pinfo, root)
     local mac_src = fe_eth_src()
     local mmtype = fe_hp_mmtype()
     if mac_src and mmtype then
-        if tostring(mmtype) == "0x6064" then  -- CM_SLAC_PARM.REQ
-            _G.__evrole_macs_ev[tostring(mac_src)] = true
-        elseif tostring(mmtype) == "0x6065" then  -- CM_SLAC_PARM.CNF
-            _G.__evrole_macs_evse[tostring(mac_src)] = true
+        local mmtype_num = tonumber(tostring(mmtype))
+        if mmtype_num == 0x6064 then  -- CM_SLAC_PARM.REQ
+            _G.__ccsrole_macs_ev[tostring(mac_src)] = true
+        elseif mmtype_num == 0x6065 then  -- CM_SLAC_PARM.CNF
+            _G.__ccsrole_macs_evse[tostring(mac_src)] = true
         end
     end
 
