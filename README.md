@@ -10,9 +10,7 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 
 ![ISO 15118-2 Overview](Images/WS_ISO15118_2_Overview.png)
 
-## Features
-
-### Overview
+## Overview
 - Supports decoding of:
     - V2GTP layer (Vehicle to Grid Transport Protocol)
     - SAP messages (Supported App Protocol)
@@ -34,6 +32,29 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 - Filter buttons for V2G packets
 - Wireshark I/O Graph support for V2G packets
 - Example PCAPs of charging sessions
+
+## Hands-On: Analyzing EV-EVSE Communication with a PLC Sniffer
+
+To analyze the communication between an electric vehicle (EV) and a charging station (EVSE), you can use a Power Line Communication (PLC) sniffer such as the **VertexCom MST216D CCS Sniffer** in combination with **Wireshark** and the **dsV2Gshark plugin**.
+
+### Required Hardware
+
+- PC (Windows / Linux / Mac)
+- PLC Sniffer (e.g., VertexCom MST216D CCS Sniffer)
+  - can be connected either directly to the CP line or use the inductive transmission to sniff the PLC signal. This can be done by using an inductive coupler or even by wrapping the signal line around the charging cable.
+  - **not required if you have a direct Ethernet interface to the EVCC or SECC available (e.g., in a development environment)**.
+- EV and EVSE (or simulation environment)
+  - for TLS encrypted charging sessions, a TLS secret disclosure is required. See #live-tls-decryption for more details.
+
+### Step-by-Step Guide
+
+1. Install Wireshark (64-bit) and the dsV2Gshark plugin.
+1. Connect the PLC sniffer to the CP (Control Pilot) line of the charging cable, e.g., using an inductive coupler.
+1. Ensure the sniffer is powered and connected to your PC via Ethernet.
+1. Start Wireshark and capture on the Ethernet interface connected to the PLC Sniffer.
+1. Start charging session.
+
+## Features
 
 ### Live TLS Decryption
 > [!IMPORTANT]
