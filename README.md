@@ -1,6 +1,7 @@
 # dSPACE V2Gshark Wireshark Plugin
 [![Release](https://img.shields.io/github/v/release/dspace-group/dsV2Gshark?label=release)](https://github.com/dspace-group/dsV2Gshark/releases)
 [![dSPACE](https://img.shields.io/badge/-OpenSource%20powered%20by%20dSPACE-blue)](https://www.dspace.com/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/dspace-group/dsV2Gshark)
 
 > [!IMPORTANT]
 **Wireshark 4.4+ requires dsV2Gshark 1.4.2 or higher**
