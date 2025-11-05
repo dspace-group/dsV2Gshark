@@ -51,7 +51,9 @@ function v2gcommon.load_v2gLib()
     local v2g_lib
     for _, path in ipairs(lib_path_candidates) do
         v2g_lib = package.loadlib(path, library_module)
-        if v2g_lib then break end
+        if v2g_lib then
+            break
+        end
     end
     if not v2g_lib then
         print("Could not find V2G Library!")
@@ -96,21 +98,19 @@ if not string.find(v2gcommon.get_plugins_file_path(), package.path) then
 end
 
 -- Mini dissector for the 'Role' column
-v2gcommon.macs_evse = {
-    -- ["00:00:00:00:00:00"] = true,
-}
-v2gcommon.macs_ev = {
-    -- ["11:11:11:11:11:11"] = true,
-}
+_G.__evrole_macs_evse = {}
+_G.__evrole_macs_ev = {}
 if not _G.__evrole_registered then
     local fe_eth_src = Field.new("eth.src")
-    if fe_eth_src then
+    if fe_eth_src and v2gcommon.check_version("4.0.0") then -- this feature is only available in Wirshark 4.0+
         p_evrole = Proto("ccsrole", "EV/EVSE Role Tag")
+        local f_entry = ProtoField.string("ccsrole.role", "-")
+        p_evrole.fields = {f_entry}
         function p_evrole.dissector(tvbuf, pinfo, tree)
             local src_f = tostring(fe_eth_src())
 
-            local is_ev = v2gcommon.macs_ev[src_f]
-            local is_evse = v2gcommon.macs_evse[src_f]
+            local is_ev = _G.__evrole_macs_ev[src_f]
+            local is_evse = _G.__evrole_macs_evse[src_f]
             local role = nil
             if is_ev and not is_evse then
                 if v2gcommon.is_windows() then
@@ -126,15 +126,14 @@ if not _G.__evrole_registered then
                 end
             end
             if role then
-                subtree = tree:add(p_evrole, role)
+                subtree = tree:add(f_entry, role)
                 subtree.hidden = true
             end
-            return 0  -- do not consume anything
+            return 0 -- do not consume anything
         end
         register_postdissector(p_evrole)
     end
-    _G.__evrole_registered = true  -- register once
+    _G.__evrole_registered = true -- register once
 end
-
 
 return v2gcommon

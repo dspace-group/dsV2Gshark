@@ -434,9 +434,9 @@ local function extract_additional_data(message_name, parsed_xml, subtree)
     if mac_src then
         local message_name_suffix = string.sub(message_name, -3)
         if message_name_suffix == "Req" then
-            v2gcommon.macs_ev[tostring(mac_src)] = true
+            _G.__evrole_macs_ev[tostring(mac_src)] = true
         elseif message_name_suffix == "Res" then
-            v2gcommon.macs_evse[tostring(mac_src)] = true
+            _G.__evrole_macs_evse[tostring(mac_src)] = true
         end
     end
 

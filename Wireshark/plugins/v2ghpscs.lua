@@ -301,9 +301,9 @@ function p_hpav_scs.dissector(buf, pinfo, root)
     local mmtype = fe_hp_mmtype()
     if mac_src and mmtype then
         if tostring(mmtype) == "0x6064" then  -- CM_SLAC_PARM.REQ
-            v2gcommon.macs_ev[tostring(mac_src)] = true
+            _G.__evrole_macs_ev[tostring(mac_src)] = true
         elseif tostring(mmtype) == "0x6065" then  -- CM_SLAC_PARM.CNF
-            v2gcommon.macs_evse[tostring(mac_src)] = true
+            _G.__evrole_macs_evse[tostring(mac_src)] = true
         end
     end
 
