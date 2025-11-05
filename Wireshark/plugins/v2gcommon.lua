@@ -95,4 +95,46 @@ if not string.find(v2gcommon.get_plugins_file_path(), package.path) then
     package.path = package.path .. ";" .. v2gcommon.get_plugins_file_path() .. "?.lua"
 end
 
+-- Mini dissector for the 'Role' column
+v2gcommon.macs_evse = {
+    -- ["00:00:00:00:00:00"] = true,
+}
+v2gcommon.macs_ev = {
+    -- ["11:11:11:11:11:11"] = true,
+}
+if not _G.__evrole_registered then
+    local fe_eth_src = Field.new("eth.src")
+    if fe_eth_src then
+        p_evrole = Proto("ccsrole", "EV/EVSE Role Tag")
+        function p_evrole.dissector(tvbuf, pinfo, tree)
+            local src_f = tostring(fe_eth_src())
+
+            local is_ev = v2gcommon.macs_ev[src_f]
+            local is_evse = v2gcommon.macs_evse[src_f]
+            local role = nil
+            if is_ev and not is_evse then
+                if v2gcommon.is_windows() then
+                    role = "🚙"
+                else
+                    role = "[ EV ]"
+                end
+            elseif not is_ev and is_evse then
+                if v2gcommon.is_windows() then
+                    role = "⛽"
+                else
+                    role = "[EVSE]"
+                end
+            end
+            if role then
+                subtree = tree:add(p_evrole, role)
+                subtree.hidden = true
+            end
+            return 0  -- do not consume anything
+        end
+        register_postdissector(p_evrole)
+    end
+    _G.__evrole_registered = true  -- register once
+end
+
+
 return v2gcommon

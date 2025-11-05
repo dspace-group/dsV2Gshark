@@ -49,6 +49,8 @@ local f_plot_power_present = ProtoField.double("v2gmsg.xml.iograph.CalcPowerPres
 
 p_v2gmsg.fields = {f_schema, f_exi, f_msg, f_entry, f_xml, f_validation, f_plot_power_target, f_plot_power_present}
 
+local fe_eth_src = Field.new("eth.src")
+
 local values_to_plot = {
     -- common
     "EVTargetVoltage",
@@ -427,6 +429,17 @@ local function add_power_to_subtree(base_element, voltage_tag, current_tag, fiel
 end
 
 local function extract_additional_data(message_name, parsed_xml, subtree)
+    -- store MACs for 'Role' column
+    local mac_src = fe_eth_src()
+    if mac_src then
+        local message_name_suffix = string.sub(message_name, -3)
+        if message_name_suffix == "Req" then
+            v2gcommon.macs_ev[tostring(mac_src)] = true
+        elseif message_name_suffix == "Res" then
+            v2gcommon.macs_evse[tostring(mac_src)] = true
+        end
+    end
+
     -- ISO-2/DIN:
     if message_name == "CurrentDemandReq" or message_name == "PreChargeReq" then
         local base_element = get_descendant_by_path(parsed_xml, {"Body", message_name})

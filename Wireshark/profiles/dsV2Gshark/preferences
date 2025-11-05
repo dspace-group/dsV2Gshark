@@ -5,6 +5,7 @@ gui.column.format:
 	"No.", "%m",
 	"Time", "%t",
 	"Time (delta)", "%Gt",
+	"Role", "%Cus:ccsrole:1:D",
 	"Source", "%rhs",
 	"Destination", "%rhd",
 	"Protocol", "%p",

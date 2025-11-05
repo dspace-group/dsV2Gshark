@@ -39,6 +39,9 @@ local f_src_mac = ProtoField.ether("homeplug-scs.src_mac", "Source Mac")
 
 p_hpav_scs.fields = {f_freq, f_dutycycle, f_voltage, f_cpstate, f_acmax, f_result, f_info, f_version, f_attenuation, f_attenuation_groups, f_src_mac}
 
+local fe_eth_src = Field.new("eth.src")
+local fe_hp_mmtype = Field.new("homeplug_av.mmhdr.mmtype")
+
 local function extract_cp_info_spidcom(buf)
     local freq = buf(9, 2):le_int()
     local dutycycle = buf(11, 2):le_int() / 10
@@ -293,6 +296,17 @@ function p_hpav_scs.dissector(buf, pinfo, root)
         processed_data = hpav_dissector:call(buf, pinfo, root)
     end
 
+    -- store MACs for 'Role' column
+    local mac_src = fe_eth_src()
+    local mmtype = fe_hp_mmtype()
+    if mac_src and mmtype then
+        if tostring(mmtype) == "0x6064" then  -- CM_SLAC_PARM.REQ
+            v2gcommon.macs_ev[tostring(mac_src)] = true
+        elseif tostring(mmtype) == "0x6065" then  -- CM_SLAC_PARM.CNF
+            v2gcommon.macs_evse[tostring(mac_src)] = true
+        end
+    end
+
     return processed_data + dissect_hpav_scs(buf, pinfo, root)
 end
 
@@ -333,9 +347,9 @@ local heuristic_hpav_dissector = function(buf, pinfo, root)
         "Ethernet II,",
         "Src: " .. tostring(pinfo.src) .. ", Dst: " .. tostring(pinfo.dst)
     )
-	eth_tree:add("Destination:", tostring(pinfo.dst))
-	eth_tree:add("Source:", tostring(pinfo.src))
-	eth_tree:add("Type:", "Homeplug AV (0x88e1)")
+    eth_tree:add("Destination:", tostring(pinfo.dst))
+    eth_tree:add("Source:", tostring(pinfo.src))
+    eth_tree:add("Type:", "Homeplug AV (0x88e1)")
     eth_tree:add("[ Note:", "Default Ethernet dissection skipped for this packet! For more details, update to Wireshark 4.x or deactivate homeplug-scs (Ctrl+Shift+E) ]")
 
     -- fake optional VLAN layer
