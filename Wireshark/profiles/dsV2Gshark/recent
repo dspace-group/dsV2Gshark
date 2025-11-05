@@ -2,9 +2,11 @@ column.width:
         %m, 60,
         %t, 80:R,
         %Gt, 80,
+        "%Cus:ccsrole.role", 50:C,
         %rhs, 175,
         %rhd, 175,
         %p, 135,
         %L, 40,
+        "%Cus:frame.interface_description", 80,
         "%Cus:vlan.id", 40:C,
         %i, 1300

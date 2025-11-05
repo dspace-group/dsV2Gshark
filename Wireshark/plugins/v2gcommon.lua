@@ -51,7 +51,9 @@ function v2gcommon.load_v2gLib()
     local v2g_lib
     for _, path in ipairs(lib_path_candidates) do
         v2g_lib = package.loadlib(path, library_module)
-        if v2g_lib then break end
+        if v2g_lib then
+            break
+        end
     end
     if not v2g_lib then
         print("Could not find V2G Library!")
@@ -88,11 +90,50 @@ function v2gcommon.add_expert_info(message, tree, pinfo, expertinfo)
     end
 end
 
-v2gcommon.DS_V2GSHARK_VERSION = "1.5.1" -- DO NOT CHANGE
+v2gcommon.DS_V2GSHARK_VERSION = "2.0.0" -- DO NOT CHANGE
 
 -- extend path (where to load .lua files)
 if not string.find(v2gcommon.get_plugins_file_path(), package.path) then
     package.path = package.path .. ";" .. v2gcommon.get_plugins_file_path() .. "?.lua"
+end
+
+-- Mini dissector for the 'Role' column
+_G.__ccsrole_macs_evse = {}
+_G.__ccsrole_macs_ev = {}
+if not _G.__ccsrole_registered then
+    local fe_eth_src = Field.new("eth.src")
+    p_ccsrole = Proto("ccsrole", "EV/EVSE Role Tag")
+    local f_entry = ProtoField.string("ccsrole.role", "-")
+    p_ccsrole.fields = {f_entry}
+    function p_ccsrole.dissector(tvbuf, pinfo, tree)
+        if not fe_eth_src() then
+            return
+        end
+        local src_f = tostring(fe_eth_src())
+
+        local is_ev = _G.__ccsrole_macs_ev[src_f]
+        local is_evse = _G.__ccsrole_macs_evse[src_f]
+        local role = nil
+        if is_ev and not is_evse then
+            if v2gcommon.is_windows() then
+                role = "🚙"
+            else
+                role = "[ EV ]"
+            end
+        elseif not is_ev and is_evse then
+            if v2gcommon.is_windows() then
+                role = "⛽"
+            else
+                role = "[EVSE]"
+            end
+        end
+        if role then
+            local subtree = tree:add(f_entry, role)
+            subtree.hidden = true
+        end
+    end
+    register_postdissector(p_ccsrole)
+    _G.__ccsrole_registered = true -- register once
 end
 
 return v2gcommon

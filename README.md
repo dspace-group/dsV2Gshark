@@ -10,9 +10,7 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 
 ![ISO 15118-2 Overview](Images/WS_ISO15118_2_Overview.png)
 
-## Features
-
-### Overview
+## Overview
 - Supports decoding of:
     - V2GTP layer (Vehicle to Grid Transport Protocol)
     - SAP messages (Supported App Protocol)
@@ -34,6 +32,29 @@ This Wireshark plugin allows to analyze and decode packets between electric vehi
 - Filter buttons for V2G packets
 - Wireshark I/O Graph support for V2G packets
 - Example PCAPs of charging sessions
+
+## Hands-On: Analyzing EV-EVSE Communication with a PLC Sniffer
+
+To analyze the communication between an electric vehicle (EV) and a charging station (EVSE), you can use a Power Line Communication (PLC) sniffer such as the **VertexCom MST216D CCS Sniffer** in combination with **Wireshark** and the **dsV2Gshark plugin**.
+
+### Required Hardware
+
+- PC (Windows / Linux / Mac)
+- PLC Sniffer (e.g., VertexCom MST216D CCS Sniffer)
+  - can be connected either directly to the CP line or use the inductive transmission to sniff the PLC signal. This can be done by using an inductive coupler or even by wrapping the signal line around the charging cable.
+  - **not required if you have a direct Ethernet interface to the EVCC or SECC available (e.g., in a development environment)**.
+- EV and EVSE (or simulation environment)
+  - for TLS encrypted charging sessions, a TLS secret disclosure is required. See #live-tls-decryption for more details.
+
+### Step-by-Step Guide
+
+1. Install Wireshark (64-bit) and the dsV2Gshark plugin.
+1. Connect the PLC sniffer to the CP (Control Pilot) line of the charging cable, e.g., using an inductive coupler.
+1. Ensure the sniffer is powered and connected to your PC via Ethernet.
+1. Start Wireshark and capture on the Ethernet interface connected to the PLC sniffer.
+1. Start a charging session.
+
+## Features
 
 ### Live TLS Decryption
 > [!IMPORTANT]
@@ -66,7 +87,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - Not compatible with other V2G dissector plugins. Please uninstall these plugins before installing dsV2Gshark.
 - Not compatible with 32 bit versions of Wireshark.
 - Updates of the plugin can be performed directly without uninstalling the old version.
-- Installation size is about 13 MB
+- Installation size is about 14 MB
 - Supports normal and portable version of Wireshark
 - Optionally, a Wireshark Profile will be added which handles the filter buttons, color filters and I/O Graph. This profile is automatically activated after installation. You can change the current profile in the bottom right corner (shortcut: Ctrl + Shift + A).
 
@@ -84,7 +105,7 @@ Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then cop
 ## Limitations
 - ISO 15118-20 is not fully supported yet
     - please let us know if you encounter incorrectly decoded packets
-- Linux
+- Linux/Mac OS
     - No installer, see [Installation Notes](#installation-notes). Make sure you have read permissions for all files.
     - dsV2Gshark profile (Filter buttons, color filters, I/O graph) must be added manually
     - released libraries have been built with Ubuntu 22.04
@@ -94,7 +115,7 @@ Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then cop
 - We appreciate all contributions, from reporting bugs to implementing new features
 
 ## Further notes
-- This plugin was built with Wireshark 4.4.5 and 4.2.6
+- This plugin was built with Wireshark 4.6.0 and 4.2.6
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 ## Troubleshooting

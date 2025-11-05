@@ -160,7 +160,7 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
             return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         else
-			pinfo.cols.info = "Unknown or unsupported V2GTP message. Type 0x" .. buf(2, 2)
+            pinfo.cols.info = "Unknown or unsupported V2GTP message. Type 0x" .. buf(2, 2)
             return 0
         end
     end
@@ -190,4 +190,4 @@ function p_v2gtp.init()
     DissectorTable.get("udp.port"):add(15118, p_v2gtp) -- register for SDP
 end
 -- register outside init() as heuristic dissector to handle missing SDP messages
-p_hpav_scs:register_heuristic("tcp", v2gtp_dissector)
+p_v2gtp:register_heuristic("tcp", v2gtp_dissector)
