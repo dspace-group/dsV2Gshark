@@ -102,3 +102,11 @@ local function show_about_popup()
 end
 
 register_menu("dSPACE V2Gshark/About...", show_about_popup, MENU_TOOLS_UNSORTED)
+
+register_menu(
+    "dSPACE V2Gshark/Open dsV2Gshark on GitHub",
+    function()
+        browser_open_url(info.repository)
+    end,
+    MENU_TOOLS_UNSORTED
+)
