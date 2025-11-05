@@ -51,8 +51,8 @@ To analyze the communication between an electric vehicle (EV) and a charging sta
 1. Install Wireshark (64-bit) and the dsV2Gshark plugin.
 1. Connect the PLC sniffer to the CP (Control Pilot) line of the charging cable, e.g., using an inductive coupler.
 1. Ensure the sniffer is powered and connected to your PC via Ethernet.
-1. Start Wireshark and capture on the Ethernet interface connected to the PLC Sniffer.
-1. Start charging session.
+1. Start Wireshark and capture on the Ethernet interface connected to the PLC sniffer.
+1. Start a charging session.
 
 ## Features
 
