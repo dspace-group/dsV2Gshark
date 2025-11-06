@@ -6,7 +6,6 @@
 > [!IMPORTANT]
 **Wireshark 4.4+ requires dsV2Gshark 1.4.2 or higher**
 
-## Overview
 This Wireshark plugin allows to analyze and decode packets between electric vehicles (EV) and charging stations (EVSE), also known as V2G messages.  
 
 ![ISO 15118-2 Overview](Images/WS_ISO15118_2_Overview.png)
@@ -45,7 +44,7 @@ To analyze the communication between an electric vehicle (EV) and a charging sta
   - can be connected either directly to the CP line or use the inductive transmission to sniff the PLC signal. This can be done by using an inductive coupler or even by wrapping the signal line around the charging cable.
   - **not required if you have a direct Ethernet interface to the EVCC or SECC available (e.g., in a development environment)**.
 - EV and EVSE (or simulation environment)
-  - for TLS encrypted charging sessions, a TLS secret disclosure is required. See #live-tls-decryption for more details.
+  - for TLS encrypted charging sessions, a TLS secret disclosure is required. See [Live TLS Decryption](#live-tls-decryption) for more details.
 
 ### Step-by-Step Guide
 
@@ -145,4 +144,5 @@ Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then cop
 ![Battery Data Exchange](Images/WS_BatteryDataExchange.png)
 ### V2G Example Traces
 ![Battery Data Exchange](Images/V2G_Examples.png)
+
 
