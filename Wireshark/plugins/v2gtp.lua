@@ -175,7 +175,6 @@ local v2gtp_dissector = function(buf, pinfo, root)
     -- if above TCP we need to assemble the PDU
     if pinfo.port_type == 2 then
         dissect_tcp_pdus(buf, root, V2GTP_HDR_LENGTH, get_v2gtp_length, v2gtp_pdu_dissect)
-        return buf:len()
     else
         return v2gtp_pdu_dissect(buf, pinfo, root)
     end
@@ -191,3 +190,4 @@ function p_v2gtp.init()
 end
 -- register outside init() as heuristic dissector to handle missing SDP messages
 p_v2gtp:register_heuristic("tcp", v2gtp_dissector)
+p_v2gtp:register_heuristic("tls", v2gtp_dissector)
