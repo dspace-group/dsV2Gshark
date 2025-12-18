@@ -140,6 +140,8 @@ Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then cop
 ![I/O Graph](Images/IO_Graph.png)
 ### HomePlug AV Low-Level Communication Sniffer Dissection
 ![I/O Graph](Images/HPAV_LLC_AC.png)
+### SCS Diagnostic Messages
+![SCS Diagnostic](Images/SCS_Diagnostic.png)
 ### Battery Data Exchange (VAS Korea) Dissection and Validation
 ![Battery Data Exchange](Images/WS_BatteryDataExchange.png)
 ### V2G Example Traces
