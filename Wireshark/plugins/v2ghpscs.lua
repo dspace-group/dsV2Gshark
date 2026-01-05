@@ -211,7 +211,11 @@ local function dissect_cp_state_ind(buf, pinfo, root, freq, dutycycle, voltage, 
         subtree:add(f_acmax, ac_max_current):append_text("A")
         pinfo.cols.info = "CP State: " .. cp_state .. " [AC max current: " .. ac_max_current .. "A]"
     else
-        pinfo.cols.info = "CP State: " .. cp_state
+        local cp_info = ""
+        if dutycycle > 4 and dutycycle < 6 then
+            cp_info = " [HLC]"
+        end
+        pinfo.cols.info = "CP State: " .. cp_state .. cp_info
     end
     pinfo.cols.protocol = "HomePlug AV (Ext)"
     return buf:len()
