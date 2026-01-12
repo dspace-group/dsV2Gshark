@@ -84,8 +84,8 @@ function p_sdpreq.dissector(buf, pinfo, root)
 
     -- add protocol fields to subtree
 
-    local emsp = pinfo.private["SDP_ESMP"]
-    if emsp ~= nil and emsp == true then
+    local emsp = pinfo.private["SDP_EMSP"]
+    if emsp ~= nil and emsp == "true" then
         -- else: emsp list is empty
         -- Note: the SDP_RES_EMSP misses the fields 'Security' and 'Transport Protocol',
         -- since EMPS is only useful with PnC (TCP + TLS)
@@ -168,8 +168,8 @@ function p_sdpres.dissector(buf, pinfo, root)
     -- SECC Port
     subtree:add(f_res_port, buf(16, 2))
 
-    local emsp = pinfo.private["SDP_ESMP"]
-    if emsp ~= nil and emsp == true and buf:len() > 18 then
+    local emsp = pinfo.private["SDP_EMSP"]
+    if emsp ~= nil and emsp == "true" and buf:len() > 18 then
         -- Note: the SDP_RES_EMSP misses the fields 'Security' and 'Transport Protocol',
         -- since EMPS is only useful with PnC (TCP + TLS)
         subtree:add(f_req_emsp_ids, buf(18))

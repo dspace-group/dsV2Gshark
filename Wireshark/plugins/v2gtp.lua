@@ -124,9 +124,9 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
 
     -- EMSP
     if p_type_num == SDP_REQ_EMSP or p_type_num == SDP_RES_EMSP then
-        pinfo.private["SDP_EMSP"] = true
+        pinfo.private["SDP_EMSP"] = "true"
     else
-        pinfo.private["SDP_EMSP"] = false
+        pinfo.private["SDP_EMSP"] = "false"
     end
 
     -- EXI / SDP payload --
