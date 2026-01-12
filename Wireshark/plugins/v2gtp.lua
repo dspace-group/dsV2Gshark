@@ -65,8 +65,8 @@ local payload_types = {
     [I20_PARKING_STATUS] = "ISO 15118-20 Parking Status",
     [SDP_REQ] = "SDP request message", -- 0x9000
     [SDP_RES] = "SDP response message", -- 0x9001
-    [SDP_REQ_W] = "SDP request message Wireless (Not supported yet)",
-    [SDP_RES_W] = "SDP response message Wireless (Not supported yet)",
+    [SDP_REQ_W] = "SDP request message wireless", -- 0x9002,
+    [SDP_RES_W] = "SDP response message wireless", -- 0x9003,
     [SDP_REQ_EMSP] = "SDP EMSP request message",
     [SDP_RES_EMSP] = "SDP EMSP response message"
 }
@@ -115,6 +115,13 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
     -- Length
     subtree:add(f_len, buf(4, 4))
 
+    -- Wireless
+    if p_type_num == SDP_REQ_W or p_type_num == SDP_RES_W then
+        pinfo.private["SDP_WIRELESS"] = "true"
+    else
+        pinfo.private["SDP_WIRELESS"] = "false"
+    end
+
     -- EMSP
     if p_type_num == SDP_REQ_EMSP or p_type_num == SDP_RES_EMSP then
         pinfo.private["SDP_EMSP"] = true
@@ -125,9 +132,9 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
     -- EXI / SDP payload --
     --
     if buf:len() > V2GTP_HDR_LENGTH then
-        if p_type_num == SDP_REQ then
+        if p_type_num == SDP_REQ or p_type_num == SDP_REQ_W then
             return Dissector.get("v2gsdp-req"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
-        elseif p_type_num == SDP_RES then
+        elseif p_type_num == SDP_RES or p_type_num == SDP_RES_W then
             return Dissector.get("v2gsdp-res"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == V2G then
             -- do not set schema for 8001 payloads, s.t. it is derived from the SAP
