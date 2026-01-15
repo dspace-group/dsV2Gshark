@@ -61,7 +61,10 @@ local diagstatus_types = {
     [0x10] = "Error - no SECC"
 }
 
-p_sdpreq.fields = {f_req_sec, f_req_tp, f_req_emsp_ids,
+p_sdpreq.fields = {
+    f_req_sec,
+    f_req_tp,
+    f_req_emsp_ids,
     f_req_p2ps,
     f_req_p2ps_flag_ppd_on_infrastructure,
     f_req_p2ps_flag_ppd_on_ev,
@@ -172,7 +175,7 @@ function p_sdpres.dissector(buf, pinfo, root)
     if emsp ~= nil and emsp == "true" and buf:len() > 18 then
         -- Note: the SDP_RES_EMSP misses the fields 'Security' and 'Transport Protocol',
         -- since EMPS is only useful with PnC (TCP + TLS)
-        subtree:add(f_req_emsp_ids, buf(18))
+        subtree:add(f_res_emsp_ids, buf(18))
     else
         -- Security
         local sec_num = buf(18, 1):uint()
