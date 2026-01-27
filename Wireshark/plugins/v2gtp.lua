@@ -132,9 +132,9 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
     -- EXI / SDP payload --
     --
     if buf:len() > V2GTP_HDR_LENGTH then
-        if p_type_num == SDP_REQ or p_type_num == SDP_REQ_W then
+        if p_type_num == SDP_REQ or p_type_num == SDP_REQ_W or p_type_num == SDP_REQ_EMSP then
             return Dissector.get("v2gsdp-req"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
-        elseif p_type_num == SDP_RES or p_type_num == SDP_RES_W then
+        elseif p_type_num == SDP_RES or p_type_num == SDP_RES_W or p_type_num == SDP_RES_EMSP then
             return Dissector.get("v2gsdp-res"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == V2G then
             -- do not set schema for 8001 payloads, s.t. it is derived from the SAP
