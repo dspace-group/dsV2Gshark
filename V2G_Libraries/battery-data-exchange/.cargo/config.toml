@@ -1,5 +1,15 @@
 [alias]
 xtask = "run --manifest-path ./xtask/Cargo.toml --"
 
+[build]
+rustflags = ["-D", "warnings"]
+
 [target.x86_64-pc-windows-gnu]
 linker = "x86_64-w64-mingw32-gcc"
+
+# additional linker arguments needed for macOS, see https://github.com/mlua-rs/mlua#module-mode
+[target.aarch64-apple-darwin]
+rustflags = ["-D", "warnings", "-C", "link-args=-undefined dynamic_lookup"]
+
+[target.x86_64-apple-darwin]
+rustflags = ["-D", "warnings", "-C", "link-args=-undefined dynamic_lookup"]
