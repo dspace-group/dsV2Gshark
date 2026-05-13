@@ -82,7 +82,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 
 ## Installation notes
 - The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest). The setup is signed by "dSPACE GmbH".
-- To use the plugin without installer, download the zipped files from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest) and copy its content manually into your Wireshark installation or into your personal plugin directory (Windows: %appdata%/wireshark/, Linux: ~/.local/lib/wireshark/). To activate the filter buttons, color filter and I/O Graph in this case, you have to import and activate the dsV2Gshark_profile.zip as Wireshark profile.
+- To use the plugin without installer, download the zipped files from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest) and copy its content manually into your Wireshark installation or into your personal plugin directory (Windows: %appdata%/wireshark/, Linux and macOS: ~/.local/lib/wireshark/). To activate the filter buttons, color filter and I/O Graph in this case, you have to import and activate the dsV2Gshark_profile.zip as Wireshark profile.
 - If Wireshark auto-update is enabled, it is recommended to install the plugin in local install mode without admin privileges.
 - Not compatible with other V2G dissector plugins. Please uninstall these plugins before installing dsV2Gshark.
 - Not compatible with 32 bit versions of Wireshark.
@@ -91,15 +91,29 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
 - Supports normal and portable version of Wireshark
 - Optionally, a Wireshark Profile will be added which handles the filter buttons, color filters and I/O Graph. This profile is automatically activated after installation. You can change the current profile in the bottom right corner (shortcut: Ctrl + Shift + A).
 
-### macOS
+## Building from source
 
-You need to have gnutls installed via brew for the plugin to compile:
+> [!NOTE]
+Precompiled archives are available at [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest). However, building from source may be needed for platform-specific requirements, custom configurations, or if precompiled binaries are not available for your system.
 
-```brew install gnutls```
-
-Build the v2g library by running `V2G_Libraries/v2gLib/build_macos.sh`, then copy:
-- `V2G_Libraries/v2gLib/bin/v2gLib.so` to `~/.local/lib/wireshark`
-- `Wireshark/plugins/*` to `~/.local/lib/wireshark/plugins`
+1. Install prerequisites
+   - Windows: Wireshark (64-bit) must be installed. The build script uses MinGW (e.g. via Git Bash).
+   - Linux: `sudo apt install make gcc g++` (or equivalent for your distro)
+   - macOS: `brew install gnutls lua@5.4`
+2. Build the v2g library
+   - Windows: `V2G_Libraries/v2gLib/build_for_ws.bat "C:\Program Files\Wireshark"`
+   - Linux: `V2G_Libraries/v2gLib/build_all_linux.sh`
+   - macOS: `V2G_Libraries/v2gLib/build_macos.sh`
+3. Optional: Build the Battery Data Exchange library. Requires [Rust](https://www.rust-lang.org/tools/install) to be installed.
+   ```
+   cd V2G_Libraries/battery-data-exchange
+   cargo xtask ci
+   ```
+4. Install the plugin
+   Copy the build output to your Wireshark plugin directory:
+   - `V2G_Libraries/v2gLib/bin/*` → Wireshark root directory (Windows) or `~/.local/lib/wireshark` (Linux/macOS)
+   - `Wireshark/plugins/*` → `<Wireshark>/plugins` (Windows) or `~/.local/lib/wireshark/plugins` (Linux/macOS)
+   - If built: `battery_data_exchange.dll` / `.so` from `V2G_Libraries/battery-data-exchange/target/release/` → same location as v2gLib
 
 
 ## Limitations
