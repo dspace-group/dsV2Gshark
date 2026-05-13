@@ -105,3 +105,35 @@ jobs:
       with:
         name: WS_profile_dsV2Gshark
         path: artifact_dir_profile/dsV2Gshark_profile.zip
+
+  build-macos:
+    runs-on: macos-26
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Libraries
+      run: |
+        brew install lua@5.4
+        chmod +x ./build_macos.sh
+        ./build_macos.sh
+      working-directory: ./V2G_Libraries/v2gLib/
+
+    - name: Build battery-data-exchange
+      run: cargo xtask ci
+      working-directory: ./V2G_Libraries/battery-data-exchange/
+
+    - name: Prepare Artifact Directory
+      run: |
+          mkdir artifact_dir
+          cp ./V2G_Libraries/v2gLib/bin/* ./artifact_dir/
+          cp ./V2G_Libraries/battery-data-exchange/target/release/libbattery_data_exchange.dylib ./artifact_dir/battery_data_exchange.dylib
+          mkdir artifact_dir/plugins
+          cp ./Wireshark/plugins/* ./artifact_dir/plugins/
+          cp ./LICENSE ./artifact_dir/dsV2Gshark_LICENSE.txt
+          cp ./README.md ./artifact_dir/dsV2Gshark_README.txt
+
+    - name: Upload macOS Files
+      uses: actions/upload-artifact@v4
+      with:
+        name: dsV2Gshark_Files_macOS_arm64
+        path: artifact_dir/*
