@@ -41,6 +41,8 @@ p_hpav_scs.fields = {f_freq, f_dutycycle, f_voltage, f_cpstate, f_acmax, f_resul
 
 local fe_eth_src = Field.new("eth.src")
 local fe_hp_mmtype = Field.new("homeplug_av.mmhdr.mmtype")
+local fe_cm_atten_groups = Field.new("homeplug_av.gp.cm_atten_profile_ind.groups_count")
+local fe_cm_atten_aag = Field.new("homeplug_av.gp.cm_atten_profile_ind.aag")
 
 local function extract_cp_info_spidcom(buf)
     local freq = buf(9, 2):le_int()
@@ -162,6 +164,15 @@ local function is_qualcomm_atten_char(buf)
     return (mme_vendor == 0x00B052 or mme_vendor == 0x000000) and mac_mme_type == 0xA14E
 end
 
+local function is_cm_atten_profile_ind(buf)
+    -- CM_ATTEN_PROFILE.IND (0x6086)
+    if buf:len() < 4 then
+        return false
+    end
+    local mac_mme_type = buf(1, 2):le_uint()
+    return mac_mme_type == 0x6086
+end
+
 local function is_dSPACE_scs_diag_packet(buf)
     -- dSPACE SCS Diag packet
     if buf:len() < 8 then
@@ -176,7 +187,8 @@ local function needs_dissection(buf)
     return  is_iotecha_cp_packet(buf) or
             is_spidcom_cp_packet(buf) or
             is_qualcomm_atten_char(buf) or
-            is_dSPACE_scs_diag_packet(buf)
+            is_dSPACE_scs_diag_packet(buf) or
+            is_cm_atten_profile_ind(buf)
 end
 
 local function dissect_cp_state_ind(buf, pinfo, root, freq, dutycycle, voltage, result)
@@ -243,6 +255,40 @@ local function dissect_qc_atten_char(buf, pinfo, root)
     return buf:len()
 end
 
+local function dissect_cm_atten_profile_ind(buf, pinfo, root)
+    -- TODO: add subtree? We provide no additional information for this packet. Only touch the info column should be enough.
+    --local subtree = root:add(p_hpav_scs, buf(0))
+
+    local groups_field = fe_cm_atten_groups()
+    if not groups_field then
+        return buf:len()
+    end
+
+    local groups_count = tonumber(tostring(groups_field))
+    --subtree:add(f_attenuation_groups, groups_count)
+
+    local sum_attenuation = 0
+    local aag_fields = { fe_cm_atten_aag() }
+
+    for i = 1, groups_count do
+        local group_attenuation = 0
+        if aag_fields[i] then
+            group_attenuation = tonumber(tostring(aag_fields[i]))
+        end
+        sum_attenuation = sum_attenuation + group_attenuation
+        --subtree:add(f_attenuation, tostring(group_attenuation)):set_text("Attenuation #" .. i .. ": " .. group_attenuation .. " dB")
+    end
+
+    local average = "0.00"
+    if groups_count > 0 then
+        average = string.format("%.2f", sum_attenuation / groups_count):gsub(",", ".")
+    end
+
+    pinfo.cols.info = "CM_ATTEN_PROFILE.IND, Groups: " .. groups_count .. ", Average: " .. average .. " dB"
+    pinfo.cols.protocol = "HomePlug AV (Ext)"
+    return buf:len()
+end
+
 local function dissect_dSPACE_scs_diag(buf_without_hpav, pinfo, root)
     local subtree = root:add(p_hpav_scs, buf_without_hpav(0))
     -- packet format: "dSPACE SCS Diag|dsV2Gshark|v<version>|<info>|<json>"
@@ -286,6 +332,8 @@ local function dissect_hpav_scs(buf, pinfo, root)
         consumed = HPAV_HEADER_v11_SIZE + dissect_dSPACE_scs_diag(buf(HPAV_HEADER_v11_SIZE):tvb(), pinfo, root)
     elseif is_qualcomm_atten_char(buf) then
         consumed = HPAV_HEADER_v10_SIZE + dissect_qc_atten_char(buf(HPAV_HEADER_v10_SIZE):tvb(), pinfo, root)
+    elseif is_cm_atten_profile_ind(buf) then
+        consumed = dissect_cm_atten_profile_ind(buf, pinfo, root)
     end
 
     return consumed
