@@ -260,27 +260,54 @@ local function dissect_cm_atten_profile_ind(buf, pinfo, root)
     if not groups_field then
         return buf:len()
     end
+    pinfo.cols.protocol = "HomePlug AV (Ext)"
 
-    local groups_count = tonumber(tostring(groups_field))
+    local groups_count = tonumber(groups_field())
+    if not groups_count or groups_count < 0 or groups_count % 1 ~= 0 then
+        pinfo.cols.info = "CM_ATTEN_PROFILE.IND, invalid group count"
+        return buf:len()
+    end
 
-    local sum_attenuation = 0
     local aag_fields = { fe_cm_atten_aag() }
 
+    if #aag_fields ~= groups_count then
+        pinfo.cols.info =
+            "CM_ATTEN_PROFILE.IND, Groups: " ..
+            groups_count ..
+            ", AAG fields: " ..
+            #aag_fields ..
+            " (incomplete)"
+        return buf:len()
+    end
+
+    if groups_count == 0 then
+        pinfo.cols.info = "CM_ATTEN_PROFILE.IND, Groups: 0, Average: n/a"
+        return buf:len()
+    end
+
+    local sum_attenuation = 0
+
     for i = 1, groups_count do
-        local group_attenuation = 0
-        if aag_fields[i] then
-            group_attenuation = tonumber(tostring(aag_fields[i]))
+        local group_attenuation = tonumber(aag_fields[i]())
+        if not group_attenuation then
+            pinfo.cols.info =
+                "CM_ATTEN_PROFILE.IND, invalid attenuation group #" .. i
+            return buf:len()
         end
+
         sum_attenuation = sum_attenuation + group_attenuation
     end
 
-    local average = "0.00"
-    if groups_count > 0 then
-        average = string.format("%.2f", sum_attenuation / groups_count):gsub(",", ".")
-    end
+    local average =
+        string.format("%.2f", sum_attenuation / groups_count):gsub(",", ".")
 
-    pinfo.cols.info = "CM_ATTEN_PROFILE.IND, Groups: " .. groups_count .. ", Average: " .. average .. " dB"
-    pinfo.cols.protocol = "HomePlug AV (Ext)"
+    pinfo.cols.info =
+        "CM_ATTEN_PROFILE.IND, Groups: " ..
+        groups_count ..
+        ", Average: " ..
+        average ..
+        " dB"
+
     return buf:len()
 end
 
@@ -355,7 +382,8 @@ function p_hpav_scs.dissector(buf, pinfo, root)
         end
     end
 
-    return processed_data + dissect_hpav_scs(buf, pinfo, root)
+    local scs_processed_data = dissect_hpav_scs(buf, pinfo, root) or 0
+    return math.max(processed_data or 0, scs_processed_data)
 end
 
 local heuristic_hpav_dissector = function(buf, pinfo, root)
