@@ -256,16 +256,12 @@ local function dissect_qc_atten_char(buf, pinfo, root)
 end
 
 local function dissect_cm_atten_profile_ind(buf, pinfo, root)
-    -- TODO: add subtree? We provide no additional information for this packet. Only touch the info column should be enough.
-    --local subtree = root:add(p_hpav_scs, buf(0))
-
     local groups_field = fe_cm_atten_groups()
     if not groups_field then
         return buf:len()
     end
 
     local groups_count = tonumber(tostring(groups_field))
-    --subtree:add(f_attenuation_groups, groups_count)
 
     local sum_attenuation = 0
     local aag_fields = { fe_cm_atten_aag() }
@@ -276,7 +272,6 @@ local function dissect_cm_atten_profile_ind(buf, pinfo, root)
             group_attenuation = tonumber(tostring(aag_fields[i]))
         end
         sum_attenuation = sum_attenuation + group_attenuation
-        --subtree:add(f_attenuation, tostring(group_attenuation)):set_text("Attenuation #" .. i .. ": " .. group_attenuation .. " dB")
     end
 
     local average = "0.00"
