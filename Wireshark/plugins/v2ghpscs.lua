@@ -30,19 +30,18 @@ local f_dutycycle = ProtoField.float("homeplug-scs.dutycycle", "Duty cycle", bas
 local f_voltage = ProtoField.float("homeplug-scs.voltage", "Voltage", base.DEC)
 local f_cpstate = ProtoField.int8("homeplug-scs.cpstate", "CP State")
 local f_acmax = ProtoField.string("homeplug-scs.ac_max", "AC max current")
-local f_result = ProtoField.string("homeplug-scs.result", "Result")
 local f_info = ProtoField.string("homeplug-scs.info", "Info")
 local f_version = ProtoField.int8("homeplug-scs.version", "dSPACE SCS Diagnostic Message - Version")
 local f_attenuation = ProtoField.string("homeplug-scs.attenuation", "Attenuation")
-local f_attenuation_groups = ProtoField.int8("homeplug-scs.attenuation_groups", "Number of Groups", base.DEC)
+local f_attenuation_groups = ProtoField.uint8("homeplug-scs.attenuation_groups", "Number of Groups", base.DEC)
 local f_src_mac = ProtoField.ether("homeplug-scs.src_mac", "Source Mac")
 
-p_hpav_scs.fields = {f_freq, f_dutycycle, f_voltage, f_cpstate, f_acmax, f_result, f_info, f_version, f_attenuation, f_attenuation_groups, f_src_mac}
+p_hpav_scs.fields = {f_freq, f_dutycycle, f_voltage, f_cpstate, f_acmax, f_info, f_version, f_attenuation, f_attenuation_groups, f_src_mac}
 
-local fe_eth_src = Field.new("eth.src")
-local fe_hp_mmtype = Field.new("homeplug_av.mmhdr.mmtype")
-local fe_cm_atten_groups = Field.new("homeplug_av.gp.cm_atten_profile_ind.groups_count")
-local fe_cm_atten_aag = Field.new("homeplug_av.gp.cm_atten_profile_ind.aag")
+local fe_eth_src = v2gcommon.try_create_field("eth.src")
+local fe_hp_mmtype = v2gcommon.try_create_field("homeplug_av.mmhdr.mmtype")
+local fe_cm_atten_groups = v2gcommon.try_create_field("homeplug_av.gp.cm_atten_profile_ind.groups_count")
+local fe_cm_atten_aag = v2gcommon.try_create_field("homeplug_av.gp.cm_atten_profile_ind.aag")
 
 local function extract_cp_info_spidcom(buf)
     local freq = buf(9, 2):le_int()
@@ -136,7 +135,7 @@ end
 
 local function is_spidcom_cp_packet(buf)
     -- packet format by SPIDCOM Technologies SA
-    if buf:len() < 8 then
+    if buf:len() < 15 then
         return false
     end
     local mac_mme_type = buf(1, 2):le_uint()
@@ -146,7 +145,7 @@ end
 
 local function is_iotecha_cp_packet(buf)
     -- packet format by ST/IoTecha
-    if buf:len() < 8 then
+    if buf:len() < 19 then
         return false
     end
     local mac_mme_type = buf(1, 2):le_uint()
@@ -234,7 +233,13 @@ local function dissect_cp_state_ind(buf, pinfo, root, freq, dutycycle, voltage, 
 end
 
 local function dissect_qc_atten_char(buf, pinfo, root)
+    pinfo.cols.protocol = "HomePlug AV (Ext)"
     local subtree = root:add(p_hpav_scs, buf(0))
+
+    if buf:len() < 7 then
+        pinfo.cols.info = "VS_ATTENUATION_CHARACTERISTICS, truncated packet"
+        return buf:len()
+    end
 
     -- source MAC
     subtree:add(f_src_mac, buf(0,6))
@@ -242,6 +247,12 @@ local function dissect_qc_atten_char(buf, pinfo, root)
     -- attenuation
     local sum_attenuation = 0
     local num_groups = buf(6, 1)
+    local required_length = 16 + num_groups:uint()
+    if buf:len() < required_length or num_groups:uint() == 0 then
+        pinfo.cols.info = "VS_ATTENUATION_CHARACTERISTICS, truncated packet, Groups: " .. num_groups:uint()
+        return buf:len()
+    end
+
     subtree:add(f_attenuation_groups, num_groups)
     for i = 1, num_groups:uint(), 1 do
         local group_attenuation = buf(15 + i,1)
@@ -251,14 +262,18 @@ local function dissect_qc_atten_char(buf, pinfo, root)
 
     local average = string.format("%.2f", sum_attenuation / num_groups:uint()):gsub(",", ".")
     pinfo.cols.info = "VS_ATTENUATION_CHARACTERISTICS, Groups: " .. num_groups:uint() .. ", Average: " .. average .. " dB"
-    pinfo.cols.protocol = "HomePlug AV (Ext)"
     return buf:len()
 end
 
 local function dissect_cm_atten_profile_ind(buf, pinfo, root)
+    if not fe_cm_atten_groups or not fe_cm_atten_aag then
+        pinfo.cols.info = "CM_ATTEN_PROFILE.IND, attenuation fields unavailable"
+        return 0
+    end
+
     local groups_field = fe_cm_atten_groups()
     if not groups_field then
-        return buf:len()
+        return 0
     end
     pinfo.cols.protocol = "HomePlug AV (Ext)"
 
@@ -317,8 +332,8 @@ local function dissect_dSPACE_scs_diag(buf_without_hpav, pinfo, root)
     local prefix, tool, version, info, json_str = string.match(buf_without_hpav():string(), "^([^|]+)|([^|]+)|v([0-9]+)|([^|]+)|({.+})$")
     if not (prefix and tool and info and json_str and version) or (prefix ~= "dSPACE SCS Diag") or (tool ~= "dsV2Gshark") then
         pinfo.cols.info = "Invalid SCS diagnostic packet"
-        subtree:add(f_info, "The format of this packet is errorneous. Is dsV2Gshark up to date?")
-        return 0
+        subtree:add(f_info, "The format of this packet is erroneous. Is dsV2Gshark up to date?")
+        return buf_without_hpav:len()
     end
 
     local scs_diag_tree = subtree:add(f_version, tonumber(version))
@@ -326,7 +341,7 @@ local function dissect_dSPACE_scs_diag(buf_without_hpav, pinfo, root)
     if tonumber(version) > SCS_DIAG_VERSION  then
         pinfo.cols.info = "Unsupported SCS diagnostic packet. Please update dsV2Gshark!"
         subtree:add(f_info, "Please update your dSPACE V2Gshark Wireshark Plugin")
-        return 0
+        return buf_without_hpav:len()
     end
 
     local pos_json_start = string.len(prefix) + string.len(tool) + string.len(version) + string.len(info) + 5 -- 4 separators, 1 'v'
@@ -335,9 +350,9 @@ local function dissect_dSPACE_scs_diag(buf_without_hpav, pinfo, root)
         local consumed = json_dissector:call(buf_without_hpav(pos_json_start):tvb(), pinfo, scs_diag_tree)
         pinfo.cols.info = info
         pinfo.cols.protocol = "HomePlug AV (SCS)"
-        return consumed
+        return consumed + pos_json_start
     end
-    return 0
+    return buf_without_hpav:len()
 end
 
 local function dissect_hpav_scs(buf, pinfo, root)
@@ -371,19 +386,21 @@ function p_hpav_scs.dissector(buf, pinfo, root)
     end
 
     -- store MACs for 'Role' column
-    local mac_src = fe_eth_src()
-    local mmtype = fe_hp_mmtype()
-    if mac_src and mmtype then
-        local mmtype_num = tonumber(tostring(mmtype))
-        if mmtype_num == 0x6064 then  -- CM_SLAC_PARM.REQ
-            _G.__ccsrole_macs_ev[tostring(mac_src)] = true
-        elseif mmtype_num == 0x6065 then  -- CM_SLAC_PARM.CNF
-            _G.__ccsrole_macs_evse[tostring(mac_src)] = true
+    if fe_eth_src and fe_hp_mmtype then
+        local mac_src = fe_eth_src()
+        local mmtype = fe_hp_mmtype()
+        if mac_src and mmtype then
+            local mmtype_num = tonumber(mmtype())
+            if mmtype_num == 0x6064 then  -- CM_SLAC_PARM.REQ
+                _G.__ccsrole_macs_ev[tostring(mac_src)] = true
+            elseif mmtype_num == 0x6065 then  -- CM_SLAC_PARM.CNF
+                _G.__ccsrole_macs_evse[tostring(mac_src)] = true
+            end
         end
     end
 
     local scs_processed_data = dissect_hpav_scs(buf, pinfo, root) or 0
-    return math.max(processed_data or 0, scs_processed_data)
+    return math.max(processed_data, scs_processed_data)
 end
 
 local heuristic_hpav_dissector = function(buf, pinfo, root)
@@ -419,7 +436,7 @@ local heuristic_hpav_dissector = function(buf, pinfo, root)
     end
 
     -- fake Eth layer
-    eth_tree = root:add(
+    local eth_tree = root:add(
         "Ethernet II,",
         "Src: " .. tostring(pinfo.src) .. ", Dst: " .. tostring(pinfo.dst)
     )
@@ -430,7 +447,7 @@ local heuristic_hpav_dissector = function(buf, pinfo, root)
 
     -- fake optional VLAN layer
     if vlan_id ~= nil then
-        vlan_tree = root:add("802.1Q Virtual LAN, (...), ID:", vlan_id)
+        local vlan_tree = root:add("802.1Q Virtual LAN, (...), ID:", vlan_id)
         vlan_tree:add("[ Note:", "Default VLAN dissection skipped for this packet! For more details, update to Wireshark 4.x or deactivate homeplug-scs (Ctrl+Shift+E) ]")
     end
 
