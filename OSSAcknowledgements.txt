@@ -75,7 +75,7 @@ written request, we will provide the source code of the software if this is requ
 respective Free and Open Source Software license, e.g., by the GNU General Public License, Version 2. 
 Written requests have to be addressed to: 
 
-   dSPACE GmbH 
+   dSPACE SE & Co. KG.
    Support Rathenaustr. 26 
    33102 Paderborn 
    Germany 
@@ -101,7 +101,7 @@ vorgeschrieben ist, zum Beispiel nach der GNU General Public License, Version 2,
 der Software auf eine schriftliche Anfrage von Ihnen, gerichtet an eine der folgenden Adressen, 
 bereitstellen: 
 
-   dSPACE GmbH  
+   dSPACE SE & Co. KG.
    Support  
    Rathenaustr. 26  
    33102 Paderborn Deutschland 
@@ -141,15 +141,15 @@ cbExiGen
 
 The license text of the 'Apache License Version 2.0' can be found in APPENDIX A.
 
-Wireshark 4.6.0
+Wireshark 4.6.7
   Copyright:
-    Copyright 1998-2025 Gerald Combs <gerald@wireshark.org> and contributors
+    Copyright 1998-2026 Gerald Combs <gerald@wireshark.org> and contributors
   Repository: https://gitlab.com/wireshark/wireshark
   License: GNU GENERAL PUBLIC LICENSE v2.0
 
 The license text of the 'GNU GENERAL PUBLIC LICENSE v2.0' can be found in APPENDIX A.
 
-GnuTLS 3.8.10
+GnuTLS 3.8.13
   URL: https://www.gnutls.org/
   License: GnuTLS License
 

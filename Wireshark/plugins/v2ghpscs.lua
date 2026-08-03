@@ -1,5 +1,5 @@
 --
--- Copyright 2025, dSPACE GmbH. All rights reserved.
+-- Copyright 2026, dSPACE SE & Co. KG. All rights reserved.
 --
 -- This dissector adds functionality to the standard HomePlug AV dissector
 -- to allow displaying CP State indication packets
@@ -20,7 +20,7 @@ local v2gcommon = require("v2gcommon")
 p_hpav_scs = Proto("homeplug-scs", "HomePlug AV protocol SCS Extension")
 local p_hpav_scs_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH",
+    author = "dSPACE SE & Co. KG.",
     repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_hpav_scs_info)

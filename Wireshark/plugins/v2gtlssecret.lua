@@ -1,5 +1,5 @@
 --
--- Copyright 2025, dSPACE GmbH. All rights reserved.
+-- Copyright 2026, dSPACE SE & Co. KG. All rights reserved.
 --
 -- this plugin allows live decryption of V2G messages using UDP disclosure messages
 --
@@ -23,7 +23,7 @@ local SECRET_LABELS = {
 p_v2gtlssecret = Proto("v2gtlssecret", "V2G TLS secret")
 local p_v2gtlssecret_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH",
+    author = "dSPACE SE & Co. KG.",
     repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gtlssecret_info)

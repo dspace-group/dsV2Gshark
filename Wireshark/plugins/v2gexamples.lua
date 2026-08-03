@@ -1,5 +1,5 @@
 --
--- Copyright 2025, dSPACE GmbH. All rights reserved.
+-- Copyright 2026, dSPACE SE & Co. KG. All rights reserved.
 --
 -- Adds Menu at "Tools" -> "dSPACE V2Gshark"
 --
@@ -10,7 +10,7 @@ local v2gcommon = require("v2gcommon")
 
 local info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH",
+    author = "dSPACE SE & Co. KG.",
     description = "Adds dsV2Gshark menu entry",
     repository = "https://github.com/dspace-group/dsV2Gshark"
 }

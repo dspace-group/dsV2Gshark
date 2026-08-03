@@ -1,5 +1,5 @@
 --
--- Copyright 2025, dSPACE GmbH. All rights reserved.
+-- Copyright 2026, dSPACE SE & Co. KG. All rights reserved.
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
 --

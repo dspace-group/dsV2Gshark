@@ -1,5 +1,5 @@
 --
--- Copyright 2025, dSPACE GmbH. All rights reserved.
+-- Copyright 2026, dSPACE SE & Co. KG. All rights reserved.
 -- based on v2g-ws-dissectors by Amit Geynis
 --
 -- See license file (dsV2Gshark_LICENSE.txt)
@@ -9,7 +9,7 @@ local v2gcommon = require("v2gcommon")
 p_v2gtp = Proto("v2gtp", "V2G Transfer Protocol")
 local p_v2gtp_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH",
+    author = "dSPACE SE & Co. KG.",
     repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_v2gtp_info)

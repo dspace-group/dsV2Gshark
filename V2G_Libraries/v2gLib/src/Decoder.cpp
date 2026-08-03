@@ -8,7 +8,7 @@
  *    ThorenG
  *
  *  @copyright
- *    Copyright 2024, dSPACE GmbH. All rights reserved.
+ *    Copyright 2026, dSPACE SE & Co. KG. All rights reserved.
  *    See LICENSE file
  *
  *<!--------------------------------------------------------------------------->*/

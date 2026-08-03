@@ -81,7 +81,7 @@ Click on a packet in the graph to inspect it in the Wireshark main window. Press
     - macOS (tested on Apple Silicon and macOS Sequoia 15.6)
 
 ## Installation notes
-- The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest). The setup is signed by "dSPACE GmbH".
+- The installer can be downloaded from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest). The setup is signed by "dSPACE SE & Co. KG.".
 - To use the plugin without installer, download the zipped files from [GitHub Releases](https://github.com/dspace-group/dsV2Gshark/releases/latest) and copy its content manually into your Wireshark installation or into your personal plugin directory (Windows: %appdata%/wireshark/, Linux and macOS: ~/.local/lib/wireshark/). To activate the filter buttons, color filter and I/O Graph in this case, you have to import and activate the dsV2Gshark_profile.zip as Wireshark profile.
 - If Wireshark auto-update is enabled, it is recommended to install the plugin in local install mode without admin privileges.
 - Not compatible with other V2G dissector plugins. Please uninstall these plugins before installing dsV2Gshark.
@@ -129,7 +129,7 @@ Precompiled archives are available at [GitHub Releases](https://github.com/dspac
 - We appreciate all contributions, from reporting bugs to implementing new features
 
 ## Further notes
-- This plugin was built with Wireshark 4.6.0 and 4.2.6
+- This plugin was built with Wireshark 4.6.7 and 4.2.6
 - The EXI decoding is based on [cbExiGen](https://github.com/EVerest/cbexigen)
 
 ## Troubleshooting

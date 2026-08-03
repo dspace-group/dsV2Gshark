@@ -1,5 +1,5 @@
 --
--- Copyright 2025, dSPACE GmbH. All rights reserved.
+-- Copyright 2026, dSPACE SE & Co. KG. All rights reserved.
 --
 -- this plugin adds support for Battery Data Exchange Protocol
 --
@@ -11,7 +11,7 @@ p_vasbatterydata = Proto("v2gvasbatterydata", "V2G Battery Data Exchange Protoco
 
 local p_vasbatterydata_info = {
     version = v2gcommon.DS_V2GSHARK_VERSION,
-    author = "dSPACE GmbH",
+    author = "dSPACE SE & Co. KG.",
     repository = "https://github.com/dspace-group/dsV2Gshark"
 }
 set_plugin_info(p_vasbatterydata_info)
