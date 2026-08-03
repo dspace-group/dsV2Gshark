@@ -267,7 +267,6 @@ end
 
 local function dissect_cm_atten_profile_ind(buf, pinfo, root)
     if not fe_cm_atten_groups or not fe_cm_atten_aag then
-        pinfo.cols.info = "CM_ATTEN_PROFILE.IND, attenuation fields unavailable"
         return 0
     end
 
