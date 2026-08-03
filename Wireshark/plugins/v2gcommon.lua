@@ -90,6 +90,14 @@ function v2gcommon.add_expert_info(message, tree, pinfo, expertinfo)
     end
 end
 
+function v2gcommon.try_create_field(name)
+    local success, field_or_error = pcall(Field.new, name)
+    if success then
+        return field_or_error
+    end
+    return nil
+end
+
 v2gcommon.DS_V2GSHARK_VERSION = "2.0.0" -- DO NOT CHANGE
 
 -- extend path (where to load .lua files)
@@ -101,12 +109,12 @@ end
 _G.__ccsrole_macs_evse = {}
 _G.__ccsrole_macs_ev = {}
 if not _G.__ccsrole_registered then
-    local fe_eth_src = Field.new("eth.src")
+    local fe_eth_src = v2gcommon.try_create_field("eth.src")
     p_ccsrole = Proto("ccsrole", "EV/EVSE Role Tag")
     local f_entry = ProtoField.string("ccsrole.role", "-")
     p_ccsrole.fields = {f_entry}
     function p_ccsrole.dissector(tvbuf, pinfo, tree)
-        if not fe_eth_src() then
+        if not fe_eth_src or not fe_eth_src() then
             return
         end
         local src_f = tostring(fe_eth_src())

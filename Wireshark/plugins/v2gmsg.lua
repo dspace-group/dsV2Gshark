@@ -49,7 +49,7 @@ local f_plot_power_present = ProtoField.double("v2gmsg.xml.iograph.CalcPowerPres
 
 p_v2gmsg.fields = {f_schema, f_exi, f_msg, f_entry, f_xml, f_validation, f_plot_power_target, f_plot_power_present}
 
-local fe_eth_src = Field.new("eth.src")
+local fe_eth_src = v2gcommon.try_create_field("eth.src")
 
 local values_to_plot = {
     -- common
@@ -429,6 +429,10 @@ local function add_power_to_subtree(base_element, voltage_tag, current_tag, fiel
 end
 
 local function extract_additional_data(message_name, parsed_xml, subtree)
+    if not fe_eth_src then
+        return
+    end
+
     -- store MACs for 'Role' column
     local mac_src = fe_eth_src()
     if mac_src then
