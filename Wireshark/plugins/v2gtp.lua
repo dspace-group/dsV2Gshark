@@ -71,6 +71,11 @@ local payload_types = {
     [SDP_RES_EMSP] = "SDP EMSP response message"
 }
 
+local EXI_IDX_DC_CPD_REQ = 0x0F
+local EXI_IDX_DC_CPD_RES = 0x10
+local EXI_IDX_AC_CPD_REQ = 0x04
+local EXI_IDX_AC_CPD_RES = 0x05
+
 p_v2gtp.fields = {f_pv, f_ipv, f_pt, f_len}
 
 -- PDU dissection function
@@ -155,7 +160,22 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:WPT"
             return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_SCHEDULE_RENEG then
-            -- the schema must be derived from the SAP in this case. TODO: test this as soon as sidestreams are used
+            if buf:len() > V2GTP_HDR_LENGTH + 2 then
+                -- EXI strem 1 bytes is always 0x80, the first 6 bits of the second byte 
+                -- contain information (for AC and DC -20 schemas) regarding the selected message
+                local exi_stream_start = buf(V2GTP_HDR_LENGTH + 1, 1):uint() / 4 
+                -- Only 2 DC messages are send in SCH renego
+                if (exi_stream_start == EXI_IDX_DC_CPD_REQ) or (exi_stream_start == EXI_IDX_DC_CPD_RES) then
+                    pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:DC"
+                -- Only 2 AC messages are send in SCH renego
+                elseif (exi_stream_start == EXI_IDX_AC_CPD_REQ) or (exi_stream_start == EXI_IDX_AC_CPD_RES) then
+                    pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:AC"
+                else                  
+                    pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
+                end
+            else
+                pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
+            end
             return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_METER_CONF then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages" -- Meter Conf Sidestream uses common messages only
