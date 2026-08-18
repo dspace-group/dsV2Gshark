@@ -75,6 +75,8 @@ local EXI_IDX_DC_CPD_REQ = 0x0F
 local EXI_IDX_DC_CPD_RES = 0x10
 local EXI_IDX_AC_CPD_REQ = 0x04
 local EXI_IDX_AC_CPD_RES = 0x05
+local EXI_IDX_WPT_CPD_REQ = 0x1D
+local EXI_IDX_WPT_CPD_RES = 0x1E
 
 p_v2gtp.fields = {f_pv, f_ipv, f_pt, f_len}
 
@@ -161,22 +163,29 @@ local function v2gtp_pdu_dissect(buf, pinfo, root)
             return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_SCHEDULE_RENEG then
             if buf:len() > V2GTP_HDR_LENGTH + 2 then
-                -- EXI strem 1 bytes is always 0x80, the first 6 bits of the second byte 
-                -- contain information (for AC and DC -20 schemas) regarding the selected message
-                local exi_stream_start = buf(V2GTP_HDR_LENGTH + 1, 1):uint() / 4 
-                -- Only 2 DC messages are send in SCH renego
-                if (exi_stream_start == EXI_IDX_DC_CPD_REQ) or (exi_stream_start == EXI_IDX_DC_CPD_RES) then
+                -- In this sidestream, we cannot use the payload type to determine the required encoding/decoding scheme
+                -- for this particular EXI stream. In general, it is not possible to derive the schema directly from the
+                -- encoded EXI stream. However, since only ten different V2G messages are permitted in this sidestream,
+                -- we can simply check the root event code, which is different for each of these messages.
+                local exi_root_event_code = math.floor(buf(V2GTP_HDR_LENGTH + 1, 1):uint() / 4) -- first 6 bits of 2nd byte
+                if (exi_root_event_code == EXI_IDX_DC_CPD_REQ) or (exi_root_event_code == EXI_IDX_DC_CPD_RES) then
+                    -- DC ChargeParameterDiscoveryReq/Res
                     pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:DC"
-                -- Only 2 AC messages are send in SCH renego
-                elseif (exi_stream_start == EXI_IDX_AC_CPD_REQ) or (exi_stream_start == EXI_IDX_AC_CPD_RES) then
+                elseif (exi_root_event_code == EXI_IDX_AC_CPD_REQ) or (exi_root_event_code == EXI_IDX_AC_CPD_RES) then
+                    -- AC ChargeParameterDiscoveryReq/Res
                     pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:AC"
-                else                  
+                elseif (exi_root_event_code == EXI_IDX_WPT_CPD_REQ) or (exi_root_event_code == EXI_IDX_WPT_CPD_RES) then
+                    -- WPT ChargeParameterDiscoveryReq/Res
+                    pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:WPT"
+                else
+                    -- PowerDeliveryReq/Res or ScheduleExchangeReq/Res
                     pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
                 end
+                return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
             else
-                pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages"
+                pinfo.cols.info = "Invalid Schedule Renegotiation message. Payload too short."
+                return 0
             end
-            return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
         elseif p_type_num == I20_METER_CONF then
             pinfo.private["Schema"] = "urn:iso:std:iso:15118:-20:CommonMessages" -- Meter Conf Sidestream uses common messages only
             return Dissector.get("v2gmsg"):call(buf(V2GTP_HDR_LENGTH):tvb(), pinfo, root)
