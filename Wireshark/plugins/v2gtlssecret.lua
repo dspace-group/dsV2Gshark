@@ -7,7 +7,9 @@
 --
 local v2gcommon = require("v2gcommon")
 
-local MSG_SIZE_MIN = 175
+-- shortest key log line: EXPORTER_SECRET with 32 byte secret (TLS 1.3, SHA256 cipher suite,
+-- e.g. TLS_CHACHA20_POLY1305_SHA256): 15 + 1 + 64 + 1 + 64 = 145
+local MSG_SIZE_MIN = 145
 local MSG_SIZE_MAX = 1800
 
 local SECRET_LABELS = {
